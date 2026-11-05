@@ -106,30 +106,30 @@ For EB-NeRD we use the click history of the validation users, because it is the 
 \end{figure}
 
 \section{What we found}
-Stages T1 to T9 are built, and all automated tests pass (including a planted decay that the checks recover). Results on EB-NeRD (14 fit days, about 17,000 clicks a day, 95\% paired bootstrap intervals); ``lag'' is the days since the model was frozen:
+Stages T1 to T9 are built, and all automated tests pass (including a planted decay that the checks recover). Results on EB-NeRD (14 fit days, about 17,000 clicks a day, 95\% paired bootstrap intervals); ``lag'' is the days since the model was frozen. The user's profile is either \emph{live} (last 50 clicks before the click) or \emph{frozen} (clicks up to the fit date). The hit rates use the live profile:
 \begin{center}
 \small
 \setlength{\tabcolsep}{4pt}
 \begin{tabular}{@{}lrrr@{}}
 \toprule
- & Top-10 hit rate, lag 1 & Top-10 hit rate, lag 7 & MRR lost by lag 7\\
+ & Top-10 hit rate, lag 1 & Top-10 hit rate, lag 7 & MRR lost by lag 7: frozen / live profile\\
 \midrule
 Recency (newest first) & 0.515 [0.513, 0.517] & 0.528 [0.525, 0.530] & 0 (by construction)\\
-Word matching & 0.061 [0.060, 0.062] & 0.064 [0.063, 0.065] & 0.0001 [0.0001, 0.0002]\\
-Meaning matching & 0.047 [0.046, 0.048] & 0.047 [0.046, 0.048] & 0 (exactly)\\
+Word matching & 0.061 [0.060, 0.062] & 0.064 [0.063, 0.065] & 0.0030 [0.0024, 0.0036] / 0.0001\\
+Meaning matching & 0.047 [0.046, 0.048] & 0.047 [0.046, 0.048] & 0.0007 [0.0003, 0.0011] / 0 (exactly)\\
 Random shuffle & 0.027 [0.026, 0.027] & 0.027 [0.027, 0.028] & 0\\
 Click history, popularity & 0.008 & 0.027 & \emph{coverage, see below}\\
 \bottomrule
 \end{tabular}
 \end{center}
 \begin{itemize}
-\item \textbf{Word and meaning matching barely go stale} within two weeks, but they are weak: 2 to 3 times the shuffle. Recency is far ahead on this news site.
+\item \textbf{Word and meaning matching go stale only through the user's profile.} With a live profile the loss is about 0; with a frozen profile word matching loses 0.0030 [0.0024, 0.0036] MRR by lag 7 (about 10\%) and 0.0059 [0.0047, 0.0071] by lag 13 (about 24\%). They are also weak: 2 to 3 times the shuffle. Recency is far ahead on this news site.
 \item \textbf{Click history and popularity fail by coverage, not by accuracy.} At lag 1 they can score only 12\% of the clicked articles, and none at lag 7, because new articles have no clicks yet. Their scores fall to the shuffle level for that reason.
 \item \textbf{Hourly:} click history can score 79\% of clicks one hour after the fit, 19\% after 6 hours and 0.9\% after 24 hours. Word matching loses 0.0023 [0.0020, 0.0026] MRR at 24 hours (about 7\% of its score).
-\item \textbf{Rebuild interval:} rebuilding word matching daily instead of once gives 0.0325 against 0.0324 MRR, so a rebuild buys almost nothing; a click-history rebuild costs 19\,s and 7.4\,GB.
+\item \textbf{Rebuild interval:} with a live profile, rebuilding word matching daily instead of once gives 0.0325 against 0.0324 MRR, so a rebuild buys almost nothing; with a frozen profile, daily gives 0.0310 and once 0.0274; a click-history rebuild costs 22\,s and about 7\,GB.
 \item \textbf{No-model check:} at 6 hours, the share of new clicks that go to unseen articles is \textbf{90.8\%} [88.5, 92.5] for EB-NeRD, \textbf{48.5\%} [45.4, 51.5] for Adressa and \textbf{15.5\%} [11.3, 20.1] for NPR.
 \item \textbf{NPR (second dataset)} ranks the signals differently: popularity hit rate 0.550 [0.547, 0.553], click history 0.249 [0.246, 0.251], recency 0.005 [0.004, 0.005]. Popularity gets \emph{better} with an older fit, which we have not yet explained.
-\item \textbf{Check without never-clicked articles} (27\% of the articles; this uses future clicks, so it is only a ceiling): every score rises (recency hit rate 0.515 to 0.634 [0.632, 0.636]), but the staleness loss does not change (word matching 0.00013 to 0.00010 [0.00003, 0.00016] MRR at lag 7).
+\item \textbf{Check without never-clicked articles} (27\% of the articles; this uses future clicks, so it is only a ceiling): every score rises (recency hit rate 0.515 to 0.634 [0.632, 0.636]), but the staleness loss does not change (word matching, live profile, 0.00013 to 0.00010 [0.00003, 0.00016] MRR at lag 7).
 \end{itemize}
 
 \section{What went wrong, and what we changed}
