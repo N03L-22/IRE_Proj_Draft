@@ -127,3 +127,43 @@ class AlreadyReadTests(unittest.TestCase):
         clicks = pl.DataFrame({"user": [1], "article": [5], "t": [1000]})
         b = build_ctx(c, clicks, prof, r_end=15, regime="A", window=10 ** 6)       # frozen profile sees only article 0
         self.assertTrue((a.valid == b.valid).all())
+
+
+class FusionTests(unittest.TestCase):
+    class Part:
+        def __init__(self, S, ok):
+            self.S, self.ok = S, ok
+        def score(self, ctx):
+            return self.S
+        def target_scorable(self, ctx):
+            return self.ok
+
+    def ctx(self, valid):
+        from types import SimpleNamespace
+        return SimpleNamespace(valid=valid, keys=np.arange(valid.shape[0]))
+
+    def make(self, parts):
+        from scorers import FuseContent
+        f = FuseContent()
+        f.parts = parts
+        return f
+
+    def test_ties_share_a_rank_and_an_unscorable_row_is_nan(self):
+        nan = np.nan
+        a = np.array([[1.0, 0.0, 0.0, 0.0], [nan] * 4], dtype=np.float32)
+        b = np.array([[0.0, 0.0, 0.0, 2.0], [nan] * 4], dtype=np.float32)
+        valid = np.ones((2, 4), dtype=bool)
+        f = self.make([self.Part(a, np.array([True, False])), self.Part(b, np.array([True, False]))])
+        S = f.score(self.ctx(valid))
+        self.assertTrue(np.isnan(S[1]).all())
+        self.assertAlmostEqual(S[0, 1], S[0, 2])                   # tied candidates stay tied
+        self.assertAlmostEqual(S[0, 1], S[0, 1] * 1.0)
+        self.assertGreater(S[0, 0], S[0, 1])
+        self.assertGreater(S[0, 3], S[0, 1])
+        self.assertEqual(f.target_scorable(self.ctx(valid)).tolist(), [True, False])
+
+    def test_a_component_that_cannot_score_a_row_adds_nothing(self):
+        a = np.array([[3.0, 1.0, 2.0]], dtype=np.float32)
+        b = np.full((1, 3), np.nan, dtype=np.float32)
+        S = self.make([self.Part(a, np.array([True])), self.Part(b, np.array([False]))]).score(self.ctx(np.ones((1, 3), dtype=bool)))
+        self.assertEqual(np.argsort(-S[0]).tolist(), [0, 2, 1])

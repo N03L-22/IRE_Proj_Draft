@@ -51,7 +51,7 @@ The answer, in short (every number is explained later, with its confidence inter
 \begin{itemize}
 \item \textbf{A recommender that learns from clicks goes stale within hours.} One hour after it is frozen it can still say something about 79\% of the clicks that follow. After 6 hours that is 19\%, after one day 0.9\%, and after three days none. New articles simply have no clicks yet.
 \item \textbf{A recommender that reads the article text goes stale slowly, and only through the reader's profile.} If the reader's profile is frozen too, matching words loses about 10\% of its score in a week; if the profile is kept fresh, it loses almost nothing.
-\item \textbf{Simply showing the newest articles first beats everything} on the main dataset, and never goes stale.
+\item \textbf{Simply showing the newest articles first beats everything} on the main dataset, and never goes stale. Fusing word and meaning matching helps a little and goes stale in the same way; adding recency to the fusion with equal weight makes it \emph{worse} than recency alone.
 \item \textbf{How often to rebuild depends on the signal.} The click-based model needs a rebuild at least daily, and hourly on a busy news site. The text-based models can wait days, as long as the reader's profile stays current.
 \end{itemize}
 
@@ -330,7 +330,31 @@ NPR (Portuguese, a slower news cycle) has 14 fit and evaluation days (10--24 Mar
 \item \textbf{Unexplained.} Popularity gets \emph{better} with an older fit (its ``decay'' at lag 3 is $-0.112$ \ci{-0.113}{-0.111} MRR). We have not found the cause and report it only as a measurement.
 \end{itemize}
 
-\subsection{Step 7 --- Checks on our own results}
+\subsection{Step 7 --- A fusion of word and meaning matching}
+What if one model used both text signals? We built two fusions, with \emph{reciprocal rank fusion}: each signal ranks the pool, and an article scores $\sum 1/(60+\text{rank})$ over the signals, with equal weights and nothing tuned (tuning on the evaluation clicks would leak). Tied scores share a rank, so a tie never favours old or new articles. \textbf{Content fusion} uses word and meaning; \textbf{content plus recency} adds the newest-first ranking. Same 14 fit dates, same 236,387 clicks at lag 1.
+\begin{center}\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}llrrrr@{}}
+\toprule
+ & & lag 1 & lag 3 & lag 7 & lag 13\\
+\midrule
+Content fusion, frozen profile (A) & MRR & 0.0329 \ci{0.0325}{0.0333} & 0.0337 & 0.0330 \ci{0.0325}{0.0336} & 0.0254 \ci{0.0244}{0.0263}\\
+\rowcolor{green!12} & \textbf{lost} & 0 & -0.0001 \ci{-0.0006}{0.0002} & \textbf{0.0023} \ci{0.0017}{0.0028} & \textbf{0.0053} \ci{0.0041}{0.0065}\\
+Content fusion, live profile (B) & MRR, lost & 0.0345 \ci{0.0341}{0.0349}, 0 & 0.0350, 0.00002 & 0.0366, 0.00005 \ci{-0.000004}{0.00010} & 0.0319, 0.0002 \ci{0.0001}{0.0003}\\
+Content + recency, frozen (A) & MRR & 0.129 \ci{0.128}{0.130} & 0.135 & 0.144 \ci{0.143}{0.146} & 0.148 \ci{0.145}{0.150}\\
+ & lost & 0 & -0.0039 \ci{-0.0046}{-0.0031} & -0.0080 \ci{-0.0093}{-0.0069} & -0.0185 \ci{-0.0211}{-0.0161}\\
+Content + recency, live (B) & MRR, lost & 0.1286, 0 & 0.1305, 0.00001 & 0.1346, 0.00006 \ci{-0.00004}{0.00014} & 0.1272, 0.0002 \ci{0.00002}{0.0005}\\
+\bottomrule
+\end{tabular}
+\end{center}
+Top-10 hit rate, live profile, lag 1: content fusion 0.069 \ci{0.068}{0.070} against 0.061 for word and 0.047 for meaning alone; content plus recency 0.266 \ci{0.264}{0.268} against 0.515 for recency alone.
+\begin{itemize}
+\item \textbf{Content fusion is a little better than either part and goes stale the same way:} 0.0023 lost by lag 7 with a frozen profile (7\% of its level), almost nothing with a live one.
+\item \textbf{Adding recency with equal weight makes things worse than recency alone} (MRR 0.129 against 0.190; hit rate 0.27 against 0.52). Two weak voices outvote one strong one. A weighted blend might do better, but choosing the weight needs its own validation clicks, which we did not set aside.
+\item \textbf{With recency in, the frozen profile scores \emph{better} than the fresh one} (a ``loss'' of $-0.0185$ at lag 13). We have not tested why. A possible reason is that a stale profile makes the text part less confident, so recency dominates the fused ranking, and recency is the stronger signal here. This is a guess, not a finding.
+\end{itemize}
+
+\subsection{Step 8 --- Checks on our own results}
 \textbf{Does removing never-clicked articles change the story?} 27.2\% of the articles in the pool were never clicked in the whole corpus. A recommender cannot know that in advance (it uses future clicks), so this is an oracle ceiling, not a realistic setting. We removed them from every pool, with identical clicks (17,037 on the first fit in both runs). Regime B, lag 1, top-10 hit rate:
 \begin{center}\small
 \begin{tabular}{@{}lrrr@{}}
@@ -386,7 +410,7 @@ The full record (decisions D1--D28, findings P1--P48, dated errata, session log)
 \item \textbf{The 48-hour pool window, the sample size and the seed were not varied.} Sensitivity runs were planned and not done.
 \item \textbf{EB-NeRD times are assumed to be UTC.} Hour labels may be shifted by 1--2 hours.
 \item \textbf{Decay is measured against a model rebuilt one day (or one hour) earlier.} Faster rebuilds were not tested. The bootstrap treats days as given, so intervals do not cover day-to-day variation.
-\item \textbf{No hybrid model} (recency as a fallback for unscorable articles) and no position-based baseline were built.
+\item \textbf{The fusions are untuned} (equal weights, $k=60$). A recency-weighted blend and a fallback for unscorable articles were not built, and there is no position-based baseline.
 \item \textbf{Popularity improving with an older fit on NPR is unexplained.}
 \item \textbf{The never-clicked check and the volume check are not realistic settings or findings}; they are labelled as such.
 \end{itemize}

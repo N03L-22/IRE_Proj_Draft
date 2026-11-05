@@ -204,3 +204,51 @@ class CoClick:
 
     def target_scorable(self, ctx):
         return self.tcol >= 0
+
+
+class Fusion:
+    """reciprocal rank fusion of the component rankings inside each click's pool: score = sum over components of 1 / (K + rank), K = 60,
+    equal weights, nothing tuned (tuning on the evaluation clicks would leak). Tied scores share their average rank, so a tie never
+    favours older or newer articles. A component with no score for a click (no profile) adds nothing; a click none of them can score is NaN."""
+    K = 60
+    with_recency = False
+
+    def __init__(self):
+        self.parts = [BM25(), Meaning()] + ([Recency()] if self.with_recency else [])
+
+    def fit(self, corpus, **kw):
+        for p in self.parts:
+            p.fit(corpus, **kw)
+        return self
+
+    def score(self, ctx):
+        from scipy.stats import rankdata
+        comp = [p.score(ctx) for p in self.parts]
+        n, P = ctx.valid.shape
+        out = np.full((n, P), np.nan, dtype=np.float32)
+        for k in range(0, n, 2000):
+            sl = slice(k, k + 2000)
+            tot = np.zeros((min(2000, n - k), P), dtype=np.float64)
+            any_ = np.zeros(tot.shape[0], dtype=bool)
+            for S in comp:
+                a = ~np.isnan(S[sl])
+                r = rankdata(np.where(a, -S[sl].astype(np.float64), np.inf), method="average", axis=1)
+                tot += np.where(a, 1.0 / (self.K + r), 0.0)
+                any_ |= a.any(1)
+            out[sl] = np.where(ctx.valid[sl] & any_[:, None], tot, np.nan)
+        return out
+
+    def target_scorable(self, ctx):
+        ok = np.zeros(len(ctx.keys), dtype=bool)
+        for p in self.parts:
+            ok |= p.target_scorable(ctx)
+        return ok
+
+
+class FuseContent(Fusion):
+    name = "fuse_content"
+
+
+class FuseRecency(Fusion):
+    name = "fuse_recency"
+    with_recency = True
