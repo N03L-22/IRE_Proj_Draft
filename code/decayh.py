@@ -15,7 +15,7 @@ import polars as pl
 import monitor as M
 from cell import score_cell
 from core import Corpus
-from decay import ALL, shard, CAP_GB
+from decay import ALL, BASE, shard, CAP_GB
 from scorers import Recency
 
 H = 3600
@@ -86,7 +86,7 @@ def unit(args):
 
 
 def run(root, first, last, fit_days, step=3, out_dir="results/decay_hourly", workers=2, names=None):
-    names = names or list(ALL)
+    names = names or BASE
     os.makedirs(os.path.join(root, out_dir), exist_ok=True)
     mf = os.path.join(root, out_dir, "manifest.jsonl")
     for f in glob.glob(os.path.join(root, out_dir, "**", "*.tmp"), recursive=True):

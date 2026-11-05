@@ -14,9 +14,10 @@ import polars as pl
 import monitor as M
 from cell import fit_all, score_cell, load_sample
 from core import Corpus, WINDOW
-from scorers import Recency, Popularity, Meaning, BM25, CoClick
+from scorers import Recency, Popularity, Meaning, BM25, CoClick, FuseContent, FuseRecency
 
-ALL = {"recency": Recency, "popularity": Popularity, "meaning": Meaning, "word": BM25, "clickhist": CoClick}
+ALL = {"recency": Recency, "popularity": Popularity, "meaning": Meaning, "word": BM25, "clickhist": CoClick, "fuse_content": FuseContent, "fuse_recency": FuseRecency}
+BASE = ["recency", "popularity", "meaning", "word", "clickhist"]      # the default set; the fusions are run on request (--scorers)
 CAP_GB = 8.0
 
 
@@ -69,7 +70,7 @@ def fit_unit(args):
 
 
 def run(root, fits, last, out_dir="results/decay_matrix", workers=2, names=None, order=None, name="ebnerd", window=WINDOW, clicked_only=False):
-    names = names or list(ALL)
+    names = names or BASE
     os.makedirs(os.path.join(root, out_dir), exist_ok=True)
     mf = os.path.join(root, out_dir, "manifest.jsonl")
     for f in glob.glob(os.path.join(root, out_dir, "**", "*.tmp"), recursive=True):
