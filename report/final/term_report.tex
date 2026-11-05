@@ -340,14 +340,14 @@ What if one model used both text signals? We built two fusions, with \emph{recip
 \midrule
 Content fusion, frozen profile (A) & MRR & 0.0329 \ci{0.0325}{0.0333} & 0.0337 & 0.0330 \ci{0.0325}{0.0336} & 0.0254 \ci{0.0244}{0.0263}\\
 \rowcolor{green!12} & \textbf{lost} & 0 & -0.0001 \ci{-0.0006}{0.0002} & \textbf{0.0023} \ci{0.0017}{0.0028} & \textbf{0.0053} \ci{0.0041}{0.0065}\\
-Content fusion, live profile (B) & MRR, lost & 0.0345 \ci{0.0341}{0.0349}, 0 & 0.0350, 0.00002 & 0.0366, 0.00005 \ci{-0.000004}{0.00010} & 0.0319, 0.0002 \ci{0.0001}{0.0003}\\
+Content fusion, live (B) & MRR, lost & 0.0345, 0 & 0.0350, 0.00002 & 0.0366, 0.00005 & 0.0319, 0.0002\\
 Content + recency, frozen (A) & MRR & 0.129 \ci{0.128}{0.130} & 0.135 & 0.144 \ci{0.143}{0.146} & 0.148 \ci{0.145}{0.150}\\
  & lost & 0 & -0.0039 \ci{-0.0046}{-0.0031} & -0.0080 \ci{-0.0093}{-0.0069} & -0.0185 \ci{-0.0211}{-0.0161}\\
-Content + recency, live (B) & MRR, lost & 0.1286, 0 & 0.1305, 0.00001 & 0.1346, 0.00006 \ci{-0.00004}{0.00014} & 0.1272, 0.0002 \ci{0.00002}{0.0005}\\
+Content + recency, live (B) & MRR, lost & 0.1286, 0 & 0.1305, 0.00001 & 0.1346, 0.00006 & 0.1272, 0.0002\\
 \bottomrule
 \end{tabular}
 \end{center}
-Top-10 hit rate, live profile, lag 1: content fusion 0.069 \ci{0.068}{0.070} against 0.061 for word and 0.047 for meaning alone; content plus recency 0.266 \ci{0.264}{0.268} against 0.515 for recency alone.
+With a live profile the loss stays under 0.0003 at every lag (intervals in \texttt{results/fusion/rq1\_rq2/decay\_by\_lag.csv}). Top-10 hit rate, live profile, lag 1: content fusion 0.069 \ci{0.068}{0.070} against 0.061 for word and 0.047 for meaning alone; content plus recency 0.266 \ci{0.264}{0.268} against 0.515 for recency alone.
 \begin{itemize}
 \item \textbf{Content fusion is a little better than either part and goes stale the same way:} 0.0023 lost by lag 7 with a frozen profile (7\% of its level), almost nothing with a live one.
 \item \textbf{Adding recency with equal weight makes things worse than recency alone} (MRR 0.129 against 0.190; hit rate 0.27 against 0.52). Two weak voices outvote one strong one. A weighted blend might do better, but choosing the weight needs its own validation clicks, which we did not set aside.
