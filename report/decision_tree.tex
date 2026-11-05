@@ -1,0 +1,165 @@
+\documentclass[9pt,a4paper]{article}
+\usepackage[margin=1.4cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{caption}
+\usepackage{titlesec}
+\usepackage{forest}
+\usepackage{tabularx}
+
+\titlespacing*{\section}{0pt}{6pt}{2pt}
+\titleformat{\section}{\normalfont\normalsize\bfseries}{\thesection}{0.5em}{}
+\setlist{nosep,leftmargin=1.1em}
+\captionsetup{font=footnotesize,skip=2pt}
+\pagestyle{plain}
+\setlength{\parskip}{2pt}
+\setlength{\parindent}{0pt}
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{0.95}
+
+\newcommand{\nd}[2]{\parbox[t]{#1}{\raggedright #2}}
+\newcommand{\F}[1]{\textcolor{blue!55!black}{\footnotesize[#1]}}
+\definecolor{dec}{HTML}{E6F4EA}   % decided
+\definecolor{prp}{HTML}{FEF7E0}   % proposed, acted on
+\definecolor{opn}{HTML}{FCE8E6}   % open
+\definecolor{rej}{HTML}{EEEEEE}   % rejected
+
+\begin{document}
+
+\begin{center}
+{\large\textbf{CS4.406 Term Project --- Temporal Degradation of a News Recommender: Decision Tree So Far}}\\[2pt]
+{\small Team of three: Noel Alex Jacob, Emil Joji, Kspsvln Siddardha Kumar Kavuri \quad$\cdot$\quad status on 2026-10-29 \quad$\cdot$\quad source: \texttt{log.md} (D1--D25, P1--P41)}
+\end{center}
+\vspace{2pt}
+
+\textbf{What this is.} The study asks how fast a news recommender built from past clicks goes stale, which of three
+signals (word matching, meaning matching, click history) goes stale first, and how often a rebuild pays off. This note
+lays out the decisions taken so far as a tree: each node is a question, the branch taken is shaded, the alternatives
+rejected are grey with the reason, and open questions are red. \textbf{Shading:}
+\colorbox{dec}{decided}\ \colorbox{prp}{proposed and acted on}\ \colorbox{opn}{open}\ \colorbox{rej}{rejected}.
+No decay result exists yet; every number below is a measurement of the data, not of a model.
+
+\section{The tree}
+
+\begin{forest}
+for tree={font=\scriptsize, grow'=0, draw, rounded corners=1pt, inner sep=2pt, l sep=9pt, s sep=2.5pt,
+  edge={thin}, anchor=west, child anchor=west, parent anchor=east}
+[\nd{80pt}{\textbf{Study:} how fast does a frozen news recommender degrade?}, fill=white, draw=black, thick
+ [\nd{105pt}{\textbf{1. Which data?}}, fill=white
+  [\nd{262pt}{\textbf{EB-NeRD primary} (D3)\\ on disk, bodies, publish times}, fill=prp]
+  [\nd{262pt}{\textbf{NPR second} (D4), Adressa optional\\ Adressa converted to parquet (D17)}, fill=prp]
+  [\nd{262pt}{Adressa primary; Netflix, AOL, DIGIX, WaPo, PGNSC (D12)\\ no text, users, dates or access}, fill=rej]
+  [\nd{262pt}{Tell the instructor the dataset changed (D14)}, fill=opn]
+ ]
+ [\nd{105pt}{\textbf{2. What corpus to fit and score on?} (B1)\\ EB-NeRD clicks are not uniform across dates}, fill=white
+  [\nd{262pt}{\textbf{D: click-forward}, validation users' history, fit 10--23 May, days 11--24 May, about 105 cells (D21)}, fill=dec]
+  [\nd{262pt}{A: impression slates, cross-check only\\ B: impression clicks, robustness run}, fill=prp]
+  [\nd{262pt}{C: mixed corpus, downsampled\\ does not remove the change of event type}, fill=rej]
+  [\nd{262pt}{Mixed corpus unchanged\\ confounds staleness with data volume}, fill=rej]
+ ]
+ [\nd{105pt}{\textbf{3. In what unit is staleness?}}, fill=white
+  [\nd{262pt}{\textbf{Hours (core, T6h) and days (slow axis)} (D22)\\ unseen-click share 19.5\% at 1\,h, 90.8\% at 6\,h}, fill=dec]
+  [\nd{262pt}{Daily grid only; hourly as a late extra (old T9b)\\ the transition ends within 6 h}, fill=rej]
+ ]
+ [\nd{105pt}{\textbf{4. How to measure decay?}}, fill=white
+  [\nd{262pt}{\textbf{One decay matrix}, all RQs read from it (D5)}, fill=prp]
+  [\nd{262pt}{\textbf{Decay = gap to the model rebuilt the day before} (D7)}, fill=prp]
+  [\nd{262pt}{\textbf{Two regimes}: A frozen, B live profiles (D6)}, fill=prp]
+  [\nd{262pt}{\textbf{7-day sliding fit window} (D8)}, fill=prp]
+  [\nd{262pt}{One run per question; raw metric against day; frozen only; expanding window}, fill=rej]
+ ]
+ [\nd{105pt}{\textbf{5. Which signals?}}, fill=white
+  [\nd{262pt}{\textbf{Click history = co-click cosine first} (D9)\\ zero for an unseen article}, fill=dec]
+  [\nd{262pt}{Word matching (BM25), meaning matching (frozen multilingual MiniLM), recency, popularity; position scorer on NPR only}, fill=prp]
+  [\nd{262pt}{Factorisation first\\ only as an extension}, fill=rej]
+  [\nd{262pt}{Hybrid scorer; top-$K$ co-click fallback}, fill=opn]
+ ]
+ [\nd{105pt}{\textbf{6. How to score and rank?}}, fill=white
+  [\nd{262pt}{\textbf{Rank each click's article in the 48\,h publish-time pool}; MRR and recall@10 primary (D10, revised under D21)}, fill=prp]
+  [\nd{262pt}{\textbf{Unscorable candidates tie at the bottom, keyed shuffle} (D11)}, fill=prp]
+  [\nd{262pt}{Headline on all clicks, or on the scorable clicks, or both?}, fill=opn]
+  [\nd{262pt}{Slate order as the tie-break\\ may encode the site's own ranking}, fill=rej]
+ ]
+ [\nd{105pt}{\textbf{7. How to run it?}}, fill=white
+  [\nd{262pt}{\textbf{Determinism contract}, 16 GB worker pool (D19); \textbf{metrics ledger} (D24); \textbf{monitoring} (D25)}, fill=prp]
+  [\nd{262pt}{\textbf{No pre-registered hypotheses; no git deadline} (D23, D13)}, fill=dec]
+  [\nd{262pt}{\textbf{Team of 3, one pipeline} (D15)}, fill=dec]
+  [\nd{262pt}{Stage ownership among the three}, fill=opn]
+ ]
+]
+\end{forest}
+
+\textbf{Read it as:} the first three questions fix \emph{what is measured on which data and in which unit}; the next three fix
+\emph{how a model is scored}; the last fixes \emph{how the work is run}. Everything above the open (red) nodes is decided or
+acted on; nothing red blocks the next stage.
+
+\section{Why the branches were taken \F{measured evidence}}
+
+\begin{center}
+\scriptsize
+\begin{tabularx}{\linewidth}{@{}p{1.3cm}X@{}}
+\toprule
+\textbf{Node} & \textbf{Evidence behind the branch (95\% bootstrap intervals over fit days)}\\
+\midrule
+Corpus (B1) & EB-NeRD clicks per day fall from 9--13\,M (4--17 May, both cohorts) to 1.6--2.0\,M (26 May on) and change kind from history reads to impression clicks; a 7-day window ending 30 May holds about a fifth of the clicks of one ending 17 May. Only 0.4--0.7\% of (user, article) pairs appear in both sources.\\
+Unit (hours) & Share of clicks on articles published after the fit, 07:00 fit, 13 fit days, $n$ = 3.4--4.6\,M clicks per hour offset: 19.5\,[14.6, 23.9]\% at 1\,h, 77.2\,[72.7, 81.1]\% at 3\,h, 90.8\,[88.5, 92.5]\% at 6\,h, 96.2\,[95.8, 96.5]\% at 24\,h. The same curve on Adressa (80 fit days) reaches 48.5\,[45.4, 51.5]\% at 6\,h and 87.8\,[86.8, 88.7]\% at 24\,h; on NPR (85 fit days) 15.5\,[11.3, 20.1]\% at 6\,h and 85.6\,[80.6, 89.7]\% at 24\,h. Hours to 50\%: 2, 7 and 13. The fit hour matters on EB-NeRD (6\,h at a midnight fit, 2\,h at 06:00) and barely on NPR.\\
+Scoring & A frozen click-history model can score only articles seen in its window; at the smoke cell (fit 16 May, day 18 May, $n$ = 19,939 clicks) 0.6\% of the clicked articles were scorable. Seeded-shuffle MRR 0.0152 [0.0144, 0.0160]; recency 0.1773 [0.1739, 0.1805]. These are one cell, a pipeline check, not a decay result.\\
+Cost & Click-history fit 18.6\,s and 7.1\,GB peak (planned 1.5\,GB), so two workers at a time in the 16\,GB pool; the other scorers fit in under 2\,s.\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section{Decision register}
+
+\begin{center}
+\scriptsize
+\begin{tabularx}{\linewidth}{@{}l p{1.55cm} X l@{}}
+\toprule
+\textbf{ID} & \textbf{State} & \textbf{Decision} & \textbf{Date}\\
+\midrule
+D1, D2, D12 & decided & submitted proposal archived; Adressa copied by hand, not extracted; seven candidate datasets dropped & 10-26\\
+D3, D4 & proposed, acted on & EB-NeRD primary; NPR second, Adressa optional & 10-26\\
+D5--D8 & proposed, acted on & one decay matrix; two regimes; decay against the day-before rebuild; 7-day sliding window & 10-26\\
+D9 & decided & click history = co-click cosine first & 10-28\\
+D10, D11 & proposed, acted on & MRR and recall@10 primary under D21 (AUC and nDCG@5 secondary); keyed shuffle for ties & 10-26\\
+D13 & decided & git deferred, no deadline attached & 10-29\\
+D14 & open & tell the instructor about the dataset change & 10-28\\
+D15 & decided & team of three, one pipeline & 10-28\\
+D16 & superseded & optional hourly extension (by D22) & 10-27\\
+D17, D18 & done & Adressa converted to parquet by streaming (3.11\,GB, 113.6\,M events); EB-NeRD copied and checksum-verified & 10-27\\
+D19 & proposed, acted on & determinism contract; 16\,GB pool; tested (1, 3 and 7 workers give identical sample files) & 10-27\\
+D20 & done & two plans kept in \texttt{docs/plan/} and cross-checked & 10-28\\
+B1 / D21 & decided & click-forward evaluation (option D), slate protocol as cross-check & 10-29\\
+D22 & decided & hourly fast axis is core (T6h) & 10-29\\
+D23 & decided & hypothesis practice removed (my addition, not a requirement) & 10-29\\
+D24, D25 & decided & metrics ledger, serving proxies, planted-decay test, cleanup stage; monitoring through \texttt{monitor.py} (built, 10 tests) & 10-29\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section{What is built, what is open}
+
+\textbf{Built and measured} (\texttt{code/}, 30 tests passing): stores for the three datasets (EB-NeRD 113.4\,M clicks;
+NPR 17.6\,M, including all 1,402,576 impression clicks; Adressa 35.2\,M), GPU embeddings for all three, the fixed
+sample of 20,000 clicks a day for 11--24 May, the model-free curves reproduced from the stores, and five scorers
+with a seeded shuffle on one smoke cell. \textbf{Not built:} the leakage and determinism gate (T5), the decay matrix
+(T6), the hourly stage (T6h), the analysis (T7), the rebuild-schedule replay (T8), the second dataset run (T9).
+
+\textbf{Open decisions} (red nodes): (1) tell the instructor the dataset changed (D14, low stakes); (2) whether the
+headline metric counts unscorable clicks or reports the scorable clicks beside the share scorable (I would report both);
+(3) who owns which stage; (4) whether to build the hybrid scorer and the top-$K$ co-click fallback, which were cut from
+the first pass. \textbf{Checks that remain:} an unexplained result in the smoke cell (a fresher frozen profile scored
+slightly lower for meaning and word matching, finding P41) and the EB-NeRD time zone, which the daily pattern suggests is UTC
+but which is not proven.
+
+\vspace{3pt}
+\textbf{Rejected, with the reason kept:} Adressa as primary (no impression lists, unfinished download at the time); a
+mixed or downsampled corpus (confounds staleness with data volume, or event type); a daily grid alone (the transition
+is over within hours on EB-NeRD); factorisation first (it would hide the zero-for-unseen mechanism under test); slate
+order as a tie-break (it may carry the site's own ranking).
+
+\end{document}
