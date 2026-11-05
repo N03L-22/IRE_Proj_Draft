@@ -167,3 +167,20 @@ class FusionTests(unittest.TestCase):
         b = np.full((1, 3), np.nan, dtype=np.float32)
         S = self.make([self.Part(a, np.array([True])), self.Part(b, np.array([False]))]).score(self.ctx(np.ones((1, 3), dtype=bool)))
         self.assertEqual(np.argsort(-S[0]).tolist(), [0, 2, 1])
+
+
+class SweepTests(FusionTests):
+    def test_sweep_with_unit_weights_equals_the_plain_fusion(self):
+        from scorers import FuseContent, SweepFusion
+        a = np.array([[3.0, 1.0, 2.0, 0.0]], dtype=np.float32)
+        b = np.array([[0.0, 5.0, 4.0, 4.0]], dtype=np.float32)
+        valid = np.ones((1, 4), dtype=bool)
+        parts = [self.Part(a, np.array([True])), self.Part(b, np.array([True])), self.Part(np.array([[1.0, 2.0, 3.0, 4.0]], dtype=np.float32), np.array([True]))]
+        ctx = self.ctx(valid)
+        plain = FuseContent()
+        plain.parts = parts[:2]
+        w0 = SweepFusion((1.0, 1.0, 0.0, 60)); w0.parts = parts
+        np.testing.assert_allclose(w0.score(ctx), plain.score(ctx), rtol=1e-6)
+        w1 = SweepFusion((1.0, 1.0, 2.0, 60)); w1.parts = parts
+        S = w1.score(ctx)
+        self.assertEqual(int(np.argmax(S[0])), 3)                  # a heavy recency weight puts the newest first

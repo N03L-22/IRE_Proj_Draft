@@ -14,9 +14,12 @@ import polars as pl
 import monitor as M
 from cell import fit_all, score_cell, load_sample
 from core import Corpus, WINDOW
-from scorers import Recency, Popularity, Meaning, BM25, CoClick, FuseContent, FuseRecency
+from scorers import Recency, Popularity, Meaning, BM25, CoClick, FuseContent, FuseRecency, SweepFusion, SWEEP, sweep_name
 
 ALL = {"recency": Recency, "popularity": Popularity, "meaning": Meaning, "word": BM25, "clickhist": CoClick, "fuse_content": FuseContent, "fuse_recency": FuseRecency}
+for _c in SWEEP:
+    ALL[sweep_name(_c)] = (lambda c=_c: SweepFusion(c))
+SWEEP_NAMES = [sweep_name(c) for c in SWEEP]
 BASE = ["recency", "popularity", "meaning", "word", "clickhist"]      # the default set; the fusions are run on request (--scorers)
 CAP_GB = 8.0
 
@@ -92,4 +95,4 @@ if __name__ == "__main__":
     ap.add_argument("--workers", type=int, default=2); ap.add_argument("--out", default="results/decay_matrix")
     ap.add_argument("--scorers", default=None); ap.add_argument("--name", default="ebnerd"); ap.add_argument("--window-h", type=int, default=48); ap.add_argument("--clicked-only", action="store_true")
     a = ap.parse_args()
-    run(a.root, days_between(*a.fits), a.last, a.out, a.workers, a.scorers.split(",") if a.scorers else None, name=a.name, window=a.window_h * 3600, clicked_only=a.clicked_only)
+    run(a.root, days_between(*a.fits), a.last, a.out, a.workers, (SWEEP_NAMES if a.scorers == "sweep" else a.scorers.split(",")) if a.scorers else None, name=a.name, window=a.window_h * 3600, clicked_only=a.clicked_only)
