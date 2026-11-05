@@ -51,15 +51,18 @@ def counts(day_index, n, B):
     return W
 
 
-def analyse(root, src, out, B):
+def analyse(root, src, out, B, only_days=None):
+    """only_days: evaluate just these days (a fold); each day keeps its index in the full list, so its resample counts do not depend on the fold."""
     manifest = M.read_manifest(os.path.join(root, src, "manifest.jsonl"))
     fits = sorted(r["unit"].split("=")[1] for r in manifest)
-    days = sorted({c["d"] for r in manifest for c in r["cells"]})
+    all_days = sorted({c["d"] for r in manifest for c in r["cells"]})
+    days = [d for d in all_days if only_days is None or d in only_days]
     os.makedirs(os.path.join(root, out), exist_ok=True)
     # per (lag, scorer, regime, metric): list over days of (mean control, mean frozen, replicate arrays)
     acc, lev, scor, strata_rows, byday, known = {}, {}, {}, [], {}, {}
     n_clicks = {}
-    for di, d in enumerate(days):
+    for d in days:
+        di = all_days.index(d)
         cols, pool, key = load_day(os.path.join(root, src), d, fits)
         n = len(pool)
         n_clicks[d] = n

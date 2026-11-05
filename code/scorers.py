@@ -207,11 +207,12 @@ class CoClick:
 
 
 class Fusion:
-    """reciprocal rank fusion of the component rankings inside each click's pool: score = sum over components of 1 / (K + rank), K = 60,
-    equal weights, nothing tuned (tuning on the evaluation clicks would leak). Tied scores share their average rank, so a tie never
+    """reciprocal rank fusion of the component rankings inside each click's pool: score = sum over components of w / (K + rank), K = 60,
+    equal weights by default, nothing tuned (tuning on the evaluation clicks would leak). Tied scores share their average rank, so a tie never
     favours older or newer articles. A component with no score for a click (no profile) adds nothing; a click none of them can score is NaN."""
     K = 60
     with_recency = False
+    weights = None                       # one weight per component, None = all 1
 
     def __init__(self):
         self.parts = [BM25(), Meaning()] + ([Recency()] if self.with_recency else [])
@@ -221,22 +222,31 @@ class Fusion:
             p.fit(corpus, **kw)
         return self
 
-    def score(self, ctx):
+    def _ranks(self, ctx):
+        """per component, the average rank (1 = best) of every candidate; 0 where the component has no score."""
         from scipy.stats import rankdata
-        comp = [p.score(ctx) for p in self.parts]
         n, P = ctx.valid.shape
-        out = np.full((n, P), np.nan, dtype=np.float32)
-        for k in range(0, n, 2000):
-            sl = slice(k, k + 2000)
-            tot = np.zeros((min(2000, n - k), P), dtype=np.float64)
-            any_ = np.zeros(tot.shape[0], dtype=bool)
-            for S in comp:
-                a = ~np.isnan(S[sl])
-                r = rankdata(np.where(a, -S[sl].astype(np.float64), np.inf), method="average", axis=1)
-                tot += np.where(a, 1.0 / (self.K + r), 0.0)
-                any_ |= a.any(1)
-            out[sl] = np.where(ctx.valid[sl] & any_[:, None], tot, np.nan)
+        out = []
+        for p in self.parts:
+            S = p.score(ctx)
+            R = np.zeros((n, P), dtype=np.float32)
+            for k in range(0, n, 2000):
+                a = ~np.isnan(S[k:k + 2000])
+                r = rankdata(np.where(a, -S[k:k + 2000].astype(np.float64), np.inf), method="average", axis=1)
+                R[k:k + 2000] = np.where(a, r, 0.0)
+            out.append(R)
         return out
+
+    def score(self, ctx):
+        R = self._ranks(ctx)
+        w = self.weights or [1.0] * len(R)
+        tot = np.zeros(ctx.valid.shape, dtype=np.float64)
+        any_ = np.zeros(ctx.valid.shape[0], dtype=bool)
+        for r, wi in zip(R, w):
+            a = r > 0
+            tot += np.where(a, wi / (self.K + r.astype(np.float64)), 0.0)
+            any_ |= a.any(1)
+        return np.where(ctx.valid & any_[:, None], tot, np.nan).astype(np.float32)
 
     def target_scorable(self, ctx):
         ok = np.zeros(len(ctx.keys), dtype=bool)
@@ -252,3 +262,44 @@ class FuseContent(Fusion):
 class FuseRecency(Fusion):
     name = "fuse_recency"
     with_recency = True
+
+
+# the weight sweep: one-at-a-time around (word 1, meaning 1, recency r, K = 60), not a full grid
+SWEEP = ([(1.0, 1.0, r, 60) for r in (0.1, 0.25, 0.5, 1.0, 2.0)]
+         + [(1.0, 1.0, r, k) for r in (0.25, 1.0) for k in (10, 200)]
+         + [(ww, 1.0, r, 60) for r in (0.25, 1.0) for ww in (0.5, 2.0)])
+
+
+def sweep_name(c):
+    return f"rrf_w{c[0]:g}_m{c[1]:g}_r{c[2]:g}_k{c[3]}"
+
+
+class SweepFusion(Fusion):
+    """one weight setting of word, meaning and recency; all settings of a unit share the fitted components and the component rankings
+    of the click context being scored, so a setting costs one weighted sum instead of a scoring pass."""
+    with_recency = True
+    _shared = {"key": None, "parts": None}
+    _cache = {"ctx": None, "R": None}
+
+    def __init__(self, cfg):
+        self.cfg = cfg
+        self.name = sweep_name(cfg)
+        self.weights = [cfg[0], cfg[1], cfg[2]]
+        self.K = cfg[3]
+        self.parts = None
+
+    def fit(self, corpus, **kw):
+        key = (id(corpus), kw.get("r_end_t"))
+        if SweepFusion._shared["key"] != key:
+            parts = [BM25(), Meaning(), Recency()]
+            for p in parts:
+                p.fit(corpus, **kw)
+            SweepFusion._shared.update(key=key, parts=parts)
+            SweepFusion._cache.update(ctx=None, R=None)
+        self.parts = SweepFusion._shared["parts"]
+        return self
+
+    def _ranks(self, ctx):
+        if SweepFusion._cache["ctx"] is not ctx:
+            SweepFusion._cache.update(ctx=ctx, R=Fusion._ranks(self, ctx))
+        return SweepFusion._cache["R"]

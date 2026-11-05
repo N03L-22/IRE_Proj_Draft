@@ -1,0 +1,27 @@
+fold,setting,mean_mrr_lags_1_2_3_5_7_regimes_A_B
+tuning fold E,rrf_w1_m1_r0.1_k60,0.045843
+tuning fold E,rrf_w1_m1_r0.25_k60,0.05781
+tuning fold E,rrf_w1_m1_r0.5_k60,0.081801
+tuning fold E,rrf_w1_m1_r1_k60,0.133837
+tuning fold E,rrf_w1_m1_r2_k60,0.19292
+tuning fold E,rrf_w1_m1_r0.25_k10,0.053816
+tuning fold E,rrf_w1_m1_r0.25_k200,0.062894
+tuning fold E,rrf_w1_m1_r1_k10,0.131836
+tuning fold E,rrf_w1_m1_r1_k200,0.12615
+tuning fold E,rrf_w0.5_m1_r0.25_k60,0.062814
+tuning fold E,rrf_w2_m1_r0.25_k60,0.051445
+tuning fold E,rrf_w0.5_m1_r1_k60,0.1466
+tuning fold E,rrf_w2_m1_r1_k60,0.100957
+tuning fold O,rrf_w1_m1_r0.1_k60,0.047784
+tuning fold O,rrf_w1_m1_r0.25_k60,0.059409
+tuning fold O,rrf_w1_m1_r0.5_k60,0.082353
+tuning fold O,rrf_w1_m1_r1_k60,0.131921
+tuning fold O,rrf_w1_m1_r2_k60,0.187745
+tuning fold O,rrf_w1_m1_r0.25_k10,0.054427
+tuning fold O,rrf_w1_m1_r0.25_k200,0.064418
+tuning fold O,rrf_w1_m1_r1_k10,0.129692
+tuning fold O,rrf_w1_m1_r1_k200,0.125154
+tuning fold O,rrf_w0.5_m1_r0.25_k60,0.063734
+tuning fold O,rrf_w2_m1_r0.25_k60,0.053524
+tuning fold O,rrf_w0.5_m1_r1_k60,0.146696
+tuning fold O,rrf_w2_m1_r1_k60,0.099406

@@ -51,7 +51,7 @@ The answer, in short (every number is explained later, with its confidence inter
 \begin{itemize}
 \item \textbf{A recommender that learns from clicks goes stale within hours.} One hour after it is frozen it can still say something about 79\% of the clicks that follow. After 6 hours that is 19\%, after one day 0.9\%, and after three days none. New articles simply have no clicks yet.
 \item \textbf{A recommender that reads the article text goes stale slowly, and only through the reader's profile.} If the reader's profile is frozen too, matching words loses about 10\% of its score in a week; if the profile is kept fresh, it loses almost nothing.
-\item \textbf{Simply showing the newest articles first beats everything} on the main dataset, and never goes stale. Fusing word and meaning matching helps a little and goes stale in the same way; adding recency to the fusion with equal weight makes it \emph{worse} than recency alone.
+\item \textbf{Simply showing the newest articles first beats everything} on the main dataset, and never goes stale. Fusing word and meaning matching helps a little and goes stale in the same way; adding recency to the fusion with equal weight makes it \emph{worse} than recency alone, and no weight we tried beats recency alone (a sweep, tuned and reported on separate days).
 \item \textbf{How often to rebuild depends on the signal.} The click-based model needs a rebuild at least daily, and hourly on a busy news site. The text-based models can wait days, as long as the reader's profile stays current.
 \end{itemize}
 
@@ -350,8 +350,29 @@ Content + recency, live (B) & MRR, lost & 0.1286, 0 & 0.1305, 0.00001 & 0.1346, 
 With a live profile the loss stays under 0.0003 at every lag (intervals in \texttt{results/fusion/rq1\_rq2/decay\_by\_lag.csv}). Top-10 hit rate, live profile, lag 1: content fusion 0.069 \ci{0.068}{0.070} against 0.061 for word and 0.047 for meaning alone; content plus recency 0.266 \ci{0.264}{0.268} against 0.515 for recency alone.
 \begin{itemize}
 \item \textbf{Content fusion is a little better than either part and goes stale the same way:} 0.0023 lost by lag 7 with a frozen profile (7\% of its level), almost nothing with a live one.
-\item \textbf{Adding recency with equal weight makes things worse than recency alone} (MRR 0.129 against 0.190; hit rate 0.27 against 0.52). Two weak voices outvote one strong one. A weighted blend might do better, but choosing the weight needs its own validation clicks, which we did not set aside.
+\item \textbf{Adding recency with equal weight makes things worse than recency alone} (MRR 0.129 against 0.190; hit rate 0.27 against 0.52). Two weak voices outvote one strong one. A weight sweep follows below.
 \item \textbf{With recency in, the frozen profile scores \emph{better} than the fresh one} (a ``loss'' of $-0.0185$ at lag 13). We have not tested why. A possible reason is that a stale profile makes the text part less confident, so recency dominates the fused ranking, and recency is the stronger signal here. This is a guess, not a finding.
+\end{itemize}
+
+\textbf{What if the weights were wrong? A sweep.} We varied the recency weight (0.1, 0.25, 0.5, 1, 2), the fusion constant $K$ (10, 60, 200) and the word weight (0.5, 1, 2), one at a time (14 settings). To avoid tuning on the clicks we report, the 14 evaluation days were split into two interleaved folds (alternate days). On one fold a setting's score was its MRR averaged over lags 1, 2, 3, 5, 7 and both profile regimes (rule fixed beforehand, decision D29); the best setting was then reported on the \emph{other} fold only, and the folds were swapped.
+\begin{center}\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Reported on days of fold & MRR, live profile, lag 1 & top-10 hit rate, lag 1 & MRR lost, lag 7, frozen / live profile & clicks at lag 1\\
+\midrule
+Chosen fusion (recency weight 2), fold O & 0.1868 \ci{0.1854}{0.1883} & 0.433 \ci{0.430}{0.436} & -0.0008 \ci{-0.0025}{0.0009} / -0.00003 & 118,610\\
+Recency alone, fold O & 0.1910 \ci{0.1896}{0.1924} & 0.518 \ci{0.515}{0.521} & 0 & 118,610\\
+Chosen fusion (recency weight 2), fold E & 0.1898 \ci{0.1883}{0.1913} & 0.451 \ci{0.449}{0.454} & 0.0035 \ci{0.0017}{0.0051} / 0.00013 & 117,777\\
+Recency alone, fold E & 0.1899 \ci{0.1886}{0.1913} & 0.512 \ci{0.509}{0.515} & 0 & 117,777\\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{itemize}
+\item \textbf{More recency weight is always better.} On the tuning fold E the MRR scores rise steadily with the recency weight: 0.046 at 0.1, 0.058 at 0.25, 0.082 at 0.5, 0.134 at 1 and 0.193 at 2 (tuning numbers, not results). Both folds chose the largest weight we tried.
+\item \textbf{The best fusion only matches recency alone, and is worse on the top-10 hit rate} (0.43--0.45 against 0.51--0.52). So \emph{no setting we tried beats ranking by recency alone}. The optimum is at the edge of our grid, and a larger weight would approach recency alone.
+\item \textbf{The frozen-profile loss is not stable across folds} (0.0035 on one, $-0.0008$ on the other, intervals overlapping zero in one), so we draw no conclusion about its sign for the best fusion. With a live profile it is about 0.
+\item The earlier guess that a stale profile helps because recency dominates is neither confirmed nor ruled out.
 \end{itemize}
 
 \subsection{Step 8 --- Checks on our own results}
@@ -410,7 +431,7 @@ The full record (decisions D1--D28, findings P1--P48, dated errata, session log)
 \item \textbf{The 48-hour pool window, the sample size and the seed were not varied.} Sensitivity runs were planned and not done.
 \item \textbf{EB-NeRD times are assumed to be UTC.} Hour labels may be shifted by 1--2 hours.
 \item \textbf{Decay is measured against a model rebuilt one day (or one hour) earlier.} Faster rebuilds were not tested. The bootstrap treats days as given, so intervals do not cover day-to-day variation.
-\item \textbf{The fusions are untuned} (equal weights, $k=60$). A recency-weighted blend and a fallback for unscorable articles were not built, and there is no position-based baseline.
+\item \textbf{The fusion sweep is one setting at a time on a grid whose best point is at the edge} (recency weight 2), with 7 tuning days per fold. A fallback for unscorable articles was not built, and there is no position-based baseline.
 \item \textbf{Popularity improving with an older fit on NPR is unexplained.}
 \item \textbf{The never-clicked check and the volume check are not realistic settings or findings}; they are labelled as such.
 \end{itemize}
