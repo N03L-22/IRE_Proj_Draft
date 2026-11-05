@@ -1,0 +1,26 @@
+{
+ "EB-NeRD": {
+  "clicks": 112248767,
+  "median_h": 1.368611111111111,
+  "within_24h": 0.9646793714892209,
+  "within_48h": 0.9750727685053324,
+  "negative_share": 0.00027741061957500167,
+  "corpus": "pub >= 2023-01-01, as in P28"
+ },
+ "Adressa": {
+  "clicks": 32891912,
+  "median_h": 5.769722222222223,
+  "within_24h": 0.8162791509353424,
+  "within_48h": 0.8867245844510346,
+  "negative_share": 0.012798495873392827,
+  "corpus": "clicks with a publish time"
+ },
+ "NPR": {
+  "clicks": 1402576,
+  "median_h": 13.835555555555555,
+  "within_24h": 0.8145084473140849,
+  "within_48h": 0.9383341793956264,
+  "negative_share": 0.0,
+  "corpus": "impression clicks only (src = 1), as in P30"
+ }
+}

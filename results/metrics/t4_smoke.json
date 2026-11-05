@@ -1,0 +1,77 @@
+{
+ "fit": "2023-05-16",
+ "day": "2023-05-18",
+ "fit_seconds": {
+  "recency": 0.1454741710331291,
+  "popularity": 0.4557151310145855,
+  "meaning": 0.08583683706820011,
+  "word": 1.8861961029469967,
+  "clickhist": 18.561799472081475
+ },
+ "score_seconds_per_20k_clicks": {
+  "recency": 0.20642154500819743,
+  "popularity": 0.20965362899005413,
+  "meaning": 4.06884260091465,
+  "word": 1.5182984720449895,
+  "clickhist": 3.8105426569236442,
+  "shuffle": 0.0
+ },
+ "state": {
+  "window_clicks": 36060787,
+  "coclick_items": 6899,
+  "coclick_users": 648926
+ },
+ "peak_rss_gb": 7.003,
+ "phases": {
+  "fit_frozen": 21.169,
+  "score_frozen_A": 10.197,
+  "score_frozen_B": 9.267,
+  "fit_control": 19.651,
+  "score_control_A": 10.075,
+  "score_control_B": 9.742
+ },
+ "summary": {
+  "recency_A": {
+   "scorable_share": 1.0,
+   "mrr": 0.1772714557615303
+  },
+  "recency_B": {
+   "scorable_share": 1.0,
+   "mrr": 0.1772714557615303
+  },
+  "popularity_A": {
+   "scorable_share": 0.005566979286824815,
+   "mrr": 0.006785161898849912
+  },
+  "popularity_B": {
+   "scorable_share": 0.005566979286824815,
+   "mrr": 0.006785161898849912
+  },
+  "meaning_A": {
+   "scorable_share": 0.9704599027032449,
+   "mrr": 0.027527890162322124
+  },
+  "meaning_B": {
+   "scorable_share": 0.9974421987060534,
+   "mrr": 0.035959627795002766
+  },
+  "word_A": {
+   "scorable_share": 0.9704599027032449,
+   "mrr": 0.025323509113818584
+  },
+  "word_B": {
+   "scorable_share": 0.9974421987060534,
+   "mrr": 0.057309685818713034
+  },
+  "clickhist_A": {
+   "scorable_share": 0.005566979286824815,
+   "mrr": 0.006758712409011312
+  },
+  "clickhist_B": {
+   "scorable_share": 0.005566979286824815,
+   "mrr": 0.006587503003663527
+  }
+ },
+ "median_pool": 430,
+ "n_in_pool": 19939
+}

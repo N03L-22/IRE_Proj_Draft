@@ -1,0 +1,8 @@
+# temporary repo for sharing with teammates; data and rebuildable shards stay local
+data/
+results/**/*.parquet
+results/**/trace/
+ai-log.md
+__pycache__/
+*.pyc
+*.tmp
