@@ -93,6 +93,21 @@ def ranks_of_target(S, valid, tgt_col, keys, cand_ids):
     return 1 + gt.sum(1) + before.sum(1)
 
 
+def target_vs_pool(S, valid, tgt_col):
+    """the target's score, and the mean and spread (population sd) of the scores of the other scorable pool articles.
+    NaN where the row has no score for its target or no other scorable candidate."""
+    ar = np.arange(S.shape[0])
+    tt = S[ar, tgt_col].astype(np.float64)
+    other = valid & ~np.isnan(S)
+    other[ar, tgt_col] = False
+    k = other.sum(1)
+    Z = np.where(other, S, 0).astype(np.float64)
+    mu = Z.sum(1) / np.maximum(k, 1)
+    var = (np.where(other, (Z - mu[:, None]) ** 2, 0)).sum(1) / np.maximum(k, 1)
+    bad = np.isnan(tt) | (k < 1)
+    return np.where(bad, np.nan, tt), np.where(bad, np.nan, mu), np.where(bad, np.nan, np.sqrt(var)), k
+
+
 def metrics_from_ranks(rank, pool):
     rank = rank.astype(np.float64)
     return {"mrr": 1.0 / rank, "recall10": (rank <= 10).astype(np.float64),

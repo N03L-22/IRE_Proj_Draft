@@ -391,6 +391,26 @@ Every level rises, but the decay does not change: word matching, live profile, M
 
 \textbf{Does decay follow the amount of news per day? (exploratory)} At lag 3 over 12 days, Spearman $\rho$ between word MRR lost and articles published that day (152--266) is $-0.42$ \ci{-0.87}{0.24}; against clicks that day (4.2--6.8\,M) $-0.52$ \ci{-0.98}{0.20}. For click history $+0.43$ \ci{-0.14}{0.81} and $-0.20$ \ci{-0.77}{0.55}. Every interval includes 0: \textbf{no relation is detectable} with 12 days from one site. This needs a longer span or more sites.
 
+\subsection{Step 9 --- Is the clicked article really more like the reader's history?}
+Ranking only tells us the clicked article came out at some position. Here we look at the scores themselves. For each click we take the clicked article's similarity to the reader's profile and compare it with the other articles in its pool. To compare word matching (BM25 scores) with meaning matching (cosines), we use a standardised gap $z=(\text{clicked}-\text{pool mean})/\text{pool spread}$. Only clicks the scorer can score are counted (regime A at lag 1: $n=232{,}232$; regime B: 235{,}806).
+
+\textbf{The signal is real but weak.} At lag 1 the clicked article is $0.22$ \ci{0.217}{0.225} pool standard deviations above the pool for meaning matching and $0.43$ \ci{0.425}{0.433} for word matching (frozen profile). In raw cosines, a clicked article scores $0.351$ against a pool mean of $0.321$ (gap $0.0296$ \ci{0.0290}{0.0301}). That is why the MRR of these scorers is only about $0.03$: the clicked article is a little more similar than the rest, but the pool spread is large.
+
+\textbf{It fades as the profile ages.} The levels at different lags come from different evaluation days, so we do not compare them directly. Instead we score the \emph{same clicks} at lag 1 and at lag $L$ and take the difference in $z$ (paired, bootstrap over clicks):
+\begin{center}\small
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+ & $z$ at lag 1 & change at lag 3 & change at lag 7 & change at lag 13\\
+\midrule
+Meaning, frozen (A) & 0.221 \ci{0.217}{0.225} & 0.000 \ci{-0.002}{0.002} & -0.016 \ci{-0.018}{-0.013} & -0.005 \ci{-0.012}{0.003}\\
+Meaning, live (B) & 0.232 \ci{0.229}{0.237} & 0 & 0 & 0\\
+Word, frozen (A) & 0.429 \ci{0.425}{0.433} & -0.013 \ci{-0.015}{-0.010} & -0.021 \ci{-0.024}{-0.017} & -0.027 \ci{-0.036}{-0.017}\\
+Word, live (B) & 0.453 \ci{0.449}{0.457} & -0.001 \ci{-0.001}{-0.001} & -0.002 \ci{-0.002}{-0.002} & -0.005 \ci{-0.006}{-0.005}\\
+\bottomrule
+\end{tabular}
+\end{center}
+Paired $n$ at lag 7: 116,893 (A) and 135,233 (B); at lag 13: 20,391 and 34,379 (word A: 20,390). With a frozen profile the clicked article's advantage shrinks by about 5\% (word) and 7\% (meaning) of its lag-1 size in a week; with a live profile it barely moves, and for meaning it is exactly 0 because the encoder is frozen. This agrees with Step 3. The meaning change is not monotone in lag (0 at lags 3 and 5, then $-0.016$ at lag 7); we did not find out why. Clicks on articles published after the fit (S2) are about as similar to the profile as clicks on older ones (S1, lag 7, meaning: 0.165 \ci{0.159}{0.172} against 0.178 \ci{0.164}{0.193}), so the profile is not simply matching old content. Intervals resample clicks and users repeat, so they are slightly narrow.
+
 % ============================================================
 \section{The Answer, Put Together}
 % ============================================================
@@ -446,6 +466,7 @@ The full record (decisions D1--D28, findings P1--P48, dated errata, session log)
 \item \textbf{Tables with intervals:} \texttt{analyze.py <root>} and \texttt{analyze\_hourly.py <root>}
 \item \textbf{NPR:} the same with \texttt{--name npr --out results/npr/decay\_matrix}
 \item \textbf{Never-clicked check:} \texttt{decay.py} with \texttt{--clicked-only --out results/sens\_clicked\_only/decay\_matrix}
+\item \textbf{Clicked against pool similarity:} \texttt{sim\_gap.py <root> --fits 2023-05-10 2023-05-23 --last 2023-05-24}, then \texttt{sim\_gap\_analyze.py <root>}
 \item \textbf{Volume check and gate:} \texttt{volume\_check.py <root>}, \texttt{test\_t5.py}
 \end{itemize}
 Data stays under \texttt{data/} (not in the repository). Run logs and the gate record are in \texttt{results/metrics/}. The Adressa tarball was never extracted.

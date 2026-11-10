@@ -3,7 +3,7 @@ import os, tempfile, unittest
 import numpy as np
 import polars as pl
 
-from core import Corpus, candidate_matrix, ranks_of_target, build_profiles, metrics_from_ranks, WINDOW
+from core import Corpus, candidate_matrix, ranks_of_target, target_vs_pool, build_profiles, metrics_from_ranks, WINDOW
 from scorers import BM25, CoClick, Popularity
 
 
@@ -97,6 +97,16 @@ class CoreTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class SimGapTests(unittest.TestCase):
+    def test_target_vs_pool_leaves_the_target_out_and_skips_unscorable(self):
+        S = np.array([[5.0, 1.0, 3.0, np.nan], [np.nan] * 4, [2.0, 4.0, 4.0, 0.0]], dtype=np.float32)
+        valid = np.array([[1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 0]], dtype=bool)
+        t, mu, sd, k = target_vs_pool(S, valid, np.array([0, 0, 1]))
+        self.assertEqual(t[0], 5.0); self.assertAlmostEqual(mu[0], 2.0); self.assertAlmostEqual(sd[0], 1.0); self.assertEqual(k[0], 2)
+        self.assertTrue(np.isnan(t[1]))                                       # nothing scorable
+        self.assertEqual(t[2], 4.0); self.assertAlmostEqual(mu[2], 3.0)       # the invalid fourth column is left out
 
 
 class AlreadyReadTests(unittest.TestCase):

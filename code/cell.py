@@ -7,7 +7,7 @@ import numpy as np
 import polars as pl
 
 import monitor as M
-from core import (HIST_CAP, Corpus, candidate_matrix, ranks_of_target, metrics_from_ranks, build_profiles, WINDOW, M_CAP)
+from core import (HIST_CAP, Corpus, candidate_matrix, ranks_of_target, metrics_from_ranks, target_vs_pool, build_profiles, WINDOW, M_CAP)
 from sample import click_key, SEED
 from scorers import Recency, Popularity, Meaning, BM25, CoClick
 
@@ -76,7 +76,7 @@ def fit_all(corpus, r, scorers, window_days=7):
     return st, r_end, win.height
 
 
-def score_cell(corpus, fitted, r_end, d, regime, scorers, clicks, prof, window=WINDOW, d_start=None):
+def score_cell(corpus, fitted, r_end, d, regime, scorers, clicks, prof, window=WINDOW, d_start=None, stats=False):
     c = build_ctx(corpus, clicks, prof, r_end, regime, window)
     out = {"user": c.user, "article": c.target_id, "t": c.t, "n": len(c.t), "n_total": c.n_total, "n_excluded": c.n_excluded, "n_reread": c.n_reread, "profile_trunc": c.profile_trunc,
            "stratum": stratum(corpus, c, r_end, day_start(d) + corpus.off if d_start is None else d_start), "pool": c.pool, "scorers": {}}
@@ -87,6 +87,8 @@ def score_cell(corpus, fitted, r_end, d, regime, scorers, clicks, prof, window=W
         M.check_finite(np.where(np.isnan(S), 0, S), s.name)
         rk = ranks_of_target(S, c.valid, c.tgt_col, c.keys, c.cand_ids)
         out["scorers"][s.name] = {"rank": rk, "scorable": sc.target_scorable(c), "seconds": time.perf_counter() - t0}
+        if stats:
+            out["scorers"][s.name]["tgt"], out["scorers"][s.name]["pool_mean"], out["scorers"][s.name]["pool_sd"], out["scorers"][s.name]["k"] = target_vs_pool(S, c.valid, c.tgt_col)
     z = np.full(c.valid.shape, np.nan, dtype=np.float32)            # the seeded shuffle: nothing is scorable
     out["scorers"]["shuffle"] = {"rank": ranks_of_target(z, c.valid, c.tgt_col, c.keys, c.cand_ids),
                                  "scorable": np.zeros(len(c.t), dtype=bool), "seconds": 0.0}
