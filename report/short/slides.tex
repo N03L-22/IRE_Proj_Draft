@@ -135,23 +135,23 @@ Only the articles the site actually showed that reader in that visit: a median o
 \begin{column}{0.31\textwidth}
 \textbf{Time only}
 \begin{itemize}
-\item Newest first \emph{(added)}
+\item Newest first \emph{(added later)}
 \end{itemize}
 \end{column}
 \begin{column}{0.35\textwidth}
 {\textbf{The crowd's clicks}
 \begin{itemize}
-\item Co-click history \emph{(proposed)}
-\item Most clicked \emph{(added)}
-\item Live trending, the last hour's clicks \emph{(added)}
+\item Co-click history \emph{(in the proposal)}
+\item Most clicked \emph{(added later)}
+\item Live trending, the last hour's clicks \emph{(added later)}
 \end{itemize}}
 \end{column}
 \begin{column}{0.31\textwidth}
 {\textbf{The reader's own reading}
 \begin{itemize}
-\item Word matching, BM25 \emph{(proposed)}
-\item Meaning matching, MiniLM \emph{(proposed)}
-\item Genre \emph{(added)}
+\item Word matching, BM25 \emph{(in the proposal)}
+\item Meaning matching, MiniLM \emph{(in the proposal)}
+\item Genre \emph{(added later)}
 \end{itemize}}
 \end{column}
 \end{columns}
@@ -339,8 +339,7 @@ But meaning matching with a live profile loses exactly 0: the drift alone costs 
 \footnotesize $n=135{,}583$ clicks at lag 7, 34{,}479 at lag 13. Across lags the diagnostics and the loss rise together (Spearman 0.50 \ci{0.44}{0.62} for word, 0.79 \ci{0.50}{0.85} for meaning) but both depend on the lag; within a lag the evidence is mixed. Both mechanisms are real and small.
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SPEAKER 3: settings and site, tests added while testing, RQ3, conclusions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Do our settings or the site decide the size?}\spk{3}
+\begin{frame}{Do our settings or the site decide the size?}\spk{2}
 \begin{columns}[T]
 \begin{column}{0.48\textwidth}
 \textbf{Our settings: hardly.}
@@ -361,16 +360,17 @@ Word matching, old profile, lost by lag 7:
 \begin{itemize}
 \item EB-NeRD: 9.7\% \ci{7.8}{11.6}
 \item NPR: 0.0043 \ci{0.0040}{0.0046} of 0.0230 (19\%, $n=198{,}746$)
-\item Adressa: 0.0144 \ci{0.0139}{0.0148} of 0.0505 (29\%, $n=426{,}503$)
+\item Adressa: none measurable, $-0.0003$ \ci{-0.0005}{-0.00004} of 0.0357 ($n=426{,}503$)
 \end{itemize}}
 \smallskip
 
-{\footnotesize The percentages for NPR and Adressa are our arithmetic. Turnover orders the click-based time scale (hours on EB-NeRD), not these text losses. Adressa is indicative only.}
+{\footnotesize The NPR percentage is our arithmetic. Turnover orders the click-based time scale (hours on EB-NeRD), not these text losses. Adressa text is titles only.}
 \end{column}
 \end{columns}
 \end{frame}
 
-\begin{frame}{Added test. Live trending: the strongest signal, the fastest to age}\spk{3}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SPEAKER 3: tests added while testing, RQ3, the hybrid, conclusions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Added test. Live trending: the strongest signal, fast to age on the pool}\spk{3}
 \begin{columns}[T]
 \begin{column}{0.52\textwidth}
 {\trendaxis{\trendnewest\trendrandom}{trending (1 h count), newest first, random}}
@@ -383,7 +383,7 @@ Count the clicks an article got from \emph{all} readers in the last hour. Nothin
 {It scores 0.3396 \ci{0.3383}{0.3410}, against 0.1905 \ci{0.1896}{0.1914} for newest first ($n=236{,}387$). It also leads on NPR and Adressa.}
 \medskip
 
-{But it ages in minutes: a third of its score is gone after 30 minutes, and it is at 0.0699 \ci{0.0692}{0.0707} after 3 hours.}
+{On the pool it ages in minutes: a third of its score is gone after 30 minutes, and it is at 0.0699 \ci{0.0692}{0.0707} after 3 hours. On real slates (next page) it ages slowly: a count 30 minutes old is only 0.0104 \ci{0.0092}{0.0115} lower.}
 \end{column}
 \end{columns}
 \end{frame}
@@ -404,13 +404,14 @@ Random order & 0.3226 \ci{0.3211}{0.3240} & 0.4991 \ci{0.4973}{0.5008}\\
 {Co-click history} & {0.2637 \ci{0.2624}{0.2649}} & {0.4180 \ci{0.4163}{0.4197}}\\
 {Meaning matching} & {0.3532 \ci{0.3516}{0.3548}} & {0.5419 \ci{0.5401}{0.5436}}\\
 {Genre} & {0.3647 \ci{0.3632}{0.3663}} & {0.5608 \ci{0.5590}{0.5623}}\\
+{Live trending, 1 h count} & {0.4852 \ci{0.4836}{0.4870}} & {0.7112 \ci{0.7098}{0.7127}}\\
 \bottomrule
 \end{tabular}
 
 \raggedright\medskip
 {\textbullet\ Every article on a slate is fresh, so being new tells nothing. The proposal's own evaluation changes the earlier picture.}\\
 {\textbullet\ Co-click history is \emph{below} random: the clicked article is usually too new to have clicks.}\\
-{\textbullet\ Meaning and genre help a little.}
+{\textbullet\ Meaning and genre help a little. A live click count is far ahead: 0.1676 \ci{0.1657}{0.1696} MRR above newest first.}
 \end{frame}
 
 \begin{frame}{Added test. Genre helps, but how much of it is about the person?}\spk{3}
@@ -457,6 +458,8 @@ Rebuilds, fit time in total & 14, 29.1 s & 2, 4.2 s & 1, 2.1 s\\
 \item On the 48-hour pool \textbf{no setting beat newest first}: 0.1868 \ci{0.1854}{0.1883} against 0.1910 \ci{0.1896}{0.1924} on the other half ($n=118{,}610$).
 \medskip
 \item On real slates, a fusion with genre \textbf{does beat random}: 0.3548 \ci{0.3533}{0.3564} against 0.3226 \ci{0.3211}{0.3240} ($n=136{,}674$).
+\medskip
+\item \textbf{Dropping one signal at a time} (the proposal's cross-check; pool, lag 7, $n=135{,}583$): without newest first MRR falls from 0.1444 \ci{0.1432}{0.1458} to 0.0330 \ci{0.0325}{0.0336}; without meaning matching it \emph{rises} by 0.0273 \ci{0.0262}{0.0284}; without co-click history it is unchanged. Only newest first earns its place.
 \end{itemize}
 \end{frame}
 
@@ -480,7 +483,7 @@ Rebuilds, fit time in total & 14, 29.1 s & 2, 4.2 s & 1, 2.1 s\\
 \medskip
 \item \textbf{Newest first:} the strongest simple reference on the pool, but no better than random on real slates.
 \medskip
-\item \textbf{Live trending} beats it by 0.149 \ci{0.147}{0.151}, and ages in minutes.
+\item \textbf{Live trending} beats it on both: by 0.149 \ci{0.147}{0.151} on the pool, where it ages in minutes, and by 0.168 \ci{0.166}{0.170} on real slates, where it does not.
 \medskip
 \item \textbf{Genre and meaning} are modestly better than random on real slates.
 \end{itemize}
@@ -488,9 +491,9 @@ Rebuilds, fit time in total & 14, 29.1 s & 2, 4.2 s & 1, 2.1 s\\
 
 \begin{frame}{What to keep in mind}\spk{3}
 \begin{itemize}
-\item One main site and one month. Real slates exist only for EB-NeRD, and live trending was not tested on them.
+\item One main site and one month. Real slates exist only for EB-NeRD. The live count there comes from impression clicks, a smaller stream that carries the site's own exposure.
 \item On slates, decay is measured against a fit made a week earlier, because no day-before model exists there.
-\item On Adressa the old-profile score at lag 1 is above the live-profile score (0.0505 against 0.0364), which we cannot explain. Treat its decay size as indicative.
+\item Adressa text is titles only.
 \item Our intervals resample clicks; across days they are wider.
 \end{itemize}
 \bigskip
