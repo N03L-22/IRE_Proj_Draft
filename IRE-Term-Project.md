@@ -1,7 +1,7 @@
 ---
 type: project
 title: IRE Term Project
-status: todo
+status: in-progress
 due: 2026-11-20
 priority: high
 ---
@@ -38,9 +38,9 @@ Plan: [[current-plan]] (what and when), [[stage-plan]] (how), [[cross-check]] (t
 - [ ] Pick the domain; download its data and confirm it loads 📅 2026-09-05
 - [ ] Literature survey — cluster papers, find the gap 📅 2026-08-29
 - [ ] Narrow the scope to something finishable 📅 2026-09-15
-- [ ] Baseline + experimental harness 📅 2026-09-28
-- [ ] Main experiments 📅 2026-10-25
-- [ ] Ablations + scaling analysis 📅 2026-11-10
+- [x] Baseline + experimental harness 📅 2026-09-28 ✅ 2026-11-05
+- [x] Main experiments 📅 2026-10-25 ✅ 2026-11-05
+- [x] Ablations + scaling analysis 📅 2026-11-10 ✅ 2026-11-14 *(sweeps, real-impression check, second dataset and cohort, NPR long run; results P57 to P63 in [[log]], queue state in `results/queue/`)*
 - [ ] Report 📅 2026-11-18
 
 ## Acceptable directions (from the course plan)
@@ -113,6 +113,9 @@ One shared pipeline; who owns which stage is not decided yet (see [[stage-plan]]
 - 2026-10-26 — viability check of the temporal-decay proposal; EB-NeRD primary; datasets surveyed ([[datasets]]).
 - 2026-10-27 — NPR downloaded and profiled; Adressa converted to parquet (3.11 GB, verified); EB-NeRD copied into `data/`.
 - 2026-10-28 — team fixed at 3, one pipeline; click-history method fixed as co-click cosine; plans written in `docs/plan/`; **B1** (non-uniform EB-NeRD click corpus) open.
+- 2026-11-05 — corrected runs under the already-read rule (D28); 105-cell daily matrix, hourly matrix, NPR, sensitivity runs; 2-page report and LaTeX report in `report/` ([[log#2026-11-05 — corrected runs and results]]).
+- 2026-11-06 to 2026-11-12 — fusion and weight sweep (D29), clicked-versus-pool study (Step 9), the local explorer (`explain_web/`, guide in `explorer-guide.md`, git-ignored).
+- 2026-11-13 to 2026-11-14 — genre extension and its permutation check, live trending baseline, real-impression evaluation, parameter sweeps and a longer NPR run, all through one resumable queue (D30, D31); all queue stages finished 2026-11-14 (failures and fixes in the errata of [[log]]); 2-page report, 16-frame slides and speaker notes rebuilt in `report/short/` (D32). Headline reworded: newest first wins only against the 48 h pool; on real slates it is no better than random (P57); a live click count beats it but goes stale in minutes (P59). Open: live trending on slates, the Adressa regime gap, headline metric. Final report due 2026-11-18, experiments stop 2026-11-15, submission 2026-11-20 (the team submits).
 
 ---
 [[_syllabus|IRE course plan]] · [[Dashboard]]
