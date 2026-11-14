@@ -1,0 +1,43 @@
+
+=== 2026-11-14T00:15:47 start S3b ===
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "/home/noel/Desktop/Obsidian/MTech_CSE/SEM3/Subjects/IRE/Projects/IRE-Term-Project/code/qrun.py", line 111, in fit_unit
+    u.check()
+  File "/home/noel/Desktop/Obsidian/MTech_CSE/SEM3/Subjects/IRE/Projects/IRE-Term-Project/code/monitor.py", line 105, in check
+    raise GuardBreach(self._breach)
+monitor.GuardBreach: swap grew by more than the allowed amount
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/noel/Desktop/Obsidian/MTech_CSE/SEM3/Subjects/IRE/Projects/IRE-Term-Project/code/qrun.py", line 152, in <module>
+    print(run(a.root, a.stage, decay.days_between(*a.fits), a.last, a.out, a.scorers.split(","), a.workers, a.pool_window_h * 3600, a.fit_window_days, lags, a.topk, a.cap_gb, first_day=a.first_day), "units run")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/noel/Desktop/Obsidian/MTech_CSE/SEM3/Subjects/IRE/Projects/IRE-Term-Project/code/qrun.py", line 139, in run
+    for r in pool.imap_unordered(fit_unit, jobs):
+  File "/usr/lib/python3.12/multiprocessing/pool.py", line 873, in next
+    raise value
+monitor.GuardBreach: swap grew by more than the allowed amount
+
+=== 2026-11-14T01:45:47 start S3b ===
+done fit 2023-05-13
+done fit 2023-05-12
+done fit 2023-05-11
+done fit 2023-05-10
+done fit 2023-05-14
+done fit 2023-05-15
+done fit 2023-05-16
+done fit 2023-05-17
+done fit 2023-05-21
+done fit 2023-05-20
+done fit 2023-05-19
+done fit 2023-05-23
+done fit 2023-05-18
+done fit 2023-05-22
+14 units run

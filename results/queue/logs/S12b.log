@@ -1,0 +1,134 @@
+
+=== 2026-11-14T05:03:55 start S12b ===
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "/home/noel/Desktop/Obsidian/MTech_CSE/SEM3/Subjects/IRE/Projects/IRE-Term-Project/code/qrun.py", line 115, in fit_unit
+    res[regime], tks[regime] = score_cell_ext(corpus, fitted, r_end, d, regime, scorers, clicks, prof, pool_w, topk, pcap)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/noel/Desktop/Obsidian/MTech_CSE/SEM3/Subjects/IRE/Projects/IRE-Term-Project/code/qrun.py", line 72, in score_cell_ext
+    S = sc.score(c)
+        ^^^^^^^^^^^
+  File "/home/noel/Desktop/Obsidian/MTech_CSE/SEM3/Subjects/IRE/Projects/IRE-Term-Project/code/scorers.py", line 73, in score
+    step = int(max(50, min(1000, 3e8 // (ctx.valid.shape[1] * self.E.shape[1]))))      # bounds the (n, P, d) block at about 1.2 GB
+                                 ~~~~^^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ZeroDivisionError: float floor division by zero
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/noel/Desktop/Obsidian/MTech_CSE/SEM3/Subjects/IRE/Projects/IRE-Term-Project/code/qrun.py", line 158, in <module>
+    print(run(a.root, a.stage, decay.days_between(*a.fits)[::a.fit_step], a.last, a.out, a.scorers.split(","), a.workers, a.pool_window_h * 3600, a.fit_window_days, lags, a.topk, a.cap_gb, name=a.name, first_day=a.first_day, profile_cap=a.profile_cap), "units run")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/noel/Desktop/Obsidian/MTech_CSE/SEM3/Subjects/IRE/Projects/IRE-Term-Project/code/qrun.py", line 144, in run
+    for r in pool.imap_unordered(fit_unit, jobs):
+  File "/usr/lib/python3.12/multiprocessing/pool.py", line 873, in next
+    raise value
+ZeroDivisionError: float floor division by zero
+
+=== 2026-11-14T11:25:25 start S12b ===
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "/home/noel/Desktop/Obsidian/MTech_CSE/SEM3/Subjects/IRE/Projects/IRE-Term-Project/code/qrun.py", line 119, in fit_unit
+    clicks, prof = load_sample(corpus, d)
+                   ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/noel/Desktop/Obsidian/MTech_CSE/SEM3/Subjects/IRE/Projects/IRE-Term-Project/code/qrun.py", line 28, in load_sample
+    return (pl.read_parquet(os.path.join(s, f"clicks_d={day}.parquet")).sort(["user", "article", "t"]), pl.read_parquet(os.path.join(s, f"profiles_d={day}.parquet")))
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/noel/Desktop/Obsidian/MTech_CSE/SEM3/Subjects/IRE/Assignments/Assignment-1-Lexical-Semantic-Retrieval/.venv/lib/python3.12/site-packages/polars/_utils/deprecation.py", line 132, in wrapper
+    return function(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/noel/Desktop/Obsidian/MTech_CSE/SEM3/Subjects/IRE/Assignments/Assignment-1-Lexical-Semantic-Retrieval/.venv/lib/python3.12/site-packages/polars/_utils/deprecation.py", line 132, in wrapper
+    return function(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/noel/Desktop/Obsidian/MTech_CSE/SEM3/Subjects/IRE/Assignments/Assignment-1-Lexical-Semantic-Retrieval/.venv/lib/python3.12/site-packages/polars/io/parquet/functions.py", line 293, in read_parquet
+    return lf.collect()
+           ^^^^^^^^^^^^
+  File "/home/noel/Desktop/Obsidian/MTech_CSE/SEM3/Subjects/IRE/Assignments/Assignment-1-Lexical-Semantic-Retrieval/.venv/lib/python3.12/site-packages/polars/_utils/deprecation.py", line 97, in wrapper
+    return function(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/noel/Desktop/Obsidian/MTech_CSE/SEM3/Subjects/IRE/Assignments/Assignment-1-Lexical-Semantic-Retrieval/.venv/lib/python3.12/site-packages/polars/lazyframe/opt_flags.py", line 361, in wrapper
+    return function(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/noel/Desktop/Obsidian/MTech_CSE/SEM3/Subjects/IRE/Assignments/Assignment-1-Lexical-Semantic-Retrieval/.venv/lib/python3.12/site-packages/polars/lazyframe/frame.py", line 2633, in collect
+    return wrap_df(ldf.collect(engine, callback))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: No such file or directory (os error 2): ./data/npr/store/sample/clicks_d=2023-01-17.parquet
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/noel/Desktop/Obsidian/MTech_CSE/SEM3/Subjects/IRE/Projects/IRE-Term-Project/code/qrun.py", line 166, in <module>
+    print(run(a.root, a.stage, decay.days_between(*a.fits)[::a.fit_step], a.last, a.out, a.scorers.split(","), a.workers, a.pool_window_h * 3600, a.fit_window_days, lags, a.topk, a.cap_gb, name=a.name, first_day=a.first_day, profile_cap=a.profile_cap), "units run")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/noel/Desktop/Obsidian/MTech_CSE/SEM3/Subjects/IRE/Projects/IRE-Term-Project/code/qrun.py", line 152, in run
+    for r in pool.imap_unordered(fit_unit, jobs):
+  File "/usr/lib/python3.12/multiprocessing/pool.py", line 873, in next
+    raise value
+FileNotFoundError: No such file or directory (os error 2): ./data/npr/store/sample/clicks_d=2023-01-17.parquet
+
+=== 2026-11-14T11:27:16 start S12b ===
+done fit 2023-01-16
+done fit 2023-01-13
+done fit 2023-01-10
+done fit 2023-01-19
+done fit 2023-01-22
+done fit 2023-01-25
+done fit 2023-01-28
+done fit 2023-01-31
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "/home/noel/Desktop/Obsidian/MTech_CSE/SEM3/Subjects/IRE/Projects/IRE-Term-Project/code/qrun.py", line 124, in fit_unit
+    u.check()
+  File "/home/noel/Desktop/Obsidian/MTech_CSE/SEM3/Subjects/IRE/Projects/IRE-Term-Project/code/monitor.py", line 105, in check
+    raise GuardBreach(self._breach)
+monitor.GuardBreach: swap grew by more than the allowed amount
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/noel/Desktop/Obsidian/MTech_CSE/SEM3/Subjects/IRE/Projects/IRE-Term-Project/code/qrun.py", line 166, in <module>
+    print(run(a.root, a.stage, decay.days_between(*a.fits)[::a.fit_step], a.last, a.out, a.scorers.split(","), a.workers, a.pool_window_h * 3600, a.fit_window_days, lags, a.topk, a.cap_gb, name=a.name, first_day=a.first_day, profile_cap=a.profile_cap), "units run")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/noel/Desktop/Obsidian/MTech_CSE/SEM3/Subjects/IRE/Projects/IRE-Term-Project/code/qrun.py", line 152, in run
+    for r in pool.imap_unordered(fit_unit, jobs):
+  File "/usr/lib/python3.12/multiprocessing/pool.py", line 873, in next
+    raise value
+monitor.GuardBreach: swap grew by more than the allowed amount
+
+=== 2026-11-14T11:37:44 start S12b ===
+done fit 2023-02-03
+done fit 2023-02-09
+done fit 2023-02-06
+done fit 2023-02-15
+done fit 2023-02-12
+done fit 2023-02-18
+done fit 2023-02-21
+done fit 2023-02-24
+done fit 2023-02-27
+done fit 2023-03-05
+done fit 2023-03-08
+done fit 2023-03-02
+done fit 2023-03-11
+done fit 2023-03-14
+done fit 2023-03-17
+done fit 2023-03-20
+done fit 2023-03-23
+done fit 2023-03-26
+done fit 2023-03-29
+done fit 2023-04-01
+20 units run

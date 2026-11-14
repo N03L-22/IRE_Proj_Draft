@@ -1,0 +1,297 @@
+{"stage": "S2", "event": "start", "desc": "permutation and prior checks for the genre gain, full grid", "t": "2026-11-13T23:54:32"}
+{"stage": "S2", "event": "done", "rc": 0, "seconds": 353.0, "t": "2026-11-14T00:00:25"}
+{"stage": "S7", "event": "start", "desc": "live trending baseline (not fitted: one fit date covers every day)", "t": "2026-11-14T00:00:25"}
+{"stage": "S7", "event": "done", "rc": 0, "seconds": 665.9, "t": "2026-11-14T00:11:31"}
+{"stage": "S3a", "event": "start", "desc": "pool window 24 h", "t": "2026-11-14T00:11:31"}
+{"stage": "S3a", "event": "done", "rc": 0, "seconds": 256.0, "t": "2026-11-14T00:15:47"}
+{"stage": "S3b", "event": "start", "desc": "pool window 72 h", "t": "2026-11-14T00:15:47"}
+{"stage": "S3b", "event": "fail", "rc": 1, "seconds": 48.1, "t": "2026-11-14T00:16:35"}
+{"stage": "S4a", "event": "start", "desc": "fit window 3 days", "t": "2026-11-14T00:16:35"}
+{"stage": "S4a", "event": "done", "rc": 0, "seconds": 401.2, "t": "2026-11-14T00:23:17"}
+{"stage": "S4b", "event": "start", "desc": "fit window 5 days", "t": "2026-11-14T00:23:17"}
+{"stage": "S4b", "event": "done", "rc": 0, "seconds": 400.5, "t": "2026-11-14T00:29:57"}
+{"stage": "S4c", "event": "start", "desc": "fit window 10 days, fit dates from 13 May", "t": "2026-11-14T00:29:57"}
+{"stage": "S4c", "event": "done", "rc": 0, "seconds": 246.7, "t": "2026-11-14T00:34:04"}
+{"stage": "S5", "event": "start", "desc": "hybrid with recency fallback", "t": "2026-11-14T00:34:04"}
+{"stage": "S8a", "event": "skip", "why": "already done", "t": "2026-11-14T00:51:38"}
+{"stage": "S8b", "event": "skip", "why": "already done", "t": "2026-11-14T00:51:38"}
+{"stage": "S12a", "event": "start", "desc": "NPR evaluation samples for the whole span", "t": "2026-11-14T00:51:38"}
+{"stage": "S12a", "event": "done", "rc": 0, "seconds": 1.7, "t": "2026-11-14T00:51:40"}
+{"stage": "S1d", "event": "skip", "why": "already done", "t": "2026-11-14T00:51:40"}
+{"stage": "S1e", "event": "start", "desc": "intervals by click, reader, day and reader+day", "t": "2026-11-14T00:51:40"}
+{"stage": "S1e", "event": "done", "rc": 0, "seconds": 20.7, "t": "2026-11-14T00:52:01"}
+{"stage": "S1a", "event": "skip", "why": "already done", "t": "2026-11-14T00:52:01"}
+{"stage": "S1b", "event": "skip", "why": "already done", "t": "2026-11-14T00:52:01"}
+{"stage": "S1c", "event": "skip", "why": "already done", "t": "2026-11-14T00:52:01"}
+{"stage": "S5", "event": "done", "rc": 0, "seconds": 1450.9, "t": "2026-11-14T00:58:15"}
+{"stage": "S6", "event": "start", "desc": "age of the top-10 articles each scorer would show", "t": "2026-11-14T00:58:15"}
+{"stage": "S8a", "event": "skip", "why": "already done", "t": "2026-11-14T01:02:24"}
+{"stage": "S8b", "event": "skip", "why": "already done", "t": "2026-11-14T01:02:24"}
+{"stage": "S12a", "event": "skip", "why": "already done", "t": "2026-11-14T01:02:24"}
+{"stage": "S1d", "event": "skip", "why": "already done", "t": "2026-11-14T01:02:24"}
+{"stage": "S1e", "event": "skip", "why": "already done", "t": "2026-11-14T01:02:24"}
+{"stage": "S1a", "event": "skip", "why": "already done", "t": "2026-11-14T01:02:24"}
+{"stage": "S1b", "event": "skip", "why": "already done", "t": "2026-11-14T01:02:24"}
+{"stage": "S1c", "event": "skip", "why": "already done", "t": "2026-11-14T01:02:24"}
+{"stage": "A_S3a", "event": "start", "desc": "decay analysis of results/s3_pool24", "t": "2026-11-14T01:02:24"}
+{"stage": "A_S3a", "event": "done", "rc": 0, "seconds": 580.9, "t": "2026-11-14T01:12:05"}
+{"stage": "A_S4a", "event": "start", "desc": "decay analysis of results/s4_fit3", "t": "2026-11-14T01:12:05"}
+{"stage": "S6", "event": "done", "rc": 0, "seconds": 1167.5, "t": "2026-11-14T01:17:42"}
+{"event": "stop", "lane": "heavy", "t": "2026-11-14T01:17:42"}
+{"stage": "S2", "event": "skip", "why": "already done", "t": "2026-11-14T01:17:54"}
+{"stage": "S7", "event": "skip", "why": "already done", "t": "2026-11-14T01:17:54"}
+{"stage": "S3a", "event": "skip", "why": "already done", "t": "2026-11-14T01:17:54"}
+{"stage": "S4a", "event": "skip", "why": "already done", "t": "2026-11-14T01:17:54"}
+{"stage": "S4b", "event": "skip", "why": "already done", "t": "2026-11-14T01:17:54"}
+{"stage": "S4c", "event": "skip", "why": "already done", "t": "2026-11-14T01:17:54"}
+{"stage": "S5", "event": "skip", "why": "already done", "t": "2026-11-14T01:17:54"}
+{"stage": "S7b", "event": "start", "desc": "trending: shorter windows and delayed counts (how fast a live click signal goes stale)", "t": "2026-11-14T01:17:54"}
+{"stage": "A_S4a", "event": "done", "rc": 0, "seconds": 570.8, "t": "2026-11-14T01:21:36"}
+{"stage": "A_S4b", "event": "start", "desc": "decay analysis of results/s4_fit5", "t": "2026-11-14T01:21:36"}
+{"stage": "A_S4b", "event": "done", "rc": 0, "seconds": 558.7, "t": "2026-11-14T01:30:54"}
+{"stage": "A_S4c", "event": "start", "desc": "decay analysis of results/s4_fit10", "t": "2026-11-14T01:30:54"}
+{"stage": "A_S4c", "event": "done", "rc": 0, "seconds": 356.2, "t": "2026-11-14T01:36:51"}
+{"stage": "A_S5", "event": "start", "desc": "decay analysis of results/s5_hybrid", "t": "2026-11-14T01:36:51"}
+{"stage": "A_S5", "event": "done", "rc": 0, "seconds": 523.6, "t": "2026-11-14T01:45:34"}
+{"stage": "A_S6", "event": "start", "desc": "what the reader sees: age of the top-10", "t": "2026-11-14T01:45:34"}
+{"stage": "S7b", "event": "done", "rc": 0, "seconds": 1673.0, "t": "2026-11-14T01:45:47"}
+{"stage": "S3b", "event": "start", "desc": "pool window 72 h", "t": "2026-11-14T01:45:47"}
+{"stage": "A_S6", "event": "done", "rc": 0, "seconds": 279.6, "t": "2026-11-14T01:50:14"}
+{"stage": "A_S7b", "event": "start", "desc": "freshness delay curve of live trending", "t": "2026-11-14T01:50:14"}
+{"stage": "A_S7b", "event": "done", "rc": 0, "seconds": 26.7, "t": "2026-11-14T01:50:41"}
+{"stage": "A_S3a", "event": "skip", "why": "already done", "t": "2026-11-14T01:50:41"}
+{"stage": "A_S4a", "event": "skip", "why": "already done", "t": "2026-11-14T01:50:41"}
+{"stage": "A_S4b", "event": "skip", "why": "already done", "t": "2026-11-14T01:50:41"}
+{"stage": "A_S4c", "event": "skip", "why": "already done", "t": "2026-11-14T01:50:41"}
+{"stage": "A_S5", "event": "skip", "why": "already done", "t": "2026-11-14T01:50:41"}
+{"stage": "A_S6", "event": "skip", "why": "already done", "t": "2026-11-14T01:50:41"}
+{"stage": "A_S7b", "event": "skip", "why": "already done", "t": "2026-11-14T01:50:41"}
+{"stage": "S3b", "event": "done", "rc": 0, "seconds": 757.7, "t": "2026-11-14T01:58:24"}
+{"stage": "S8c", "event": "start", "desc": "impression slates as candidates", "t": "2026-11-14T01:58:24"}
+{"stage": "A_S3b", "event": "start", "desc": "decay analysis of results/s3_pool72", "t": "2026-11-14T01:58:41"}
+{"stage": "S8c", "event": "done", "rc": 0, "seconds": 415.8, "t": "2026-11-14T02:05:20"}
+{"stage": "S8d", "event": "start", "desc": "same clicks, 48 h pool as candidates", "t": "2026-11-14T02:05:20"}
+{"stage": "A_S3b", "event": "done", "rc": 0, "seconds": 664.7, "t": "2026-11-14T02:09:45"}
+{"stage": "A_S3b", "event": "skip", "why": "already done", "t": "2026-11-14T02:09:45"}
+{"stage": "S8d", "event": "done", "rc": 0, "seconds": 771.2, "t": "2026-11-14T02:18:11"}
+{"stage": "S8e", "event": "start", "desc": "click-based signals on slates", "t": "2026-11-14T02:18:11"}
+{"stage": "S8e", "event": "done", "rc": 0, "seconds": 657.6, "t": "2026-11-14T02:29:09"}
+{"stage": "S8f", "event": "start", "desc": "click-based signals, pool", "t": "2026-11-14T02:29:09"}
+{"stage": "S8f", "event": "done", "rc": 0, "seconds": 789.5, "t": "2026-11-14T02:42:18"}
+{"stage": "S8g", "event": "start", "desc": "impression analysis: levels, staleness loss, paired comparisons", "t": "2026-11-14T02:42:18"}
+{"stage": "S8g", "event": "done", "rc": 0, "seconds": 271.4, "t": "2026-11-14T02:46:50"}
+{"stage": "S11", "event": "start", "desc": "BM25 k1 and b, recency-weighted meaning profile (defaults inside as a check)", "t": "2026-11-14T02:46:50"}
+{"stage": "S11", "event": "done", "rc": 0, "seconds": 819.4, "t": "2026-11-14T03:00:29"}
+{"stage": "S9a", "event": "start", "desc": "profile memory 10 clicks", "t": "2026-11-14T03:00:29"}
+{"stage": "A_S11", "event": "start", "desc": "decay analysis of results/s11_params", "t": "2026-11-14T03:00:45"}
+{"stage": "S9a", "event": "done", "rc": 0, "seconds": 366.2, "t": "2026-11-14T03:06:35"}
+{"stage": "S9b", "event": "start", "desc": "profile memory 25 clicks", "t": "2026-11-14T03:06:35"}
+{"stage": "S9b", "event": "done", "rc": 0, "seconds": 384.6, "t": "2026-11-14T03:13:00"}
+{"stage": "S9c", "event": "start", "desc": "profile memory 100 clicks", "t": "2026-11-14T03:13:00"}
+{"stage": "A_S11", "event": "done", "rc": 0, "seconds": 1159.6, "t": "2026-11-14T03:20:05"}
+{"stage": "A_S9a", "event": "start", "desc": "decay analysis of results/s9_cap10", "t": "2026-11-14T03:20:05"}
+{"stage": "S9c", "event": "done", "rc": 0, "seconds": 465.4, "t": "2026-11-14T03:20:45"}
+{"stage": "S9d", "event": "start", "desc": "profile memory 200 clicks", "t": "2026-11-14T03:20:45"}
+{"stage": "S9d", "event": "done", "rc": 0, "seconds": 554.0, "t": "2026-11-14T03:29:59"}
+{"stage": "S10", "event": "start", "desc": "live trending and genre on the second dataset (NPR)", "t": "2026-11-14T03:29:59"}
+{"stage": "A_S9a", "event": "done", "rc": 0, "seconds": 631.3, "t": "2026-11-14T03:30:36"}
+{"stage": "A_S9b", "event": "start", "desc": "decay analysis of results/s9_cap25", "t": "2026-11-14T03:30:36"}
+{"stage": "A_S9b", "event": "done", "rc": 0, "seconds": 526.1, "t": "2026-11-14T03:39:22"}
+{"stage": "A_S9c", "event": "start", "desc": "decay analysis of results/s9_cap100", "t": "2026-11-14T03:39:22"}
+{"stage": "A_S9c", "event": "done", "rc": 0, "seconds": 521.1, "t": "2026-11-14T03:48:03"}
+{"stage": "A_S9d", "event": "start", "desc": "decay analysis of results/s9_cap200", "t": "2026-11-14T03:48:03"}
+{"stage": "A_S9d", "event": "done", "rc": 0, "seconds": 521.3, "t": "2026-11-14T03:56:45"}
+{"stage": "A_S11", "event": "skip", "why": "already done", "t": "2026-11-14T03:56:45"}
+{"stage": "A_S9a", "event": "skip", "why": "already done", "t": "2026-11-14T03:56:45"}
+{"stage": "A_S9b", "event": "skip", "why": "already done", "t": "2026-11-14T03:56:45"}
+{"stage": "A_S9c", "event": "skip", "why": "already done", "t": "2026-11-14T03:56:45"}
+{"stage": "A_S9d", "event": "skip", "why": "already done", "t": "2026-11-14T03:56:45"}
+{"stage": "S10", "event": "done", "rc": 0, "seconds": 1993.4, "t": "2026-11-14T04:03:13"}
+{"stage": "S16a", "event": "start", "desc": "sample with another seed (11), same size", "t": "2026-11-14T04:03:13"}
+{"stage": "A_S10", "event": "start", "desc": "decay analysis of results/s10_npr_trend", "t": "2026-11-14T04:03:15"}
+{"stage": "S16a", "event": "done", "rc": 0, "seconds": 12.2, "t": "2026-11-14T04:03:25"}
+{"stage": "S16b", "event": "start", "desc": "decay matrix on the seed-11 sample", "t": "2026-11-14T04:03:25"}
+{"stage": "S16b", "event": "done", "rc": 0, "seconds": 424.7, "t": "2026-11-14T04:10:30"}
+{"stage": "S13a", "event": "start", "desc": "second cohort: click store of the train users", "t": "2026-11-14T04:10:30"}
+{"stage": "S13a", "event": "done", "rc": 0, "seconds": 12.2, "t": "2026-11-14T04:10:42"}
+{"stage": "S13b", "event": "start", "desc": "second cohort: evaluation samples", "t": "2026-11-14T04:10:42"}
+{"stage": "S13b", "event": "done", "rc": 0, "seconds": 10.5, "t": "2026-11-14T04:10:52"}
+{"stage": "S13c", "event": "start", "desc": "second cohort, decay matrix", "t": "2026-11-14T04:10:52"}
+{"stage": "A_S10", "event": "done", "rc": 0, "seconds": 684.9, "t": "2026-11-14T04:14:40"}
+{"stage": "A_S16b", "event": "start", "desc": "decay analysis of results/s16_seed11", "t": "2026-11-14T04:14:40"}
+{"stage": "S13c", "event": "done", "rc": 0, "seconds": 727.0, "t": "2026-11-14T04:22:59"}
+{"stage": "S13d", "event": "start", "desc": "second cohort, click history", "t": "2026-11-14T04:22:59"}
+{"stage": "A_S16b", "event": "done", "rc": 0, "seconds": 647.5, "t": "2026-11-14T04:25:27"}
+{"stage": "A_S10", "event": "skip", "why": "already done", "t": "2026-11-14T04:25:27"}
+{"stage": "A_S13c", "event": "start", "desc": "decay analysis of results/s13_c2", "t": "2026-11-14T04:25:27"}
+{"stage": "A_S13c", "event": "done", "rc": 0, "seconds": 611.6, "t": "2026-11-14T04:35:39"}
+{"stage": "A_S16b", "event": "skip", "why": "already done", "t": "2026-11-14T04:35:39"}
+{"stage": "A_S13c", "event": "skip", "why": "already done", "t": "2026-11-14T04:35:39"}
+{"stage": "S13d", "event": "fail", "rc": 1, "seconds": 911.7, "t": "2026-11-14T04:38:11"}
+{"stage": "S14a", "event": "start", "desc": "Adressa: evaluation samples", "t": "2026-11-14T04:38:11"}
+{"stage": "S14a", "event": "done", "rc": 0, "seconds": 5.5, "t": "2026-11-14T04:38:17"}
+{"stage": "S14b", "event": "start", "desc": "Adressa decay matrix (90 days, lags up to 28)", "t": "2026-11-14T04:38:17"}
+{"stage": "S14b", "event": "done", "rc": 0, "seconds": 1538.9, "t": "2026-11-14T05:03:55"}
+{"stage": "S12b", "event": "start", "desc": "NPR over the whole Jan-Apr span, lags up to 28 days", "t": "2026-11-14T05:03:55"}
+{"stage": "S12b", "event": "fail", "rc": 1, "seconds": 2.7, "t": "2026-11-14T05:03:58"}
+{"stage": "S16c", "event": "start", "desc": "sample four times as large (80,000 clicks a day, same seed: contains the main sample)", "t": "2026-11-14T05:03:58"}
+{"stage": "A_S14b", "event": "start", "desc": "decay analysis of results/s14_adressa", "t": "2026-11-14T05:04:09"}
+{"stage": "S16c", "event": "done", "rc": 0, "seconds": 14.1, "t": "2026-11-14T05:04:12"}
+{"stage": "S16d", "event": "start", "desc": "decay matrix on the 80,000-click sample", "t": "2026-11-14T05:04:12"}
+{"stage": "S16d", "event": "done", "rc": 0, "seconds": 965.0, "t": "2026-11-14T05:20:17"}
+{"stage": "S6", "event": "skip", "why": "already done", "t": "2026-11-14T05:20:17"}
+{"stage": "S4d", "event": "start", "desc": "click-based signals, fit window 3 days", "t": "2026-11-14T05:20:17"}
+{"stage": "S4d", "event": "done", "rc": 0, "seconds": 202.4, "t": "2026-11-14T05:23:40"}
+{"stage": "S4e", "event": "start", "desc": "click-based signals, fit window 5 days", "t": "2026-11-14T05:23:40"}
+{"stage": "A_S14b", "event": "done", "rc": 0, "seconds": 1366.3, "t": "2026-11-14T05:26:55"}
+{"stage": "A_S16d", "event": "start", "desc": "decay analysis of results/s16_n80k", "t": "2026-11-14T05:26:55"}
+{"stage": "S4e", "event": "done", "rc": 0, "seconds": 280.4, "t": "2026-11-14T05:28:20"}
+{"stage": "A_S16d", "event": "done", "rc": 0, "seconds": 608.1, "t": "2026-11-14T05:37:03"}
+{"stage": "A_S4d", "event": "start", "desc": "decay analysis of results/s4_fit3_click", "t": "2026-11-14T05:37:03"}
+{"stage": "A_S4d", "event": "done", "rc": 0, "seconds": 42.3, "t": "2026-11-14T05:37:46"}
+{"stage": "A_S4e", "event": "start", "desc": "decay analysis of results/s4_fit5_click", "t": "2026-11-14T05:37:46"}
+{"stage": "A_S4e", "event": "done", "rc": 0, "seconds": 42.4, "t": "2026-11-14T05:38:28"}
+{"stage": "A_S14b", "event": "skip", "why": "already done", "t": "2026-11-14T05:38:28"}
+{"stage": "A_S16d", "event": "skip", "why": "already done", "t": "2026-11-14T05:38:28"}
+{"stage": "A_S4d", "event": "skip", "why": "already done", "t": "2026-11-14T05:38:28"}
+{"stage": "A_S4e", "event": "skip", "why": "already done", "t": "2026-11-14T05:38:28"}
+{"event": "gave_up_waiting", "lane": "light", "t": "2026-11-14T07:08:28"}
+{"stage": "S2", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S8a", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S7", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S8b", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S3a", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S4a", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S4b", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S4c", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S5", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S7b", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S12a", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S3b", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S1d", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S8c", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S1e", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S8d", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S1a", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S1b", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S8e", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S1c", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "A_S3a", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S8f", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "A_S3b", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S8g", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "A_S4a", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "A_S4b", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S11", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "A_S4c", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "A_S5", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S9a", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "A_S4d", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "A_S4e", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S9b", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "A_S11", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "A_S9a", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S9c", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "A_S9b", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S9d", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "A_S9c", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S10", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "A_S9d", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S16a", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "A_S10", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "A_S13c", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S16b", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S13a", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "A_S14b", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S13b", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "A_S16b", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "A_S16d", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S13c", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "A_S6", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S13d", "event": "start", "desc": "second cohort, click history", "t": "2026-11-14T11:22:51"}
+{"stage": "A_S7b", "event": "skip", "why": "already done", "t": "2026-11-14T11:22:51"}
+{"stage": "S13d", "event": "done", "rc": 0, "seconds": 153.8, "t": "2026-11-14T11:25:25"}
+{"stage": "S14a", "event": "skip", "why": "already done", "t": "2026-11-14T11:25:25"}
+{"stage": "S14b", "event": "skip", "why": "already done", "t": "2026-11-14T11:25:25"}
+{"stage": "S12b", "event": "start", "desc": "NPR over the whole Jan-Apr span, lags up to 28 days", "t": "2026-11-14T11:25:25"}
+{"stage": "S12b", "event": "fail", "rc": 1, "seconds": 3.1, "t": "2026-11-14T11:25:28"}
+{"stage": "S16c", "event": "skip", "why": "already done", "t": "2026-11-14T11:25:28"}
+{"stage": "S16d", "event": "skip", "why": "already done", "t": "2026-11-14T11:25:28"}
+{"stage": "S6", "event": "skip", "why": "already done", "t": "2026-11-14T11:25:28"}
+{"stage": "S4d", "event": "skip", "why": "already done", "t": "2026-11-14T11:25:28"}
+{"stage": "S4e", "event": "skip", "why": "already done", "t": "2026-11-14T11:25:28"}
+{"stage": "A_S13d", "event": "start", "desc": "decay analysis of results/s13_c2_click", "t": "2026-11-14T11:25:51"}
+{"stage": "S2", "event": "skip", "why": "already done", "t": "2026-11-14T11:27:16"}
+{"stage": "S7", "event": "skip", "why": "already done", "t": "2026-11-14T11:27:16"}
+{"stage": "S3a", "event": "skip", "why": "already done", "t": "2026-11-14T11:27:16"}
+{"stage": "S4a", "event": "skip", "why": "already done", "t": "2026-11-14T11:27:16"}
+{"stage": "S4b", "event": "skip", "why": "already done", "t": "2026-11-14T11:27:16"}
+{"stage": "S4c", "event": "skip", "why": "already done", "t": "2026-11-14T11:27:16"}
+{"stage": "S5", "event": "skip", "why": "already done", "t": "2026-11-14T11:27:16"}
+{"stage": "S7b", "event": "skip", "why": "already done", "t": "2026-11-14T11:27:16"}
+{"stage": "S3b", "event": "skip", "why": "already done", "t": "2026-11-14T11:27:16"}
+{"stage": "S8c", "event": "skip", "why": "already done", "t": "2026-11-14T11:27:16"}
+{"stage": "S8d", "event": "skip", "why": "already done", "t": "2026-11-14T11:27:16"}
+{"stage": "S8e", "event": "skip", "why": "already done", "t": "2026-11-14T11:27:16"}
+{"stage": "S8f", "event": "skip", "why": "already done", "t": "2026-11-14T11:27:16"}
+{"stage": "S8g", "event": "skip", "why": "already done", "t": "2026-11-14T11:27:16"}
+{"stage": "S11", "event": "skip", "why": "already done", "t": "2026-11-14T11:27:16"}
+{"stage": "S9a", "event": "skip", "why": "already done", "t": "2026-11-14T11:27:16"}
+{"stage": "S9b", "event": "skip", "why": "already done", "t": "2026-11-14T11:27:16"}
+{"stage": "S9c", "event": "skip", "why": "already done", "t": "2026-11-14T11:27:16"}
+{"stage": "S9d", "event": "skip", "why": "already done", "t": "2026-11-14T11:27:16"}
+{"stage": "S10", "event": "skip", "why": "already done", "t": "2026-11-14T11:27:16"}
+{"stage": "S16a", "event": "skip", "why": "already done", "t": "2026-11-14T11:27:16"}
+{"stage": "S16b", "event": "skip", "why": "already done", "t": "2026-11-14T11:27:16"}
+{"stage": "S13a", "event": "skip", "why": "already done", "t": "2026-11-14T11:27:16"}
+{"stage": "S13b", "event": "skip", "why": "already done", "t": "2026-11-14T11:27:16"}
+{"stage": "S13c", "event": "skip", "why": "already done", "t": "2026-11-14T11:27:16"}
+{"stage": "S13d", "event": "skip", "why": "already done", "t": "2026-11-14T11:27:16"}
+{"stage": "S14a", "event": "skip", "why": "already done", "t": "2026-11-14T11:27:16"}
+{"stage": "S14b", "event": "skip", "why": "already done", "t": "2026-11-14T11:27:16"}
+{"stage": "S12b", "event": "start", "desc": "NPR over the whole Jan-Apr span, lags up to 28 days", "t": "2026-11-14T11:27:16"}
+{"stage": "A_S13d", "event": "done", "rc": 0, "seconds": 109.8, "t": "2026-11-14T11:27:41"}
+{"stage": "A_S13d", "event": "skip", "why": "already done", "t": "2026-11-14T11:27:41"}
+{"stage": "S12b", "event": "fail", "rc": 1, "seconds": 457.8, "t": "2026-11-14T11:34:54"}
+{"stage": "S16c", "event": "skip", "why": "already done", "t": "2026-11-14T11:34:54"}
+{"stage": "S16d", "event": "skip", "why": "already done", "t": "2026-11-14T11:34:54"}
+{"stage": "S6", "event": "skip", "why": "already done", "t": "2026-11-14T11:34:54"}
+{"stage": "S4d", "event": "skip", "why": "already done", "t": "2026-11-14T11:34:54"}
+{"stage": "S4e", "event": "skip", "why": "already done", "t": "2026-11-14T11:34:54"}
+{"stage": "S2", "event": "skip", "why": "already done", "t": "2026-11-14T11:37:44"}
+{"stage": "S7", "event": "skip", "why": "already done", "t": "2026-11-14T11:37:44"}
+{"stage": "S3a", "event": "skip", "why": "already done", "t": "2026-11-14T11:37:44"}
+{"stage": "S4a", "event": "skip", "why": "already done", "t": "2026-11-14T11:37:44"}
+{"stage": "S4b", "event": "skip", "why": "already done", "t": "2026-11-14T11:37:44"}
+{"stage": "S4c", "event": "skip", "why": "already done", "t": "2026-11-14T11:37:44"}
+{"stage": "S5", "event": "skip", "why": "already done", "t": "2026-11-14T11:37:44"}
+{"stage": "S7b", "event": "skip", "why": "already done", "t": "2026-11-14T11:37:44"}
+{"stage": "S3b", "event": "skip", "why": "already done", "t": "2026-11-14T11:37:44"}
+{"stage": "S8c", "event": "skip", "why": "already done", "t": "2026-11-14T11:37:44"}
+{"stage": "S8d", "event": "skip", "why": "already done", "t": "2026-11-14T11:37:44"}
+{"stage": "S8e", "event": "skip", "why": "already done", "t": "2026-11-14T11:37:44"}
+{"stage": "S8f", "event": "skip", "why": "already done", "t": "2026-11-14T11:37:44"}
+{"stage": "S8g", "event": "skip", "why": "already done", "t": "2026-11-14T11:37:44"}
+{"stage": "S11", "event": "skip", "why": "already done", "t": "2026-11-14T11:37:44"}
+{"stage": "S9a", "event": "skip", "why": "already done", "t": "2026-11-14T11:37:44"}
+{"stage": "S9b", "event": "skip", "why": "already done", "t": "2026-11-14T11:37:44"}
+{"stage": "S9c", "event": "skip", "why": "already done", "t": "2026-11-14T11:37:44"}
+{"stage": "S9d", "event": "skip", "why": "already done", "t": "2026-11-14T11:37:44"}
+{"stage": "S10", "event": "skip", "why": "already done", "t": "2026-11-14T11:37:44"}
+{"stage": "S16a", "event": "skip", "why": "already done", "t": "2026-11-14T11:37:44"}
+{"stage": "S16b", "event": "skip", "why": "already done", "t": "2026-11-14T11:37:44"}
+{"stage": "S13a", "event": "skip", "why": "already done", "t": "2026-11-14T11:37:44"}
+{"stage": "S13b", "event": "skip", "why": "already done", "t": "2026-11-14T11:37:44"}
+{"stage": "S13c", "event": "skip", "why": "already done", "t": "2026-11-14T11:37:44"}
+{"stage": "S13d", "event": "skip", "why": "already done", "t": "2026-11-14T11:37:44"}
+{"stage": "S14a", "event": "skip", "why": "already done", "t": "2026-11-14T11:37:44"}
+{"stage": "S14b", "event": "skip", "why": "already done", "t": "2026-11-14T11:37:44"}
+{"stage": "S12b", "event": "start", "desc": "NPR over the whole Jan-Apr span, lags up to 28 days", "t": "2026-11-14T11:37:44"}
+{"stage": "S12b", "event": "done", "rc": 0, "seconds": 1214.4, "t": "2026-11-14T11:57:58"}
+{"stage": "S16c", "event": "skip", "why": "already done", "t": "2026-11-14T11:57:58"}
+{"stage": "S16d", "event": "skip", "why": "already done", "t": "2026-11-14T11:57:58"}
+{"stage": "S6", "event": "skip", "why": "already done", "t": "2026-11-14T11:57:58"}
+{"stage": "S4d", "event": "skip", "why": "already done", "t": "2026-11-14T11:57:58"}
+{"stage": "S4e", "event": "skip", "why": "already done", "t": "2026-11-14T11:57:58"}
+{"stage": "A_S12b", "event": "start", "desc": "decay analysis of results/s12_npr_long", "t": "2026-11-14T11:58:11"}
+{"stage": "A_S12b", "event": "done", "rc": 0, "seconds": 336.3, "t": "2026-11-14T12:03:47"}

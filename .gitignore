@@ -6,3 +6,6 @@ ai-log.md
 __pycache__/
 *.pyc
 *.tmp
+/data.zip
+/explain_web/
+/explorer-guide.md
