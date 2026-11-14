@@ -1,0 +1,4 @@
+/home/noel/Desktop/Obsidian/MTech_CSE/SEM3/Subjects/IRE/Projects/IRE-Term-Project/code/slate_trend.py:41: DeprecationWarning: In Polars 2.0, the default behavior for `empty_as_null` will change to `False`. To keep the current behavior, explicitly set `empty_as_null=True`.
+  .explode("article").drop_nulls("article").select(pl.col("article").cast(pl.Int32), "t").collect(engine="streaming"))
+done fit 2023-05-24
+1 units run

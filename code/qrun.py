@@ -68,6 +68,7 @@ def top10_stats(S, c, r_end):
 def score_cell_ext(corpus, fitted, r_end, d, regime, scorers, clicks, prof, window, topk, cap=None):
     """cell.score_cell plus the top-10 statistics; the rank / scorable / stratum columns are computed exactly as there."""
     c = build_ctx(corpus, clicks, prof, r_end, regime, window, *([cap] if cap else []))
+    assert regime != "A" or len(c.t) == 0 or int(c.t.min()) >= r_end, "a click before the fit end: the old profile would contain the click itself"
     out = {"user": c.user, "article": c.target_id, "t": c.t, "n": len(c.t), "n_total": c.n_total, "n_excluded": c.n_excluded, "n_reread": c.n_reread,
            "profile_trunc": c.profile_trunc, "stratum": stratum(corpus, c, r_end, day_start(d) + corpus.off), "pool": c.pool, "scorers": {}}
     tk = {}

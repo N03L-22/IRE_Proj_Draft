@@ -23,7 +23,7 @@ HIST_CAP = 300        # the already-read history is the whole profile slice
 class Corpus:
     def __init__(self, root, name, load_text=False, clicked_only=False):
         self.root, self.name = root, name
-        self.off = 3 * 3600 if name == "npr" else 0      # a local day starts this many seconds after UTC midnight (NPR: UTC-3)
+        self.off = {"npr": 3 * 3600, "adressa": -3600}.get(name, 0)      # a local day starts this many seconds after UTC midnight (NPR: UTC-3; Adressa day files: Norwegian time, UTC+1 up to 2017-03-25, which holds for every fit date used)
         self.st = os.path.join(root, f"data/{name}/store")
         a = pl.read_parquet(os.path.join(self.st, "articles.parquet"), columns=["article", "pub"] + (["text"] if load_text else []))
         a = a.sort("article")

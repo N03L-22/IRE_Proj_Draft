@@ -18,9 +18,12 @@ FITS = [str(dt.date(2023, 5, 17) + dt.timedelta(days=i)) for i in range(8)]
 DAYS = [str(dt.date(2023, 5, 25) + dt.timedelta(days=i)) for i in range(7)]
 FRESH = "2023-05-24"
 METRICS = ["mrr", "recall10", "auc", "ndcg5"]
-MODES = {"slate": ["results/impr_slate", "results/impr_slate_click"], "pool": ["results/impr_pool", "results/impr_pool_click"]}
+MODES = {"slate": ["results/impr_slate", "results/impr_slate_click", "results/s17_trend_slate"], "pool": ["results/impr_pool", "results/impr_pool_click"]}
 PAIRS = [("recency", "shuffle"), ("genre", "shuffle"), ("meaning", "shuffle"), ("word", "shuffle"), ("genre", "recency"), ("fuse_genre", "recency"), ("fuse_genre", "genre"),
-         ("fuse_genre", "fuse_genre_prior"), ("genre", "genre_prior"), ("fuse_wmrg", "fuse_recency"), ("fuse_click_recency", "recency"), ("fuse_pop_recency", "recency")]
+         ("fuse_genre", "fuse_genre_prior"), ("genre", "genre_prior"), ("fuse_wmrg", "fuse_recency"), ("fuse_click_recency", "recency"), ("fuse_pop_recency", "recency"),
+         # live trending on slates (slate_trend.py)
+         ("trend_h1", "shuffle"), ("trend_h1", "recency"), ("trend_h1", "site_order"), ("trend_h1", "genre"), ("trend_h1", "meaning"), ("trend_w10", "recency"), ("trend_w30", "recency"),
+         ("trend_h3", "recency"), ("trend_h24", "recency"), ("trend_h1_d30", "recency"), ("trend_h1_d30", "trend_h1")]
 
 
 def load(root, mode, d):
