@@ -1,0 +1,54 @@
+{
+ "n": 20000,
+ "days": [
+  {
+   "day": "2023-05-25",
+   "clicks_in_day": 1245559,
+   "kept": 20000,
+   "slate_median": 8.0,
+   "profile_rows": 3564906
+  },
+  {
+   "day": "2023-05-26",
+   "clicks_in_day": 1822703,
+   "kept": 20000,
+   "slate_median": 8.0,
+   "profile_rows": 3726100
+  },
+  {
+   "day": "2023-05-27",
+   "clicks_in_day": 1567684,
+   "kept": 20000,
+   "slate_median": 9.0,
+   "profile_rows": 3851506
+  },
+  {
+   "day": "2023-05-28",
+   "clicks_in_day": 1781789,
+   "kept": 20000,
+   "slate_median": 9.0,
+   "profile_rows": 3879946
+  },
+  {
+   "day": "2023-05-29",
+   "clicks_in_day": 1861553,
+   "kept": 20000,
+   "slate_median": 9.0,
+   "profile_rows": 3949991
+  },
+  {
+   "day": "2023-05-30",
+   "clicks_in_day": 2010881,
+   "kept": 20000,
+   "slate_median": 9.0,
+   "profile_rows": 3931550
+  },
+  {
+   "day": "2023-05-31",
+   "clicks_in_day": 1909154,
+   "kept": 20000,
+   "slate_median": 9.0,
+   "profile_rows": 3945022
+  }
+ ]
+}

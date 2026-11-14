@@ -1,0 +1,75 @@
+{
+ "days": [
+  {
+   "day": "2023-05-25",
+   "impressions": 1236176,
+   "users": 380573,
+   "clicks": 1245559,
+   "slate_median": 8.0,
+   "slate_p90": 21.0,
+   "clicked_known_pub": 1.0,
+   "slate_known_pub": 1.0
+  },
+  {
+   "day": "2023-05-26",
+   "impressions": 1810037,
+   "users": 444742,
+   "clicks": 1822703,
+   "slate_median": 8.0,
+   "slate_p90": 21.0,
+   "clicked_known_pub": 1.0,
+   "slate_known_pub": 1.0
+  },
+  {
+   "day": "2023-05-27",
+   "impressions": 1558351,
+   "users": 384221,
+   "clicks": 1567684,
+   "slate_median": 9.0,
+   "slate_p90": 22.0,
+   "clicked_known_pub": 1.0,
+   "slate_known_pub": 1.0
+  },
+  {
+   "day": "2023-05-28",
+   "impressions": 1771644,
+   "users": 400061,
+   "clicks": 1781789,
+   "slate_median": 9.0,
+   "slate_p90": 24.0,
+   "clicked_known_pub": 1.0,
+   "slate_known_pub": 1.0
+  },
+  {
+   "day": "2023-05-29",
+   "impressions": 1851104,
+   "users": 410957,
+   "clicks": 1861553,
+   "slate_median": 9.0,
+   "slate_p90": 24.0,
+   "clicked_known_pub": 1.0,
+   "slate_known_pub": 1.0
+  },
+  {
+   "day": "2023-05-30",
+   "impressions": 1995799,
+   "users": 449267,
+   "clicks": 2010881,
+   "slate_median": 9.0,
+   "slate_p90": 23.0,
+   "clicked_known_pub": 1.0,
+   "slate_known_pub": 1.0
+  },
+  {
+   "day": "2023-05-31",
+   "impressions": 1895537,
+   "users": 435457,
+   "clicks": 1909154,
+   "slate_median": 9.0,
+   "slate_p90": 23.0,
+   "clicked_known_pub": 1.0,
+   "slate_known_pub": 1.0
+  }
+ ],
+ "note": "history reads in the store end 2023-05-25 06:59; impressions start 2023-05-25 07:00; 25 May is a partial day"
+}
