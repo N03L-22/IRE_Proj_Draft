@@ -1,0 +1,5 @@
+scorer,regime,lag_days,cells,coverage,coverage_lo,coverage_hi,mrr_frozen,mrr_frozen_lo,mrr_frozen_hi,mrr_control,mrr_decay,mrr_decay_lo,mrr_decay_hi,recall10_frozen,recall10_frozen_lo,recall10_frozen_hi,recall10_control,recall10_decay,recall10_decay_lo,recall10_decay_hi
+clickhist,A,1,14,0.1204,0.1192,0.1217,0.0248,0.023811,0.025712,0.0248,0.0,0.0,0.0,0.035929,0.033737,0.038184,0.035929,0.0,0.0,0.0
+clickhist,B,1,14,0.1204,0.1192,0.1217,0.039101,0.037775,0.04042,0.039101,0.0,0.0,0.0,0.074163,0.070946,0.077332,0.074163,0.0,0.0,0.0
+popularity,A,1,14,0.1207,0.1195,0.122,0.03114,0.03018,0.032194,0.03114,0.0,0.0,0.0,0.064851,0.061994,0.067983,0.064851,0.0,0.0,0.0
+popularity,B,1,14,0.1207,0.1195,0.122,0.03114,0.03018,0.032194,0.03114,0.0,0.0,0.0,0.064851,0.061994,0.067983,0.064851,0.0,0.0,0.0
