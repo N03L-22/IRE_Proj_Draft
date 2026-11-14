@@ -1,0 +1,8 @@
+diagnostic,against,level,spearman,lo,hi,points,note
+oov_extra,mrr_lost_word_A,lag,0.5034965034965035,0.4405594405594406,0.6153846153846154,12,"lag-level means, lags 2 to 13; interval over click resamples; both rise with the lag, so this is not independent evidence"
+oov_extra,mrr_lost_word_A,cell,0.1639461661933572,-0.061817506084365294,0.38117002210825807,90,day-by-lag cells after removing each lag's mean; interval over cells
+oov_extra,mrr_lost_word_B,lag,0.4125874125874126,0.16783216783216784,0.5737762237762235,12,"lag-level means, lags 2 to 13; interval over click resamples; both rise with the lag, so this is not independent evidence"
+oov_extra,mrr_lost_word_B,cell,0.5766390912458328,0.420126348369168,0.6923008485864555,90,day-by-lag cells after removing each lag's mean; interval over cells
+drift,mrr_lost_meaning_A,lag,0.7902097902097902,0.5033216783216784,0.8531468531468531,12,"lag-level means, lags 2 to 13; interval over click resamples; both rise with the lag, so this is not independent evidence"
+drift,mrr_lost_meaning_A,cell,-0.2542124542124542,-0.4292219029053201,-0.050502360475122986,90,day-by-lag cells after removing each lag's mean; interval over cells
+drift,mrr_lost_meaning_B,lag,,,,12,the loss is exactly 0 at every lag: nothing to correlate

@@ -278,7 +278,7 @@ Six hours after the freeze, what share of the next clicks go to articles the mod
 
 \begin{frame}{RQ2. Why co-click history falls first: cold start}\spk{2}
 \begin{itemize}
-\item A new article has no clicks yet, so co-click history \textbf{cannot score it}. This was the cold-start diagnostic we proposed: the loss is one of coverage.
+\item A new article has no clicks yet, so co-click history \textbf{cannot score it}. This was the cold-start diagnostic we proposed: the share of clicks it cannot score is 88.0\% \ci{87.8}{88.1} at lag 1, 99.6\% \ci{99.58}{99.63} at lag 2 and 100\% from lag 3. The loss is one of coverage.
 \medskip
 \item While it still works, it shows \textbf{older} news: the median age of its top 10 is 33.3 h \ci{33.3}{33.3}, against 23.8 h \ci{23.7}{23.8} for a random list; 81.5\% of its top 10 are over a day old (random 42.4\%), $n=236{,}387$.
 \medskip
@@ -311,7 +311,36 @@ Word matching on EB-NeRD. \textbf{Old profile} = what the reader had read by the
 \end{columns}
 \end{frame}
 
-\begin{frame}{Do our settings or the site decide the size?}\spk{2}
+\begin{frame}{RQ2. Did the vocabulary or the embedding space go stale?}\spk{2}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\textbf{Vocabulary} (word matching)
+\small
+\medskip
+
+Words of the clicked article that no earlier article contained: the extra from staleness is 0.0033 \ci{0.0032}{0.0034} by lag 7 (2.18\% \ci{2.15}{2.20} against 1.85\% \ci{1.83}{1.87} with a fresh vocabulary). It appears at once (0.0028 \ci{0.0027}{0.0029} at lag 2) and hardly grows, while the loss keeps growing.
+\medskip
+
+With a live profile the loss is 0.00013 \ci{0.00007}{0.00019}: about 4\% of the old-profile loss.
+\end{column}
+\begin{column}{0.48\textwidth}
+\textbf{Embedding drift} (meaning matching)
+\small
+\medskip
+
+The clicked article moves away from the centroid of the last week's articles: 0.0079 \ci{0.0078}{0.0080} by lag 7 and 0.0109 \ci{0.0107}{0.0111} by lag 13.
+\medskip
+
+But meaning matching with a live profile loses exactly 0: the drift alone costs nothing.
+\end{column}
+\end{columns}
+\bigskip
+
+\footnotesize $n=135{,}583$ clicks at lag 7, 34{,}479 at lag 13. Across lags the diagnostics and the loss rise together (Spearman 0.50 \ci{0.44}{0.62} for word, 0.79 \ci{0.50}{0.85} for meaning) but both depend on the lag; within a lag the evidence is mixed. Both mechanisms are real and small.
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SPEAKER 3: settings and site, tests added while testing, RQ3, conclusions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Do our settings or the site decide the size?}\spk{3}
 \begin{columns}[T]
 \begin{column}{0.48\textwidth}
 \textbf{Our settings: hardly.}
@@ -341,7 +370,6 @@ Word matching, old profile, lost by lag 7:
 \end{columns}
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SPEAKER 3: tests added while testing, RQ3, conclusions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Added test. Live trending: the strongest signal, the fastest to age}\spk{3}
 \begin{columns}[T]
 \begin{column}{0.52\textwidth}
@@ -439,7 +467,7 @@ Rebuilds, fit time in total & 14, 29.1 s & 2, 4.2 s & 1, 2.1 s\\
 \medskip
 \item \textbf{RQ2, which first: as we expected.} Co-click history first, meaning matching last, word matching between them.
 \medskip
-\item \textbf{RQ2, why: partly tested.} Cold start was measured directly. For text we measured the reader's profile ageing, in place of the planned vocabulary and embedding-drift checks, which were not run. A volume check of 12 days found no detectable correlation.
+\item \textbf{RQ2, why: tested.} Cold start explains the click-based fall. Unseen words and embedding drift are real but small: with a live profile they cost 0.00013 and nothing. The reader's profile carries the staleness. Correlations with the loss are mixed.
 \medskip
 \item \textbf{A flat curve was a valid answer:} it is the result for text with a live profile.
 \end{itemize}
