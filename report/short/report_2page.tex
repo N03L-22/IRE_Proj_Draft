@@ -31,45 +31,52 @@
 {\Large\textbf{How Fast Does a News Recommender Go Stale?}}\\[1pt]
 {\footnotesize Term project, CS4.406 Information Retrieval and Extraction, IIIT Hyderabad, Monsoon 2026\quad Noel Alex Jacob (2025201085), Emil Joji (2025201040), Kspsvln Siddardha Kumar Kavuri (2025201061)}\par}
 
-\section{The question and the short answer}
-A news article lives for hours, not months. If a recommender is trained once and then left alone (\term{frozen}), it recommends as if the world had not moved. We ask: \emph{how fast} does it get worse, \emph{which signal} gets worse first, and \emph{how often} must it be rebuilt? Every number has a 95\% bootstrap interval in brackets and the number of clicks, $n$.
+\section{What we proposed, and the short answer}
+A news article lives for hours, not months. A recommender that is trained once and then left alone (\term{frozen}) behaves as if the world had not moved. Our proposal asked three questions: \textbf{RQ1} how fast does quality fall, and in what shape (linear, cliff or plateau)? \textbf{RQ2} which of three separable signals (word matching, meaning matching, co-click history) falls first, and why? \textbf{RQ3} how often must the model be rebuilt, as a cost--quality trade-off? We also recorded in advance what we expected: co-click history to fall most, through cold start; meaning matching to fall least, by construction; and a flat curve to be a valid answer. Every number carries a 95\% bootstrap interval in brackets and the number of clicks, $n$.
 \begin{itemize}
-\item \textbf{Learning from clicks dies within hours.} Click history can score 79.4\% of the next clicks one hour after the freeze, 19.2\% after 6 hours and 0.93\% after a day. While it is fresh, it also shows older news than a random list would.
-\item \textbf{Reading the text (words, meaning, genre) ages slowly, and only through the reader's frozen profile.} Word matching loses 0.0030 \ci{0.0024}{0.0036} MRR in a week, about a tenth of its score. With a live profile the loss is almost zero. This held for every change of our own settings (Step 4); a different site changes its size.
-\item \textbf{A live count of what all readers clicked in the last hour beats ``newest first''} by 0.149 \ci{0.147}{0.151} MRR on EB-NeRD and leads on all three sites. But it goes stale in minutes.
-\item \textbf{On real impression slates, ``newest first'' is no better than random} (AUC 0.503 against 0.499), and so is the site's own order. Genre and meaning matching are modestly better than random. So our earlier headline, ``newest first beats every learned signal'', held only against the 48-hour pool.
+\item \textbf{RQ1, two time scales.} Click-based signals can score 79.4\% \ci{79.2}{79.6} of clicks one hour after the freeze and 0.93\% \ci{0.88}{0.97} after a day. Text signals fall gradually: with an old reader profile, word matching loses 9.7\% \ci{7.8}{11.6} of its score in a week and 18.9\% \ci{15.2}{22.7} in 13 days, with no cliff.
+\item \textbf{RQ2, as expected.} Co-click history falls first (cold start), meaning matching last (exactly 0 with a live profile), word matching between them. Text signals fall only through the old reader profile.
+\item \textbf{RQ3, it depends on the signal and the site.} Text with a live profile need not be rebuilt within 14 days; with an old profile a weekly rebuild stays within 3.9\% of a daily one; click-based signals need hours on a fast site and days on a slow one.
+\item \textbf{Added while testing.} ``Newest first'' wins only on the 48-hour pool; on real slates it is no better than random (AUC 0.5026 \ci{0.5010}{0.5042} against 0.4991 \ci{0.4973}{0.5008}). A live count of the last hour's clicks beats it by 0.149 \ci{0.147}{0.151} MRR, but loses a third of its score in 30 minutes.
 \end{itemize}
 
-\section{How we measure it}
-\textbf{One click, one ranking.} For a real click (reader $u$ opens article $a$ at time $t$) a scorer ranks the other articles and we note where $a$ landed. \term{MRR} (mean reciprocal rank) averages $1/\text{rank}$ over clicks; \term{AUC} is the chance that $a$ is ranked above a random other article (0.5 = random). \textbf{Two choices of ``other articles''.} In the main \term{click-forward test} they are the \term{pool}: every article published in the 48 hours before $t$. In the \term{real-slate test} they are the articles the site actually showed that reader in that visit (median 8 to 9), from the EB-NeRD impression logs of 25--31 May 2023 ($n=136{,}674$ clicks).\\
-\textbf{Freezing and waiting.} A scorer is fitted on the 7 days of clicks ending on a \term{fit date}, then scores clicks that arrive \term{lag} days later. The \term{control} is the same scorer rebuilt the day before. \textbf{Decay = control MRR $-$ frozen MRR} on the same clicks. In regime A the reader's profile is frozen too (clicks up to the fit date); in regime B it is live (the last 50 clicks before the click). A against B separates \emph{article} staleness from \emph{reader} staleness.\\
-\textbf{Scorers.} Shuffle; recency (newest first); popularity; click history (co-click); word matching (BM25); meaning matching (frozen multilingual MiniLM vectors); genre (share of the reader's recent clicks in the article's category); live trending (clicks by all readers in the last hour, nothing fitted).\\
-\textbf{Honest rules.} Re-reads (15\% of clicks) are dropped. An article a scorer cannot score goes to the bottom in random order, so we report \term{coverage}, the share of clicks it can score. Intervals resample clicks; no weight was tuned on reported clicks. \textbf{Data.} EB-NeRD (Danish) is main: 14 fit dates (10--23 May 2023), lags 1 to 13 days, 20{,}000 clicks per day. NPR (Portuguese) and Adressa (Norwegian) are second sites. Claims are made per dataset.
-
-\section{Results, one step at a time}
-\subsection{Step 1. New articles take over quickly (no model)}
-\begin{center}\small
-\begin{tabular}{@{}lrrr@{}}
+\section{How we measured it, and what we added while testing}
+\textbf{One click, one ranking.} For a real click a scorer ranks the other articles and we note where the clicked one lands. \term{MRR} averages $1/\text{rank}$; \term{AUC} is the chance that the clicked article outranks a random other one (0.5 = random). In the main \term{click-forward test} the others are the \term{pool}: every article published in the 48 hours before the click. In the \term{real-slate test} they are the articles the site showed that reader in that visit (median 8 to 9; EB-NeRD, 25--31 May 2023, $n=136{,}674$). A pool number is never compared with a slate number.
+\textbf{Freezing and waiting.} A scorer is fitted on the 7 days of clicks ending on a \term{fit date}, then scores clicks \term{lag} days later. The \term{control} is the same scorer rebuilt the day before; \textbf{decay = control MRR $-$ frozen MRR} on the same clicks. With an \term{old profile} (regime A) the reader's history is frozen at the fit date; with a \term{live profile} (regime B) it is their last 50 clicks.
+\textbf{Scorers.} As proposed: word matching (BM25), meaning matching (frozen multilingual MiniLM), co-click history. Added: newest first, most clicked, genre (share of the reader's recent clicks in the article's category), live trending (all readers' clicks in the last hour; nothing is fitted), random order. \textbf{Rules.} Re-reads (15\% of clicks) are dropped; an article a scorer cannot score goes to the bottom in random order, so we report \term{coverage}, the share of clicks it can score; no weight was tuned on reported clicks. \textbf{Data.} EB-NeRD (Danish) is main: 14 fit dates (10--23 May 2023), lags 1 to 13, 20{,}000 clicks a day; NPR (Portuguese) and Adressa (Norwegian) are second sites.
+\begin{center}\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{4.6cm}>{\raggedright\arraybackslash}X@{}}
 \toprule
- & EB-NeRD & Adressa & NPR\\
+\textbf{Added while testing} & \textbf{Why}\\
 \midrule
-Next clicks on articles newer than the freeze, after 6 h & 90.8\% \ci{88.5}{92.5} & 48.5\% \ci{45.4}{51.5} & 15.5\% \ci{11.3}{20.1}\\
-Hours until half of the next clicks go to unseen articles & 1.8 \ci{1.6}{1.9} & 6.2 \ci{5.8}{6.7} & 12.1 \ci{10.5}{13.8}\\
+Control rebuilt the day before & weekdays and weekends differ, so a raw score cannot show decay\\
+Old and live reader profile & in text models little else is frozen; A against B separates article from reader staleness\\
+Newest first, random order & in news, newest first is a very strong ranker\\
+Hourly axis; unseen-article share & the fall happens within hours; the share needs no model\\
+Genre and live trending & added after newest first dominated and no live click signal had been tried\\
+Real slates & the proposal's own evaluation (the candidates actually shown); the pool results needed it\\
+NPR, Adressa, one-at-a-time checks & EB-NeRD became main (public Adressa has no article text); to test whether findings travel\\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{center}
-($n$ = 3.46 M, 1.26 M, 72{,}136 clicks at 6 h.) From the article's side: on EB-NeRD its click rate halves 1.74 h \ci{1.72}{1.77} after the peak, and 85.1\% \ci{84.2}{86.3} of its clicks arrive in the first 6 hours (3{,}021 articles, 70.6 M clicks).
+
+\section{Results, by research question}
+\subsection{RQ1. How fast, and in what shape?}
+\textbf{Why it happens (no model).} Six hours after a freeze, the share of the next clicks that go to articles published after it is 90.8\% \ci{88.5}{92.5} on EB-NeRD, 48.5\% \ci{45.4}{51.5} on Adressa and 15.5\% \ci{11.3}{20.1} on NPR ($n$ = 3.46 M, 1.26 M, 72{,}136); half of them go to unseen articles after 1.76 h \ci{1.63}{1.91}, 6.23 h \ci{5.79}{6.68} and 12.12 h \ci{10.46}{13.80}. From the article's side, its click rate halves 1.74 h \ci{1.72}{1.77} after the peak (3{,}021 articles, 70.6 M clicks).
+\textbf{Click-based signals.} Co-click history (and most clicked) can score 79.4\% \ci{79.2}{79.6} of clicks after 1 hour, 19.2\% \ci{19.1}{19.4} after 6 hours and 0.93\% \ci{0.88}{0.97} after 24 hours; this coverage halves every 3.02 h \ci{3.00}{3.03} (40 hourly cells of up to 5{,}000 clicks). In daily terms it is 12\% at lag 1 and none at lag 7.
+\textbf{Text signals.} With an old profile, the share of the lag-1 score lost at lag 7 and lag 13 is: word 9.7\% \ci{7.8}{11.6} and 18.9\% \ci{15.2}{22.7}; genre 4.3\% \ci{3.1}{5.4} and 16.9\% \ci{14.6}{19.1}; meaning 3.0\% \ci{1.4}{4.4} and 5.4\% \ci{1.8}{8.9} ($n=135{,}583$ and 34{,}479). The fall is gradual and close to linear for word and meaning, with no cliff and no plateau by lag 13; genre speeds up.
 
 \begin{figure}[h]
 \centering
 \begin{tikzpicture}
-\begin{groupplot}[group style={group size=3 by 1, horizontal sep=1.25cm}, width=5.35cm, height=3.15cm, tick label style={font=\tiny}, label style={font=\scriptsize}, title style={font=\scriptsize\bfseries, align=center}, grid=major, grid style={gray!25}]
-\nextgroupplot[title={Click history: coverage}, xlabel={hours since the fit}, ylabel={clicks it can score (\%)}, xmin=0, xmax=25, ymin=0, ymax=85, xtick={1,6,12,18,24}]
+\begin{groupplot}[group style={group size=3 by 1, horizontal sep=1.25cm}, width=5.35cm, height=3.0cm, tick label style={font=\tiny}, label style={font=\scriptsize}, title style={font=\scriptsize\bfseries, align=center}, grid=major, grid style={gray!25}]
+\nextgroupplot[title={Co-click history: coverage}, xlabel={hours since the fit}, ylabel={clicks it can score (\%)}, xmin=0, xmax=25, ymin=0, ymax=85, xtick={1,6,12,18,24}]
 \addplot[blue!70!black, thick, mark=*, mark size=0.8pt] coordinates {(1,79.39) (2,52.96) (3,39.85) (4,31.23) (5,24.11) (6,19.24) (7,15.37) (8,11.57) (9,8.67) (10,6.76) (11,5.12) (12,3.92) (13,3.27) (14,2.63) (15,2.11) (16,1.97) (17,1.71) (18,1.55) (19,1.55) (20,1.33) (21,1.18) (22,1.21) (23,1.02) (24,0.93)};
 \nextgroupplot[title={Word matching: MRR lost}, xlabel={lag (days)}, ylabel={MRR lost ($\times 10^{-3}$)}, xmin=0.5, xmax=13.5, ymin=-0.6, legend style={font=\tiny, at={(0.03,0.97)}, anchor=north west, draw=none, fill=white, fill opacity=0.8}, xtick={1,3,5,7,9,11,13}]
 \addplot[red!70!black, thick, mark=*, mark size=0.8pt, error bars/.cd, y dir=both, y explicit] coordinates {(1,0.0000) +- (0,0.0000) (2,1.2490) +- (0,0.2970) (3,0.7750) +- (0,0.3840) (4,0.7320) +- (0,0.4420) (5,0.7010) +- (0,0.4500) (6,1.8230) +- (0,0.5030) (7,3.0060) +- (0,0.6040) (8,3.8750) +- (0,0.5970) (9,5.7750) +- (0,0.6630) (10,6.7370) +- (0,0.7690) (11,4.5880) +- (0,0.8450) (12,3.5400) +- (0,0.9380) (13,5.8710) +- (0,1.1850)};
 \addplot[green!45!black, thick, mark=square*, mark size=0.8pt, error bars/.cd, y dir=both, y explicit] coordinates {(1,0.0000) +- (0,0.0000) (2,0.0620) +- (0,0.0310) (3,0.0690) +- (0,0.0370) (4,0.0760) +- (0,0.0420) (5,0.0710) +- (0,0.0440) (6,0.0820) +- (0,0.0520) (7,0.1300) +- (0,0.0620) (8,0.1410) +- (0,0.0710) (9,0.2460) +- (0,0.0880) (10,0.2900) +- (0,0.1060) (11,0.2900) +- (0,0.1300) (12,0.1390) +- (0,0.1240) (13,0.2230) +- (0,0.1830)};
-\legend{frozen profile (A), live profile (B)}
+\legend{old profile (A), live profile (B)}
 \nextgroupplot[title={Live trending: how stale a count is}, xlabel={minutes between the count and the click}, ylabel={MRR}, symbolic x coords={0,5,15,30,60,180,360}, xtick=data, xticklabel style={font=\tiny}, ymin=0, ymax=0.37, legend style={font=\tiny, at={(0.97,0.97)}, anchor=north east, draw=none, fill=white, fill opacity=0.8}]
 \addplot[blue!70!black, thick, mark=*, mark size=0.8pt] coordinates {(0,0.3396) (5,0.3179) (15,0.2790) (30,0.2308) (60,0.1632) (180,0.0699) (360,0.0371)};
 \addplot[red!70!black, dashed, thick] coordinates {(0,0.1905) (5,0.1905) (15,0.1905) (30,0.1905) (60,0.1905) (180,0.1905) (360,0.1905)};
@@ -77,53 +84,44 @@ Hours until half of the next clicks go to unseen articles & 1.8 \ci{1.6}{1.9} & 
 \legend{trending (1 h count), newest first, random}
 \end{groupplot}
 \end{tikzpicture}\\[-2pt]
-{\footnotesize \textbf{Figure 1.} EB-NeRD. Left: click history loses its reach within hours. Middle: word matching loses score only with a frozen profile (bars: 95\% intervals). Right: a one-hour trending count that ended 30 minutes before the click still beats newest first; one that ended an hour before does not ($n=236{,}387$).}
+{\footnotesize \textbf{Figure 1.} EB-NeRD. Left: co-click history loses its reach within hours. Middle: word matching loses score only with an old profile (bars: 95\% intervals). Right: a one-hour trending count that ended 30 minutes before the click still beats newest first; one that ended an hour before does not ($n=236{,}387$).}
 \end{figure}
 \vspace{-9pt}
-\subsection{Step 2. A click-based model goes stale in hours, and shows older news while it is fresh}
-Coverage is 79.4\% \ci{79.2}{79.6} at 1 hour, 19.2\% \ci{19.1}{19.4} at 6 hours and 0.93\% \ci{0.88}{0.97} at 24 hours: a new article has no clicks, so it cannot be scored. A second group of readers gives 12.8\% \ci{12.7}{13.0} at lag 1 ($n=185{,}303$), as the main group does (12\%). While fresh, the model shows older news: at lag 1 the median age of its top 10 is 33.3 h \ci{33.3}{33.3} (popularity 33.0 h) against 23.8 h \ci{23.7}{23.8} for a random list, and 81.5\% of its top 10 are over a day old (random 42.4\%; $n=236{,}387$). Joining click history with recency makes it worse than recency alone: 0.0373 \ci{0.0370}{0.0376} against 0.1905 at lag 1 (popularity: 0.0366); once the click signal scores nothing (lag 3) the join falls back to recency (0.1896 \ci{0.1885}{0.1906}).
-
-\subsection{Step 3. A text-based model ages slowly, through the profile}
-\begin{center}\footnotesize
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}lrrr@{}}
-\toprule
-EB-NeRD; $n$ = 236{,}387 / 135{,}583 / 34{,}479 & MRR, lag 1 & lost by lag 7 & lost by lag 13\\
-\midrule
-Word, frozen profile (A) & 0.0310 \ci{0.0306}{0.0314} & 0.0030 \ci{0.0024}{0.0036} & 0.0059 \ci{0.0047}{0.0071}\\
-Word, live profile (B) & 0.0325 \ci{0.0321}{0.0329} & 0.00013 \ci{0.00007}{0.00019} & 0.00022 \ci{0.00005}{0.00041}\\
-Meaning, frozen profile (A) & 0.0250 \ci{0.0247}{0.0253} & 0.0007 \ci{0.0003}{0.0011} & 0.0013 \ci{0.0005}{0.0022}\\
-Meaning, live profile (B) & 0.0259 \ci{0.0256}{0.0262} & 0 & 0\\
-Genre, frozen profile (A) & 0.0359 \ci{0.0355}{0.0363} & 0.0015 \ci{0.0011}{0.0019} & 0.0061 \ci{0.0052}{0.0069}\\
-Shuffle (floor) / recency & 0.0172 \ci{0.0169}{0.0174} / 0.1905 \ci{0.1896}{0.1914} & 0 / 0 & 0 / 0\\
-\bottomrule
-\end{tabular}
-\end{center}
-\textbf{Text goes stale because the reader's recent interests are missing, not because the articles are old.} Meaning matching with a live profile loses exactly 0, as its article vectors never change. Resampling days instead of clicks widens the intervals (word, lag 7: \ci{0.0009}{0.0052}; meaning is then not distinguishable from zero).
-
-\subsection{Step 4. Does the size of the decay depend on our choices? Almost not}
-Word matching, frozen profile, MRR lost by lag 7, each row changing one thing (main run: 0.0030 \ci{0.0024}{0.0036}, $n=135{,}583$):
+\subsection{RQ2. Which signal falls first, and why?}
+The order is as we expected: co-click history, then word matching, then genre, then meaning matching (shares above). The proposal's diagnostics were: for word matching, the share of unseen terms; for meaning matching, drift of the article embeddings from the week-1 centroid; for co-click history, the share of articles with no clicks. Only the last was measured as proposed. For the text signals we measured instead the \term{similarity gap}: how much more the clicked article resembles the reader's profile than the average pool article does (standardised).
 \begin{center}\footnotesize
 \setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}lrlr@{}}
+\begin{tabularx}{\linewidth}{@{}l>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
 \toprule
-Change & lost by lag 7 & Change & lost by lag 7\\
+\textbf{Signal} & \textbf{Old profile (A)} & \textbf{Live profile (B)}\\
 \midrule
-Pool of 24 h (lag-1 MRR 0.0539) & 0.0045 \ci{0.0038}{0.0053} & Profile of 10 / 25 clicks & 0.0024 \ci{0.0017}{0.0031} / 0.0022 \ci{0.0015}{0.0029}\\
-Pool of 72 h (lag-1 MRR 0.0225) & 0.0026 \ci{0.0022}{0.0031} & Profile of 100 / 200 clicks & 0.0034 \ci{0.0029}{0.0039} / 0.0034 \ci{0.0029}{0.0038}\\
-Fit window 10 days ($n=84{,}855$) & 0.0033 \ci{0.0025}{0.0041} & BM25 $k_1$ = 0.6 / 2.0 & 0.0032 \ci{0.0026}{0.0038} / 0.0026 \ci{0.0021}{0.0032}\\
-Other readers ($n=83{,}577$) & 0.0020 \ci{0.0013}{0.0027} & BM25 $b$ = 0.3 / 0.9 & 0.0030 \ci{0.0025}{0.0035} / 0.0029 \ci{0.0022}{0.0035}\\
-Other seed ($n=135{,}867$) & 0.0026 \ci{0.0020}{0.0031} & Four times the clicks ($n=543{,}274$) & 0.0027 \ci{0.0024}{0.0030}\\
+Co-click history & scorable: 0.93\% \ci{0.88}{0.97} at 24 h; top-10 median age 33.3 h \ci{33.3}{33.3} against 23.8 h \ci{23.7}{23.8} for a random list ($n=236{,}387$); with newest first as back-up 0.0373 \ci{0.0370}{0.0376} against 0.1905 \ci{0.1896}{0.1914} & same coverage (12\% at lag 1, none at lag 7): a live profile cannot score a new article\\
+Word matching & gap falls by 0.0205 \ci{0.0167}{0.0245} by lag 7 ($n=116{,}893$); MRR lost 0.0030 \ci{0.0024}{0.0036} ($n=135{,}583$) & gap 0.0022 \ci{0.0020}{0.0024} ($n=135{,}233$); MRR lost 0.00013 \ci{0.00007}{0.00019}\\
+Meaning matching & gap falls by 0.0155 \ci{0.0128}{0.0183} ($n=116{,}893$); MRR lost 0.0007 \ci{0.0003}{0.0011} & exactly 0 (the article vectors never change)\\
+\bottomrule
+\end{tabularx}
+\end{center}
+\textbf{Text goes stale because the reader's recent interests are missing, not because the articles are old.} The one correlation we computed, an exploratory Spearman check of the word-matching loss against the number of articles and of clicks published that day (12 days, lag 3, live profile), found nothing detectable: $\rho=-0.42$ \ci{-0.87}{0.24} and $-0.52$ \ci{-0.98}{0.20}. \textbf{Our settings and the site.} One change at a time (pool of 24 or 72 h, fit window of 10 days, profile of 10 to 200 clicks, BM25 $k_1$ and $b$, another group of readers, another seed, four times the clicks), word matching with an old profile loses between 0.0020 \ci{0.0013}{0.0027} and 0.0045 \ci{0.0038}{0.0053} by lag 7 (main run 0.0030, $n=135{,}583$). The site changes the size: NPR, January to April, loses 0.0043 \ci{0.0040}{0.0046} by lag 7 and 0.0107 \ci{0.0102}{0.0112} by lag 28 from 0.0230 ($n=198{,}746$); Adressa 0.0144 \ci{0.0139}{0.0148} from 0.0505 ($n=426{,}503$; indicative only). As shares of the lag-1 score this is 9.7\% (EB-NeRD), 19\% (NPR) and 29\% (Adressa; our arithmetic for the last two). Turnover (unseen share) orders the time scale of the click-based signals, not these text losses; with three sites we do not claim more.
+
+\subsection{RQ3. How often to rebuild?}
+Word matching on EB-NeRD, MRR, the same 14 days of clicks replayed ($n=236{,}387$), rebuilt every $k$ days; fit time in seconds in total:
+\begin{center}\scriptsize
+\setlength{\tabcolsep}{1.8pt}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+$k$ (days) & 1 & 2 & 3 & 5 & 7 & 14\\
+\midrule
+Rebuilds; fit s & 14; 29.1 & 7; 14.6 & 5; 10.4 & 3; 6.2 & 2; 4.2 & 1; 2.1\\
+Old profile & 0.0310 \ci{0.0306}{0.0314} & 0.0306 \ci{0.0302}{0.0309} & 0.0308 \ci{0.0304}{0.0312} & 0.0302 \ci{0.0298}{0.0306} & 0.0298 \ci{0.0295}{0.0302} & 0.0274 \ci{0.0270}{0.0277}\\
+Live profile & 0.0325 \ci{0.0321}{0.0329} & 0.0325 \ci{0.0321}{0.0329} & 0.0325 \ci{0.0321}{0.0329} & 0.0325 \ci{0.0321}{0.0329} & 0.0324 \ci{0.0320}{0.0328} & 0.0324 \ci{0.0320}{0.0327}\\
 \bottomrule
 \end{tabular}
 \end{center}
-The loss stays between 0.0020 and 0.0045, which is 7\% to 12\% of each lag-1 score (our arithmetic). Text scorers do not use the fit window (3 to 10 days); for click-based ones coverage at lag 1 is 12\% in every window. \textbf{The site does matter:} on Adressa ($n=426{,}503$) frozen word matching loses 0.0144 \ci{0.0139}{0.0148} from a lag-1 score of 0.0505 (live profile: 0.0003 \ci{0.0003}{0.0004}). NPR, January to April ($n=198{,}746$): 0.0043 \ci{0.0040}{0.0046} by lag 7 and 0.0107 \ci{0.0102}{0.0112} by lag 28, from 0.0230 at lag 1 (live profile at lag 28: 0.0006 \ci{0.0005}{0.0007}).
+With an old profile, a weekly rebuild stays within 3.9\% of a daily one at about one-seventh of the fit time, and a single rebuild is 11.6\% lower (our arithmetic); with a live profile rebuilding gains nothing. Co-click history is the costly signal: 21.9 s per fit against 2.1 s for word matching (one set of timings, no interval). On this daily grid its MRR rises with the interval (0.0066 \ci{0.0065}{0.0068} daily, 0.0160 \ci{0.0158}{0.0163} once), an artefact of coverage, since older windows reach more articles; its real staleness lives in hours (Figure 1, left). On NPR, where news moves slowly, co-click history loses 0.0331 \ci{0.0322}{0.0340} by lag 7 and 0.0817 \ci{0.0807}{0.0828} by lag 28 from 0.1172, so a rebuild every few days is needed there, not every hour. \textbf{The proposed weighted hybrid.} We used rank fusion and tuned the weights on one half of the days: on the pool no setting beat newest first (0.1868 \ci{0.1854}{0.1883} against 0.1910 \ci{0.1896}{0.1924} on the other half, $n=118{,}610$); on real slates a fusion with genre beats random (0.3548 \ci{0.3533}{0.3564} against 0.3226 \ci{0.3211}{0.3240}, $n=136{,}674$).
 
-\subsection{Step 5. Live trending is the strongest signal, and the one that goes stale fastest}
-Count the clicks an article got from all readers in the window before the click (nothing is fitted, so there is nothing to freeze). A one-hour count scores 0.3396 \ci{0.3383}{0.3410} MRR against 0.1905 \ci{0.1896}{0.1914} for newest first (+0.149 \ci{0.147}{0.151}, $n=236{,}387$); a 10-minute count scores 0.4415 \ci{0.4400}{0.4430}. It also leads on NPR (0.5400 \ci{0.5378}{0.5422} against recency 0.0066, $n=119{,}172$), Adressa (0.3879 \ci{0.3868}{0.3889} against 0.1018, $n=462{,}604$) and the second group of readers (0.3532 \ci{0.3518}{0.3550} against 0.1923, $n=185{,}303$). But it ages in minutes (Figure 1, right): after 30 minutes it has lost about a third of its score, after 3 hours it is at 0.0699 \ci{0.0692}{0.0707}.
-
-\subsection{Step 6. Real slates: ``newest first'' carries no information there}
-EB-NeRD, the articles the site showed (slates), $n=136{,}674$ clicks, 25--31 May, fit of 24 May, frozen profile:
+\subsection{Tests added while testing}
+\textbf{Live trending} (count of all readers' clicks in the last hour, nothing fitted) scores 0.3396 \ci{0.3383}{0.3410} against 0.1905 \ci{0.1896}{0.1914} for newest first ($n=236{,}387$), and leads on NPR (0.5400 \ci{0.5378}{0.5422} against 0.0066, $n=119{,}172$) and Adressa (0.3879 \ci{0.3868}{0.3889} against 0.1018, $n=462{,}604$). It ages in minutes: a third of its score is gone after 30 minutes and it is at 0.0699 \ci{0.0692}{0.0707} after 3 hours (Figure 1, right).
+\textbf{Real slates.} EB-NeRD, $n=136{,}674$ clicks, old profile:
 \begin{center}\footnotesize
 \setlength{\tabcolsep}{3pt}
 \begin{tabular}{@{}lrrlrr@{}}
@@ -133,32 +131,31 @@ Scorer & MRR & AUC & Scorer & MRR & AUC\\
 Random order & 0.3226 \ci{0.3211}{0.3240} & 0.4991 \ci{0.4973}{0.5008} & Word matching & 0.3154 \ci{0.3140}{0.3170} & 0.4918 \ci{0.4901}{0.4936}\\
 Site's own order & 0.3239 \ci{0.3224}{0.3254} & 0.5009 \ci{0.4992}{0.5027} & Meaning matching & 0.3532 \ci{0.3516}{0.3548} & 0.5419 \ci{0.5401}{0.5436}\\
 Newest first & 0.3176 \ci{0.3162}{0.3192} & 0.5026 \ci{0.5010}{0.5042} & Genre & 0.3647 \ci{0.3632}{0.3663} & 0.5608 \ci{0.5590}{0.5623}\\
-Popularity & 0.2613 \ci{0.2601}{0.2625} & 0.4141 \ci{0.4124}{0.4158} & Word+meaning+recency+genre & 0.3548 \ci{0.3533}{0.3564} & 0.5420 \ci{0.5403}{0.5438}\\
-Click history & 0.2637 \ci{0.2624}{0.2649} & 0.4180 \ci{0.4163}{0.4197} & & &\\
+Most clicked & 0.2613 \ci{0.2601}{0.2625} & 0.4141 \ci{0.4124}{0.4158} & Word+meaning+newest+genre & 0.3548 \ci{0.3533}{0.3564} & 0.5420 \ci{0.5403}{0.5438}\\
+Co-click history & 0.2637 \ci{0.2624}{0.2649} & 0.4180 \ci{0.4163}{0.4197} & & &\\
 \bottomrule
 \end{tabular}
 \end{center}
-Every article on a slate is fresh, so newness cannot separate them: newest first is within 0.005 of random. Popularity and click history fall below random because the clicked article is usually too new to have clicks. Against random, genre gains 0.0421 \ci{0.0405}{0.0439} MRR and meaning 0.0306 \ci{0.0286}{0.0327}; word matching is slightly worse ($-$0.0071 \ci{-0.0090}{-0.0052}). With a frozen profile, a fit one week older loses 0.0053 \ci{0.0039}{0.0066} (genre) and 0.0062 \ci{0.0048}{0.0076} (meaning), about one-eighth and one-fifth of their edge over random; with a live profile, 0.
+Every article on a slate is fresh, so newness cannot separate them; most clicked and co-click history fall below random because the clicked article is usually too new to have clicks. \textbf{Genre} fused with newest first beats newest first alone by 0.0598 \ci{0.0586}{0.0610} on the pool, but only 0.0119 \ci{0.0109}{0.0130} is lost if every reader gets the same category mix, so most of the gain is the mix of categories; on real slates the personal part is larger, 0.0333 \ci{0.0320}{0.0346}.
 
-\subsection{Step 7. What genre adds, and where it comes from}
-Genre fused with recency (equal-weight rank fusion) beats recency alone by 0.0598 \ci{0.0586}{0.0610} MRR on the 48-hour pool (live profile, lag 1, $n=236{,}387$). Most of that is not personal: when every reader gets the same category mix, only 0.0119 \ci{0.0109}{0.0130} is lost (across days \ci{0.0063}{0.0169}), so about 0.048 comes from the mix of categories alone; another reader's profile is worse than the true one by 0.0269 \ci{0.0257}{0.0281}. On real slates the personal part is larger: genre beats the same-for-everyone mix by 0.0333 \ci{0.0320}{0.0346} MRR. Genre fused with recency shows a top 10 of median age 2.2 h \ci{2.2}{2.3} (recency alone 0.85 h; genre alone 24.1 h, like a random list). On NPR genre fused with recency scores 0.0117 \ci{0.0113}{0.0120} against 0.0066 \ci{0.0065}{0.0068} for recency alone (frozen profile, lag 1, $n=119{,}172$).
-
-\subsection{Step 8. Rebuild interval, a second site, and fusion}
-Word matching, frozen profile, MRR by rebuild interval: 0.0310 \ci{0.0306}{0.0314} daily, 0.0298 \ci{0.0295}{0.0302} weekly, 0.0274 \ci{0.0270}{0.0277} once; with a live profile 0.0325, 0.0324, 0.0324 (rebuilding gains nothing). \textbf{NPR} has slower news: popularity 0.162 \ci{0.161}{0.163} and click history 0.105 \ci{0.104}{0.107} beat recency 0.0066 (March), and click history itself ages slowly, losing 0.0331 \ci{0.0322}{0.0340} by lag 7 and 0.0817 \ci{0.0807}{0.0828} by lag 28 from 0.1172 (January to April). \textbf{Fusion} of word, meaning and recency (equal weights) scores 0.129 \ci{0.128}{0.130} on the pool, below recency alone (0.190); a weight sweep tuned on half the days reached 0.1868 \ci{0.1854}{0.1883} against 0.1910 \ci{0.1896}{0.1924} ($n=118{,}610$): no setting we tried beat recency on the pool.
-
-\section{The answer, and what we would say first}
-\begin{center}\small
-\begin{tabularx}{\linewidth}{@{}l>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
+\section{Conclusions against what we proposed}
+\begin{center}\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{4.3cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{2.9cm}@{}}
 \toprule
-\textbf{Signal} & \textbf{Why it goes stale} & \textbf{Rebuild}\\
+\textbf{Proposed or expected} & \textbf{What we found} & \textbf{Verdict}\\
 \midrule
-Live trending count & the count itself ages (a third lost in 30 min) & continuously; nothing to fit\\
-Click history, popularity & new articles have no clicks (coverage 19.2\% at 6 h) & hourly on a fast site (EB-NeRD); every few days on a slow one (NPR)\\
-Word, meaning, genre & the reader's profile ages (word: a tenth in 7 days; more on Adressa) & keep the profile live; the rest can wait about a week\\
-Recency & it does not & never; but on real slates it adds nothing\\
+RQ1: quality falls; linear, cliff or plateau? & click signals fall in hours (half-time 3.02 h); text signals gradually, near linear, no cliff by lag 13 & supported, two time scales\\
+RQ2: co-click history falls first & only 0.93\% of clicks scorable after a day; the loss is one of coverage & as expected\\
+RQ2: meaning matching falls least & 3.0\% \ci{1.4}{4.4} by lag 7; exactly 0 with a live profile & as expected\\
+RQ2 (left open): lexical falls faster than meaning? & word 9.7\% against meaning 3.0\%, only through the old profile & yes, qualified\\
+RQ2 diagnostics: vocabulary, embedding drift, cold start & cold start measured; the similarity gap replaced the other two; no detectable correlation with daily volume & partly tested\\
+A flat curve is a valid answer & word matching with a live profile loses 0.00013 \ci{0.00007}{0.00019} by lag 7 & true for that case\\
+RQ3: rebuild every $k$ days & text, live profile: not within 14 days; old profile: weekly; click-based: hours (EB-NeRD) to days (NPR) & depends on signal and site\\
+Newest first as a strong reference (added) & wins on the pool; random on real slates; live trending beats it but ages in minutes & qualified\\
+Weighted hybrid of the signals & no setting beat newest first on the pool; with genre it beats random on slates & partly\\
 \bottomrule
 \end{tabularx}
 \end{center}
-\textbf{What went wrong.} Our first run scored articles the reader had already read (15\% of clicks were re-reads; word MRR was inflated, 0.0573 against 0.0143); we deleted it and redid every result. We also retracted two statements: that word matching ``barely ages'' (true only for a live profile) and that ``newest first beats every learned signal'' (true only against the 48-hour pool).\\
-\textbf{Limits.} One main site, one month; slates on EB-NeRD only, and trending was not run on them; EB-NeRD times are assumed UTC; on slates decay is measured against the fit of 24 May, as no day-before model exists; intervals resample clicks and are wider across days; on Adressa the frozen-profile score at lag 1 exceeds the live-profile one (0.0505 against 0.0364), which we have not explained; the headline metric (MRR or AUC) is for the team to fix.
+\textbf{What to keep in mind.} One main site and one month; real slates exist only for EB-NeRD, and trending was not run on them. On slates, staleness is measured against the fit of 24 May, as no day-before model exists. EB-NeRD times are assumed UTC. Our intervals resample clicks; across days they are wider (word, lag 7: \ci{0.0009}{0.0052}, and the loss of meaning matching is then not distinguishable from zero). On Adressa the old-profile score at lag 1 exceeds the live-profile one (0.0505 against 0.0364), which we cannot explain, so its decay size is indicative.
 \end{document}
