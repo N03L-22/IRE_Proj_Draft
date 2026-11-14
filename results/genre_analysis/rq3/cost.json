@@ -1,0 +1,10 @@
+{
+ "peak_rss_gb_fit_unit": 2.82,
+ "fit_seconds_mean": {
+  "fuse_genre": 0.127,
+  "fuse_recency": 2.243,
+  "fuse_wmrg": 0.25,
+  "genre": 0.258,
+  "recency": 0.186
+ }
+}

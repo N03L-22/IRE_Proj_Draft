@@ -1,0 +1,17 @@
+quantity,series,value,lo,hi,method
+coverage_half_h,"click history, EB-NeRD",3.02,3.0,3.03,hours until coverage is half of its 1 h value; 40 cells per hour offset
+unseen_50pct_h,EB-NeRD,1.76,1.63,1.91,hours until half of the next clicks go to articles newer than the freeze; fit days 13
+unseen_50pct_h,Adressa,6.23,5.79,6.68,hours until half of the next clicks go to articles newer than the freeze; fit days 80
+unseen_50pct_h,NPR,12.12,10.46,13.8,hours until half of the next clicks go to articles newer than the freeze; fit days 85
+loss_pct_lag7,"word matching, frozen profile, EB-NeRD",9.69,7.79,11.63,share of the lag-1 MRR level 0.0310; n = 135583 clicks
+loss_pct_lag13,"word matching, frozen profile, EB-NeRD",18.92,15.2,22.73,share of the lag-1 MRR level 0.0310; n = 34479 clicks
+days_to_5pct,"word matching, frozen profile, EB-NeRD",5.76,5.34,6.23,lag at which the loss reaches 5% of the lag-1 level; '>13' = not within the grid
+loss_pct_lag7,"meaning matching, frozen profile, EB-NeRD",2.95,1.36,4.38,share of the lag-1 MRR level 0.0250; n = 135583 clicks
+loss_pct_lag13,"meaning matching, frozen profile, EB-NeRD",5.38,1.81,8.92,share of the lag-1 MRR level 0.0250; n = 34479 clicks
+days_to_5pct,"meaning matching, frozen profile, EB-NeRD",7.9,7.24,8.54,lag at which the loss reaches 5% of the lag-1 level; '>13' = not within the grid
+loss_pct_lag7,"genre alone, frozen profile, EB-NeRD",4.29,3.07,5.39,share of the lag-1 MRR level 0.0359; n = 135583 clicks
+loss_pct_lag13,"genre alone, frozen profile, EB-NeRD",16.89,14.56,19.08,share of the lag-1 MRR level 0.0359; n = 34479 clicks
+days_to_5pct,"genre alone, frozen profile, EB-NeRD",7.33,6.83,8.04,lag at which the loss reaches 5% of the lag-1 level; '>13' = not within the grid
+loss_pct_lag7,"recency + genre, frozen profile, EB-NeRD",2.64,2.12,3.2,share of the lag-1 MRR level 0.2504; n = 135583 clicks
+loss_pct_lag13,"recency + genre, frozen profile, EB-NeRD",9.85,8.8,11.05,share of the lag-1 MRR level 0.2504; n = 34479 clicks
+days_to_5pct,"recency + genre, frozen profile, EB-NeRD",9.78,8.93,10.68,lag at which the loss reaches 5% of the lag-1 level; '>13' = not within the grid

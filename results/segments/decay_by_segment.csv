@@ -1,0 +1,89 @@
+dimension,segment,scorer,quantity,cells,n_clicks,value,lo,hi
+click hour (UTC),00-05,clickhist,"coverage, lag 1",14,37588,0.511416,0.506188,0.516283
+click hour (UTC),00-05,meaning,"MRR lost, lag 3",12,31667,1.7e-05,-0.000651,0.000715
+click hour (UTC),00-05,meaning,"MRR lost, lag 7",8,20836,0.001005,0.000107,0.001914
+click hour (UTC),00-05,meaning,"MRR, lag 1",14,37588,0.026001,0.025,0.026925
+click hour (UTC),00-05,recency,"MRR, lag 1",14,37588,0.165261,0.162749,0.16783
+click hour (UTC),00-05,word,"MRR lost, lag 3",12,31667,0.00382,0.002731,0.004865
+click hour (UTC),00-05,word,"MRR lost, lag 7",8,20836,0.005558,0.003918,0.007047
+click hour (UTC),00-05,word,"MRR, lag 1",14,37588,0.030506,0.029439,0.031462
+click hour (UTC),06-11,clickhist,"coverage, lag 1",14,76541,0.107018,0.104789,0.109271
+click hour (UTC),06-11,meaning,"MRR lost, lag 3",12,65014,0.000197,-0.000282,0.000657
+click hour (UTC),06-11,meaning,"MRR lost, lag 7",8,43656,0.000639,-4.9e-05,0.001324
+click hour (UTC),06-11,meaning,"MRR, lag 1",14,76541,0.022659,0.022092,0.023246
+click hour (UTC),06-11,recency,"MRR, lag 1",14,76541,0.199546,0.19786,0.201192
+click hour (UTC),06-11,word,"MRR lost, lag 3",12,65014,0.00114,0.000432,0.00185
+click hour (UTC),06-11,word,"MRR lost, lag 7",8,43656,0.002451,0.001417,0.003527
+click hour (UTC),06-11,word,"MRR, lag 1",14,76541,0.031153,0.030449,0.031892
+click hour (UTC),12-17,clickhist,"coverage, lag 1",14,70768,0.01439,0.013523,0.015255
+click hour (UTC),12-17,meaning,"MRR lost, lag 3",12,61108,-0.001109,-0.00164,-0.000598
+click hour (UTC),12-17,meaning,"MRR lost, lag 7",8,41094,0.000722,-2.4e-05,0.001418
+click hour (UTC),12-17,meaning,"MRR, lag 1",14,70768,0.025588,0.024997,0.026187
+click hour (UTC),12-17,recency,"MRR, lag 1",14,70768,0.169798,0.168234,0.171345
+click hour (UTC),12-17,word,"MRR lost, lag 3",12,61108,-0.000429,-0.001221,0.000332
+click hour (UTC),12-17,word,"MRR lost, lag 7",8,41094,0.003603,0.00243,0.004616
+click hour (UTC),12-17,word,"MRR, lag 1",14,70768,0.032192,0.031445,0.0329
+click hour (UTC),18-23,clickhist,"coverage, lag 1",14,51490,0.009228,0.008395,0.010118
+click hour (UTC),18-23,meaning,"MRR lost, lag 3",12,44542,0.000378,-0.000217,0.000981
+click hour (UTC),18-23,meaning,"MRR lost, lag 7",8,29997,0.001119,0.000399,0.001906
+click hour (UTC),18-23,meaning,"MRR, lag 1",14,51490,0.027062,0.026294,0.027864
+click hour (UTC),18-23,recency,"MRR, lag 1",14,51490,0.224493,0.222342,0.226642
+click hour (UTC),18-23,word,"MRR lost, lag 3",12,44542,-0.000253,-0.001059,0.000504
+click hour (UTC),18-23,word,"MRR lost, lag 7",8,29997,0.001499,0.000409,0.002584
+click hour (UTC),18-23,word,"MRR, lag 1",14,51490,0.030105,0.0293,0.030841
+day type,weekday,clickhist,"coverage, lag 1",10,170081,0.112899,0.111504,0.114375
+day type,weekday,meaning,"MRR lost, lag 3",8,136025,-0.000424,-0.000739,-0.000138
+day type,weekday,meaning,"MRR lost, lag 7",6,102394,0.000452,1e-06,0.000878
+day type,weekday,meaning,"MRR, lag 1",10,170081,0.023842,0.02345,0.024239
+day type,weekday,recency,"MRR, lag 1",10,170081,0.18453,0.183407,0.18565
+day type,weekday,word,"MRR lost, lag 3",8,136025,-0.000378,-0.000832,7.2e-05
+day type,weekday,word,"MRR lost, lag 7",6,102394,0.001546,0.000941,0.002228
+day type,weekday,word,"MRR, lag 1",10,170081,0.027834,0.027383,0.028242
+day type,weekend,clickhist,"coverage, lag 1",4,66306,0.139299,0.136644,0.141755
+day type,weekend,meaning,"MRR lost, lag 3",4,66306,0.000297,-0.000201,0.000816
+day type,weekend,meaning,"MRR lost, lag 7",2,33189,0.001593,0.000846,0.002286
+day type,weekend,meaning,"MRR, lag 1",4,66306,0.027889,0.027269,0.028509
+day type,weekend,recency,"MRR, lag 1",4,66306,0.205391,0.203586,0.207189
+day type,weekend,word,"MRR lost, lag 3",4,66306,0.003079,0.002327,0.003773
+day type,weekend,word,"MRR lost, lag 7",2,33189,0.007386,0.005924,0.008766
+day type,weekend,word,"MRR, lag 1",4,66306,0.039041,0.038262,0.039916
+reader activity,10-49 clicks,clickhist,"coverage, lag 1",14,31441,0.118105,0.114507,0.12175
+reader activity,10-49 clicks,meaning,"MRR lost, lag 3",12,24745,0.001355,0.000465,0.002169
+reader activity,10-49 clicks,meaning,"MRR lost, lag 7",8,15131,0.003228,0.001991,0.004554
+reader activity,10-49 clicks,meaning,"MRR, lag 1",14,31441,0.026003,0.025041,0.026961
+reader activity,10-49 clicks,recency,"MRR, lag 1",14,31441,0.180568,0.177805,0.183191
+reader activity,10-49 clicks,word,"MRR lost, lag 3",12,24745,0.002854,0.001877,0.003806
+reader activity,10-49 clicks,word,"MRR lost, lag 7",8,15131,0.006264,0.004673,0.007794
+reader activity,10-49 clicks,word,"MRR, lag 1",14,31441,0.030865,0.029663,0.032071
+reader activity,50+ clicks,clickhist,"coverage, lag 1",14,198455,0.12077,0.119377,0.12213
+reader activity,50+ clicks,meaning,"MRR lost, lag 3",12,172158,-0.000528,-0.000808,-0.000247
+reader activity,50+ clicks,meaning,"MRR lost, lag 7",8,116658,0.000324,-8.9e-05,0.000697
+reader activity,50+ clicks,meaning,"MRR, lag 1",14,198455,0.024854,0.024477,0.02524
+reader activity,50+ clicks,recency,"MRR, lag 1",14,198455,0.192162,0.191076,0.193155
+reader activity,50+ clicks,word,"MRR lost, lag 3",12,172158,0.000382,-7.5e-05,0.000794
+reader activity,50+ clicks,word,"MRR lost, lag 7",8,116658,0.002483,0.001819,0.003169
+reader activity,50+ clicks,word,"MRR, lag 1",14,198455,0.031248,0.0308,0.031658
+reader activity,under 10 clicks,clickhist,"coverage, lag 1",14,6491,0.115964,0.108396,0.123641
+reader activity,under 10 clicks,meaning,"MRR lost, lag 3",12,5428,0.003549,0.001693,0.005415
+reader activity,under 10 clicks,meaning,"MRR lost, lag 7",8,3794,0.002876,0.000166,0.005425
+reader activity,under 10 clicks,meaning,"MRR, lag 1",14,6491,0.024611,0.022383,0.026832
+reader activity,under 10 clicks,recency,"MRR, lag 1",14,6491,0.18537,0.179963,0.191253
+reader activity,under 10 clicks,word,"MRR lost, lag 3",12,5428,0.004763,0.003003,0.006523
+reader activity,under 10 clicks,word,"MRR lost, lag 7",8,3794,0.005758,0.003398,0.008346
+reader activity,under 10 clicks,word,"MRR, lag 1",14,6491,0.024975,0.022834,0.027283
+subscriber,not subscriber,clickhist,"coverage, lag 1",14,219573,0.119168,0.117864,0.120452
+subscriber,not subscriber,meaning,"MRR lost, lag 3",12,188115,-0.000108,-0.00039,0.000166
+subscriber,not subscriber,meaning,"MRR lost, lag 7",8,126306,0.000735,0.00032,0.001107
+subscriber,not subscriber,meaning,"MRR, lag 1",14,219573,0.025037,0.024691,0.025373
+subscriber,not subscriber,recency,"MRR, lag 1",14,219573,0.190909,0.189879,0.19193
+subscriber,not subscriber,word,"MRR lost, lag 3",12,188115,0.000836,0.000439,0.00122
+subscriber,not subscriber,word,"MRR lost, lag 7",8,126306,0.002811,0.002215,0.003448
+subscriber,not subscriber,word,"MRR, lag 1",14,219573,0.030944,0.03051,0.031312
+subscriber,subscriber,clickhist,"coverage, lag 1",14,16814,0.136863,0.131871,0.141715
+subscriber,subscriber,meaning,"MRR lost, lag 3",12,14216,-0.001177,-0.002217,-7.8e-05
+subscriber,subscriber,meaning,"MRR lost, lag 7",8,9277,0.000703,-0.000724,0.002058
+subscriber,subscriber,meaning,"MRR, lag 1",14,16814,0.024498,0.023259,0.02584
+subscriber,subscriber,recency,"MRR, lag 1",14,16814,0.184905,0.181521,0.18851
+subscriber,subscriber,word,"MRR lost, lag 3",12,14216,-3.3e-05,-0.001793,0.00159
+subscriber,subscriber,word,"MRR lost, lag 7",8,9277,0.005681,0.003506,0.007876
+subscriber,subscriber,word,"MRR, lag 1",14,16814,0.032253,0.030881,0.033736
