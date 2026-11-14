@@ -9,3 +9,7 @@ __pycache__/
 /data.zip
 /explain_web/
 /explorer-guide.md
+# local speaker and reading notes (study aids for the authors; not shared)
+report/short/slides_notes.*
+report/short/report_notes.*
+report/short/notes_*.tex
