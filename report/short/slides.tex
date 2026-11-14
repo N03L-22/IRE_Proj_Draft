@@ -1,5 +1,5 @@
 % 15-minute talk, three speakers. Organised by the proposal: the three research questions, what we expected, what we added while testing, and the conclusions.
-% One idea per frame, built up step by step with overlays.  Build: pdflatex slides.tex (twice).  Speaker notes are kept outside git (slides_notes.tex).
+% One idea per frame, one page per frame; the concept is built up in the order of the slides (no overlay steps).  Build: pdflatex slides.tex (twice).  Speaker notes are kept outside git (slides_notes.tex).
 \documentclass[aspectratio=169,11pt]{beamer}
 \usetheme{Madrid}
 \usecolortheme{default}
@@ -43,39 +43,39 @@
 \Large News goes stale in \textbf{hours}, not months.\normalsize
 \medskip
 
-\uncover<2->{A recommender trained once and then left alone is \textbf{frozen}. It behaves as if the world had not moved.}
+{A recommender trained once and then left alone is \textbf{frozen}. It behaves as if the world had not moved.}
 \medskip
 
-\uncover<3->{Our proposal asked three questions:}
+{Our proposal asked three questions:}
 \begin{enumerate}
-\item<3-> \textbf{RQ1.} How fast does quality fall, and in what shape?
-\item<4-> \textbf{RQ2.} Which signal falls first (words, meaning or co-clicks), and why?
-\item<5-> \textbf{RQ3.} How often must the model be rebuilt?
+\item \textbf{RQ1.} How fast does quality fall, and in what shape?
+\item \textbf{RQ2.} Which signal falls first (words, meaning or co-clicks), and why?
+\item \textbf{RQ3.} How often must the model be rebuilt?
 \end{enumerate}
 \medskip
 
-\uncover<6->{\textbf{What we expected:} co-click history falls most (a new article has no clicks); meaning matching least; a flat curve would also be a valid answer.}
+{\textbf{What we expected:} co-click history falls most (a new article has no clicks); meaning matching least; a flat curve would also be a valid answer.}
 \end{frame}
 
 \begin{frame}{How we test it}\spk{1}
 \centering
 \begin{tikzpicture}[font=\small, box/.style={draw, rounded corners=3pt, align=center, minimum height=1.2cm, text width=2.5cm, inner sep=3pt}, arr/.style={-{Stealth}, thick}]
 \path[use as bounding box] (-1.5,-3.8) rectangle (11.4,1.0);
-\node<1->[box, fill=gray!12] (a) at (0,0) {\textbf{Fit}\\learn from the last 7 days of clicks};
-\node<2->[box, fill=gray!12] (b) at (3.3,0) {\textbf{Freeze}\\learn nothing more};
-\node<3->[box, fill=gray!12] (c) at (6.6,0) {\textbf{Wait}\\1 to 13 days\\(the lag)};
-\node<4->[box, fill=yellow!20] (d) at (9.9,0) {\textbf{Test}\\rank the article a reader really clicked};
-\draw<2->[arr] (a)--(b);
-\draw<3->[arr] (b)--(c);
-\draw<4->[arr] (c)--(d);
-\node<5->[box, fill=green!10] (e) at (3.3,-2.6) {\textbf{Control}\\the same model, rebuilt the day before};
-\node<6->[box, fill=red!10, text width=4.2cm] (g) at (8.2,-2.6) {\textbf{Decay}\\= control score $-$ frozen score};
-\draw<6->[arr] (e)--(g);
-\draw<6->[arr] (d.south)--++(0,-0.7)-|(g.north);
+\node[box, fill=gray!12] (a) at (0,0) {\textbf{Fit}\\learn from the last 7 days of clicks};
+\node[box, fill=gray!12] (b) at (3.3,0) {\textbf{Freeze}\\learn nothing more};
+\node[box, fill=gray!12] (c) at (6.6,0) {\textbf{Wait}\\1 to 13 days\\(the lag)};
+\node[box, fill=yellow!20] (d) at (9.9,0) {\textbf{Test}\\rank the article a reader really clicked};
+\draw[arr] (a)--(b);
+\draw[arr] (b)--(c);
+\draw[arr] (c)--(d);
+\node[box, fill=green!10] (e) at (3.3,-2.6) {\textbf{Control}\\the same model, rebuilt the day before};
+\node[box, fill=red!10, text width=4.2cm] (g) at (8.2,-2.6) {\textbf{Decay}\\= control score $-$ frozen score};
+\draw[arr] (e)--(g);
+\draw[arr] (d.south)--++(0,-0.7)-|(g.north);
 \end{tikzpicture}
 
 \medskip
-\uncover<7->{Both models are tested on exactly the same clicks. The only difference is the \textbf{age of the model}.}
+{Both models are tested on exactly the same clicks. The only difference is the \textbf{age of the model}.}
 \end{frame}
 
 \begin{frame}{Scoring one click}\spk{1}
@@ -91,17 +91,17 @@ Rank & Article (invented list) & Score\\
 \midrule
 1 & Election results & 0.91\\
 2 & Football transfer & 0.74\\
-\alert<2->{3} & \alert<2->{\textbf{Storm warning (clicked)}} & \alert<2->{0.66}\\
+\alert{3} & \alert{\textbf{Storm warning (clicked)}} & \alert{0.66}\\
 4 & Cooking recipe & 0.30\\
 5 & Celebrity gossip & 0.12\\
 \bottomrule
 \end{tabular}
 \end{column}
 \begin{column}{0.50\textwidth}
-\uncover<3->{\textbf{MRR} (mean reciprocal rank): the score is $1/\text{rank}$, averaged over many clicks. Here: $1/3$.}
+{\textbf{MRR} (mean reciprocal rank): the score is $1/\text{rank}$, averaged over many clicks. Here: $1/3$.}
 \bigskip
 
-\uncover<4->{\textbf{AUC}: the chance that the clicked article is ranked above a random other one. 0.5 means random; 1 means perfect.}
+{\textbf{AUC}: the chance that the clicked article is ranked above a random other one. 0.5 means random; 1 means perfect.}
 \end{column}
 \end{columns}
 \end{frame}
@@ -114,20 +114,20 @@ Rank & Article (invented list) & Score\\
 Every article published in the last 48 hours. Many were never shown to this reader.
 \medskip
 
-\uncover<3->{\small Random order scores MRR 0.0172 \ci{0.0169}{0.0174} ($n=236{,}387$ clicks).}
+{\small Random order scores MRR 0.0172 \ci{0.0169}{0.0174} ($n=236{,}387$ clicks).}
 \end{column}
 \begin{column}{0.48\textwidth}
-\uncover<2->{\textbf{The real slate} (strict test)
+{\textbf{The real slate} (strict test)
 
 Only the articles the site actually showed that reader in that visit: a median of 8 to 9. EB-NeRD only, 25 to 31 May 2023.
 \medskip
 
-\uncover<3->{\small Random order scores MRR 0.3226 \ci{0.3211}{0.3240} ($n=136{,}674$ clicks).}}
+{\small Random order scores MRR 0.3226 \ci{0.3211}{0.3240} ($n=136{,}674$ clicks).}}
 \end{column}
 \end{columns}
 \bigskip
 
-\uncover<4->{Fewer candidates make every score larger. So a pool number is \textbf{never compared} with a slate number.}
+{Fewer candidates make every score larger. So a pool number is \textbf{never compared} with a slate number.}
 \end{frame}
 
 \begin{frame}{What we compare}\spk{1}
@@ -139,7 +139,7 @@ Only the articles the site actually showed that reader in that visit: a median o
 \end{itemize}
 \end{column}
 \begin{column}{0.35\textwidth}
-\uncover<2->{\textbf{The crowd's clicks}
+{\textbf{The crowd's clicks}
 \begin{itemize}
 \item Co-click history \emph{(proposed)}
 \item Most clicked \emph{(added)}
@@ -147,7 +147,7 @@ Only the articles the site actually showed that reader in that visit: a median o
 \end{itemize}}
 \end{column}
 \begin{column}{0.31\textwidth}
-\uncover<3->{\textbf{The reader's own reading}
+{\textbf{The reader's own reading}
 \begin{itemize}
 \item Word matching, BM25 \emph{(proposed)}
 \item Meaning matching, MiniLM \emph{(proposed)}
@@ -157,23 +157,23 @@ Only the articles the site actually showed that reader in that visit: a median o
 \end{columns}
 \bigskip
 
-\uncover<4->{Reference: random order. Main data: EB-NeRD (Danish news). Second sites: NPR and Adressa.}
+{Reference: random order. Main data: EB-NeRD (Danish news). Second sites: NPR and Adressa.}
 
-\uncover<5->{Every number has a 95\% interval \ci{low}{high} and the number of clicks, $n$.}
+{Every number has a 95\% interval \ci{low}{high} and the number of clicks, $n$.}
 \end{frame}
 
 \begin{frame}{What we added while testing, and why}\spk{1}
 \textbf{Better measurement}
 \begin{itemize}
-\item<1-> A control rebuilt the day before: weekdays and weekends differ, so a raw score cannot show decay.
-\item<1-> An old and a live reader profile: in text models little else is frozen.
-\item<1-> An hourly axis: the fall happens within hours. Re-reads (15\% of clicks) are dropped.
+\item A control rebuilt the day before: weekdays and weekends differ, so a raw score cannot show decay.
+\item An old and a live reader profile: in text models little else is frozen.
+\item An hourly axis: the fall happens within hours. Re-reads (15\% of clicks) are dropped.
 \end{itemize}
-\uncover<2->{\textbf{More signals}
+{\textbf{More signals}
 \begin{itemize}
 \item Genre and live trending: newest first was very strong, and no live click signal had been tried.
 \end{itemize}}
-\uncover<3->{\textbf{Stricter tests}
+{\textbf{Stricter tests}
 \begin{itemize}
 \item Real slates, the evaluation the proposal intended; two more sites; one-at-a-time checks of our own settings.
 \end{itemize}}
@@ -194,13 +194,13 @@ Only the articles the site actually showed that reader in that visit: a median o
 Click history, EB-NeRD. The share of clicks it can score:
 \medskip
 
-\uncover<2->{79.4\% \ci{79.2}{79.6} after 1 hour, 19.2\% \ci{19.1}{19.4} after 6 hours, 0.93\% \ci{0.88}{0.97} after a day.}
+{79.4\% \ci{79.2}{79.6} after 1 hour, 19.2\% \ci{19.1}{19.4} after 6 hours, 0.93\% \ci{0.88}{0.97} after a day.}
 \medskip
 
-\uncover<3->{It halves every 3.02 h \ci{3.00}{3.03}. In daily terms: 12\% at lag 1, none at lag 7.}
+{It halves every 3.02 h \ci{3.00}{3.03}. In daily terms: 12\% at lag 1, none at lag 7.}
 \medskip
 
-\uncover<4->{\scriptsize 40 cells per hour, each of up to 5{,}000 clicks.}
+{\scriptsize 40 cells per hour, each of up to 5{,}000 clicks.}
 \end{column}
 \end{columns}
 \end{frame}
@@ -217,7 +217,7 @@ Share of the lag-1 score lost, with an old profile (EB-NeRD):
 
 \scriptsize
 \setlength{\tabcolsep}{3pt}
-\uncover<2->{\begin{tabular}{@{}lrr@{}}
+{\begin{tabular}{@{}lrr@{}}
 \toprule
  & lag 7 & lag 13\\
 \midrule
@@ -229,26 +229,26 @@ Meaning & 3.0\% \ci{1.4}{4.4} & 5.4\% \ci{1.8}{8.9}\\
 \medskip
 
 \small
-\uncover<3->{\textbf{Shape:} gradual, close to linear for word and meaning; no cliff; still falling at lag 13. Genre speeds up.}
+{\textbf{Shape:} gradual, close to linear for word and meaning; no cliff; still falling at lag 13. Genre speeds up.}
 
-\scriptsize\uncover<3->{$n=135{,}583$ clicks at lag 7, 34{,}479 at lag 13.}
+\scriptsize{$n=135{,}583$ clicks at lag 7, 34{,}479 at lag 13.}
 \end{column}
 \end{columns}
 \end{frame}
 
 \begin{frame}{RQ2. Which signal falls first?}\spk{2}
 \begin{enumerate}
-\item<1-> \textbf{Co-click history and most clicked.} Only 0.93\% \ci{0.88}{0.97} of clicks can still be scored after a day.
+\item \textbf{Co-click history and most clicked.} Only 0.93\% \ci{0.88}{0.97} of clicks can still be scored after a day.
 \medskip
-\item<2-> \textbf{Word matching.} Loses 9.7\% \ci{7.8}{11.6} of its score in a week.
+\item \textbf{Word matching.} Loses 9.7\% \ci{7.8}{11.6} of its score in a week.
 \medskip
-\item<3-> \textbf{Genre.} Loses 4.3\% \ci{3.1}{5.4}.
+\item \textbf{Genre.} Loses 4.3\% \ci{3.1}{5.4}.
 \medskip
-\item<4-> \textbf{Meaning matching.} Loses 3.0\% \ci{1.4}{4.4}, and exactly 0 with a live profile.
+\item \textbf{Meaning matching.} Loses 3.0\% \ci{1.4}{4.4}, and exactly 0 with a live profile.
 \end{enumerate}
 \bigskip
 
-\uncover<5->{As we expected: co-click history first, meaning matching last. Word matching falls faster than meaning matching, but only through the old profile (below).}
+{As we expected: co-click history first, meaning matching last. Word matching falls faster than meaning matching, but only through the old profile (below).}
 \end{frame}
 
 \begin{frame}{RQ2. Why? New articles take over, so co-clicks go blind}\spk{2}
@@ -258,39 +258,38 @@ Six hours after the freeze, what share of the next clicks go to articles the mod
 \centering
 \begin{tikzpicture}[font=\small]
 \path[use as bounding box] (-2.4,-2.1) rectangle (11.0,0.5);
-\node<2->[anchor=east] at (0,0) {EB-NeRD};
-\fill<2->[blue!60] (0.1,-0.22) rectangle (5.55,0.22);
-\node<2->[anchor=west] at (5.65,0) {90.8\% \ci{88.5}{92.5}};
-\node<3->[anchor=east] at (0,-0.8) {Adressa};
-\fill<3->[blue!60] (0.1,-1.02) rectangle (3.01,-0.58);
-\node<3->[anchor=west] at (3.11,-0.8) {48.5\% \ci{45.4}{51.5}};
-\node<4->[anchor=east] at (0,-1.6) {NPR};
-\fill<4->[blue!60] (0.1,-1.82) rectangle (1.03,-1.38);
-\node<4->[anchor=west] at (1.13,-1.6) {15.5\% \ci{11.3}{20.1}};
+\node[anchor=east] at (0,0) {EB-NeRD};
+\fill[blue!60] (0.1,-0.22) rectangle (5.55,0.22);
+\node[anchor=west] at (5.65,0) {90.8\% \ci{88.5}{92.5}};
+\node[anchor=east] at (0,-0.8) {Adressa};
+\fill[blue!60] (0.1,-1.02) rectangle (3.01,-0.58);
+\node[anchor=west] at (3.11,-0.8) {48.5\% \ci{45.4}{51.5}};
+\node[anchor=east] at (0,-1.6) {NPR};
+\fill[blue!60] (0.1,-1.82) rectangle (1.03,-1.38);
+\node[anchor=west] at (1.13,-1.6) {15.5\% \ci{11.3}{20.1}};
 \end{tikzpicture}
 
 \raggedright\small
-\uncover<4->{$n=$ 3.46 M, 1.26 M and 72{,}136 clicks. Half of the next clicks go to unseen articles after 1.76 h \ci{1.63}{1.91}, 6.23 h \ci{5.79}{6.68} and 12.12 h \ci{10.46}{13.80}.}
+{$n=$ 3.46 M, 1.26 M and 72{,}136 clicks. Half of the next clicks go to unseen articles after 1.76 h \ci{1.63}{1.91}, 6.23 h \ci{5.79}{6.68} and 12.12 h \ci{10.46}{13.80}.}
 \medskip
 
-\uncover<5->{\normalsize From the article's side: its click rate halves \textbf{1.74 h} \ci{1.72}{1.77} after the peak (3{,}021 articles, 70.6 M clicks).}
+{\normalsize From the article's side: its click rate halves \textbf{1.74 h} \ci{1.72}{1.77} after the peak (3{,}021 articles, 70.6 M clicks).}
 \end{frame}
 
 \begin{frame}{RQ2. Why co-click history falls first: cold start}\spk{2}
 \begin{itemize}
-\item<1-> A new article has no clicks yet, so co-click history \textbf{cannot score it}. This was the cold-start diagnostic we proposed: the loss is one of coverage.
+\item A new article has no clicks yet, so co-click history \textbf{cannot score it}. This was the cold-start diagnostic we proposed: the loss is one of coverage.
 \medskip
-\item<2-> While it still works, it shows \textbf{older} news: the median age of its top 10 is 33.3 h \ci{33.3}{33.3}, against 23.8 h \ci{23.7}{23.8} for a random list; 81.5\% of its top 10 are over a day old (random 42.4\%), $n=236{,}387$.
+\item While it still works, it shows \textbf{older} news: the median age of its top 10 is 33.3 h \ci{33.3}{33.3}, against 23.8 h \ci{23.7}{23.8} for a random list; 81.5\% of its top 10 are over a day old (random 42.4\%), $n=236{,}387$.
 \medskip
-\item<3-> With newest first as a back-up it is \textbf{worse} than newest first alone: 0.0373 \ci{0.0370}{0.0376} against 0.1905 \ci{0.1896}{0.1914}, because the click part pushes older articles up.
+\item With newest first as a back-up it is \textbf{worse} than newest first alone: 0.0373 \ci{0.0370}{0.0376} against 0.1905 \ci{0.1896}{0.1914}, because the click part pushes older articles up.
 \end{itemize}
 \end{frame}
 
 \begin{frame}{RQ2. Why text signals fall: the reader's profile ages}\spk{2}
 \begin{columns}[T]
 \begin{column}{0.50\textwidth}
-\only<1>{\wordaxis{}{old profile (frozen)}}
-\only<2->{\wordaxis{\wordlive}{old profile (frozen), live profile}}
+{\wordaxis{\wordlive}{old profile (frozen), live profile}}
 \end{column}
 \begin{column}{0.48\textwidth}
 \footnotesize
@@ -298,16 +297,16 @@ Word matching on EB-NeRD. \textbf{Old profile} = what the reader had read by the
 \medskip
 
 \small
-\uncover<1->{\textbf{Old profile:} 0.0030 \ci{0.0024}{0.0036} lost in a week ($n=135{,}583$).}
+{\textbf{Old profile:} 0.0030 \ci{0.0024}{0.0036} lost in a week ($n=135{,}583$).}
 \medskip
 
-\uncover<2->{\textbf{Live profile:} 0.00013 \ci{0.00007}{0.00019}.}
+{\textbf{Live profile:} 0.00013 \ci{0.00007}{0.00019}.}
 \medskip
 
-\uncover<3->{The clicked article looks less like the old profile as the lag grows: the similarity gap falls by 0.0205 \ci{0.0167}{0.0245} ($n=116{,}893$); with a live profile, by 0.0022 \ci{0.0020}{0.0024} ($n=135{,}233$).}
+{The clicked article looks less like the old profile as the lag grows: the similarity gap falls by 0.0205 \ci{0.0167}{0.0245} ($n=116{,}893$); with a live profile, by 0.0022 \ci{0.0020}{0.0024} ($n=135{,}233$).}
 \medskip
 
-\uncover<4->{\textbf{Text goes stale because the reader's recent interests are missing, not because the articles are old.}}
+{\textbf{Text goes stale because the reader's recent interests are missing, not because the articles are old.}}
 \end{column}
 \end{columns}
 \end{frame}
@@ -319,13 +318,13 @@ Word matching on EB-NeRD. \textbf{Old profile} = what the reader had read by the
 \small
 \medskip
 
-\uncover<1->{One change at a time: pool of 24 or 72 hours; fit window of 10 days; profile of 10 to 200 clicks; word-matching settings; another group of readers; another seed; four times the clicks.}
+{One change at a time: pool of 24 or 72 hours; fit window of 10 days; profile of 10 to 200 clicks; word-matching settings; another group of readers; another seed; four times the clicks.}
 \medskip
 
-\uncover<2->{Word matching loses between 0.0020 \ci{0.0013}{0.0027} and 0.0045 \ci{0.0038}{0.0053} by lag 7 (main run 0.0030 \ci{0.0024}{0.0036}, $n=135{,}583$).}
+{Word matching loses between 0.0020 \ci{0.0013}{0.0027} and 0.0045 \ci{0.0038}{0.0053} by lag 7 (main run 0.0030 \ci{0.0024}{0.0036}, $n=135{,}583$).}
 \end{column}
 \begin{column}{0.48\textwidth}
-\uncover<3->{\textbf{The site: yes.}
+{\textbf{The site: yes.}
 \small
 \medskip
 
@@ -337,7 +336,7 @@ Word matching, old profile, lost by lag 7:
 \end{itemize}}
 \smallskip
 
-\uncover<4->{\footnotesize The percentages for NPR and Adressa are our arithmetic. Turnover orders the click-based time scale (hours on EB-NeRD), not these text losses. Adressa is indicative only.}
+{\footnotesize The percentages for NPR and Adressa are our arithmetic. Turnover orders the click-based time scale (hours on EB-NeRD), not these text losses. Adressa is indicative only.}
 \end{column}
 \end{columns}
 \end{frame}
@@ -346,19 +345,17 @@ Word matching, old profile, lost by lag 7:
 \begin{frame}{Added test. Live trending: the strongest signal, the fastest to age}\spk{3}
 \begin{columns}[T]
 \begin{column}{0.52\textwidth}
-\only<1>{\trendaxis{}{trending (1 h count)}}
-\only<2>{\trendaxis{\trendnewest}{trending (1 h count), newest first}}
-\only<3->{\trendaxis{\trendnewest\trendrandom}{trending (1 h count), newest first, random}}
+{\trendaxis{\trendnewest\trendrandom}{trending (1 h count), newest first, random}}
 \end{column}
 \begin{column}{0.46\textwidth}
 \small
 Count the clicks an article got from \emph{all} readers in the last hour. Nothing is fitted, so nothing is frozen.
 \medskip
 
-\uncover<2->{It scores 0.3396 \ci{0.3383}{0.3410}, against 0.1905 \ci{0.1896}{0.1914} for newest first ($n=236{,}387$). It also leads on NPR and Adressa.}
+{It scores 0.3396 \ci{0.3383}{0.3410}, against 0.1905 \ci{0.1896}{0.1914} for newest first ($n=236{,}387$). It also leads on NPR and Adressa.}
 \medskip
 
-\uncover<4->{But it ages in minutes: a third of its score is gone after 30 minutes, and it is at 0.0699 \ci{0.0692}{0.0707} after 3 hours.}
+{But it ages in minutes: a third of its score is gone after 30 minutes, and it is at 0.0699 \ci{0.0692}{0.0707} after 3 hours.}
 \end{column}
 \end{columns}
 \end{frame}
@@ -374,31 +371,31 @@ Count the clicks an article got from \emph{all} readers in the last hour. Nothin
 Scorer & MRR & AUC\\
 \midrule
 Random order & 0.3226 \ci{0.3211}{0.3240} & 0.4991 \ci{0.4973}{0.5008}\\
-\visible<2->{Site's own order} & \visible<2->{0.3239 \ci{0.3224}{0.3254}} & \visible<2->{0.5009 \ci{0.4992}{0.5027}}\\
-\visible<2->{Newest first} & \visible<2->{0.3176 \ci{0.3162}{0.3192}} & \visible<2->{0.5026 \ci{0.5010}{0.5042}}\\
-\visible<3->{Co-click history} & \visible<3->{0.2637 \ci{0.2624}{0.2649}} & \visible<3->{0.4180 \ci{0.4163}{0.4197}}\\
-\visible<4->{Meaning matching} & \visible<4->{0.3532 \ci{0.3516}{0.3548}} & \visible<4->{0.5419 \ci{0.5401}{0.5436}}\\
-\visible<4->{Genre} & \visible<4->{0.3647 \ci{0.3632}{0.3663}} & \visible<4->{0.5608 \ci{0.5590}{0.5623}}\\
+{Site's own order} & {0.3239 \ci{0.3224}{0.3254}} & {0.5009 \ci{0.4992}{0.5027}}\\
+{Newest first} & {0.3176 \ci{0.3162}{0.3192}} & {0.5026 \ci{0.5010}{0.5042}}\\
+{Co-click history} & {0.2637 \ci{0.2624}{0.2649}} & {0.4180 \ci{0.4163}{0.4197}}\\
+{Meaning matching} & {0.3532 \ci{0.3516}{0.3548}} & {0.5419 \ci{0.5401}{0.5436}}\\
+{Genre} & {0.3647 \ci{0.3632}{0.3663}} & {0.5608 \ci{0.5590}{0.5623}}\\
 \bottomrule
 \end{tabular}
 
 \raggedright\medskip
-\uncover<2->{\textbullet\ Every article on a slate is fresh, so being new tells nothing. The proposal's own evaluation changes the earlier picture.}\\
-\uncover<3->{\textbullet\ Co-click history is \emph{below} random: the clicked article is usually too new to have clicks.}\\
-\uncover<4->{\textbullet\ Meaning and genre help a little.}
+{\textbullet\ Every article on a slate is fresh, so being new tells nothing. The proposal's own evaluation changes the earlier picture.}\\
+{\textbullet\ Co-click history is \emph{below} random: the clicked article is usually too new to have clicks.}\\
+{\textbullet\ Meaning and genre help a little.}
 \end{frame}
 
 \begin{frame}{Added test. Genre helps, but how much of it is about the person?}\spk{3}
 \textbf{Genre} = the share of the reader's recent clicks in the article's category.
 \bigskip
 
-\uncover<2->{\Large\textbf{0.0598} \ci{0.0586}{0.0610}\normalsize\quad Genre with newest first beats newest first alone (pool, $n=236{,}387$).}
+{\Large\textbf{0.0598} \ci{0.0586}{0.0610}\normalsize\quad Genre with newest first beats newest first alone (pool, $n=236{,}387$).}
 \bigskip
 
-\uncover<3->{\Large\textbf{0.0119} \ci{0.0109}{0.0130}\normalsize\quad is lost if every reader gets the same category mix. So most of the gain is the mix of categories, not the person.}
+{\Large\textbf{0.0119} \ci{0.0109}{0.0130}\normalsize\quad is lost if every reader gets the same category mix. So most of the gain is the mix of categories, not the person.}
 \bigskip
 
-\uncover<4->{\Large\textbf{0.0333} \ci{0.0320}{0.0346}\normalsize\quad On real slates the personal part is larger: genre beats the same mix for everyone ($n=136{,}674$).}
+{\Large\textbf{0.0333} \ci{0.0320}{0.0346}\normalsize\quad On real slates the personal part is larger: genre beats the same mix for everyone ($n=136{,}674$).}
 \end{frame}
 
 \begin{frame}{RQ3. How often to rebuild? Quality against cost}\spk{3}
@@ -411,65 +408,65 @@ Random order & 0.3226 \ci{0.3211}{0.3240} & 0.4991 \ci{0.4973}{0.5008}\\
  & every day & every week & only once\\
 \midrule
 Rebuilds, fit time in total & 14, 29.1 s & 2, 4.2 s & 1, 2.1 s\\
-\visible<2->{MRR, old profile} & \visible<2->{0.0310 \ci{0.0306}{0.0314}} & \visible<2->{0.0298 \ci{0.0295}{0.0302}} & \visible<2->{0.0274 \ci{0.0270}{0.0277}}\\
-\visible<3->{MRR, live profile} & \visible<3->{0.0325 \ci{0.0321}{0.0329}} & \visible<3->{0.0324 \ci{0.0320}{0.0328}} & \visible<3->{0.0324 \ci{0.0320}{0.0327}}\\
+{MRR, old profile} & {0.0310 \ci{0.0306}{0.0314}} & {0.0298 \ci{0.0295}{0.0302}} & {0.0274 \ci{0.0270}{0.0277}}\\
+{MRR, live profile} & {0.0325 \ci{0.0321}{0.0329}} & {0.0324 \ci{0.0320}{0.0328}} & {0.0324 \ci{0.0320}{0.0327}}\\
 \bottomrule
 \end{tabular}
 
 \raggedright\small\medskip
-\uncover<2->{Old profile: a weekly rebuild stays within 3.9\% of a daily one (our arithmetic) at about one-seventh of the fit time.}
+{Old profile: a weekly rebuild stays within 3.9\% of a daily one (our arithmetic) at about one-seventh of the fit time.}
 
-\uncover<3->{Live profile: rebuilding gains nothing.}
+{Live profile: rebuilding gains nothing.}
 \medskip
 
-\uncover<4->{Click history is the costly one: 21.9 s per fit against 2.1 s for word matching, and it must be rebuilt within hours (RQ1), so a daily grid cannot show its real staleness.}
+{Click history is the costly one: 21.9 s per fit against 2.1 s for word matching, and it must be rebuilt within hours (RQ1), so a daily grid cannot show its real staleness.}
 \end{frame}
 
 \begin{frame}{The proposed hybrid: a weighted sum of the signals}\spk{3}
 \begin{itemize}
-\item<1-> The proposal combined word, meaning and co-click signals into one ranking. We used rank fusion, and tuned the weights on one half of the days.
+\item The proposal combined word, meaning and co-click signals into one ranking. We used rank fusion, and tuned the weights on one half of the days.
 \medskip
-\item<2-> On the 48-hour pool \textbf{no setting beat newest first}: 0.1868 \ci{0.1854}{0.1883} against 0.1910 \ci{0.1896}{0.1924} on the other half ($n=118{,}610$).
+\item On the 48-hour pool \textbf{no setting beat newest first}: 0.1868 \ci{0.1854}{0.1883} against 0.1910 \ci{0.1896}{0.1924} on the other half ($n=118{,}610$).
 \medskip
-\item<3-> On real slates, a fusion with genre \textbf{does beat random}: 0.3548 \ci{0.3533}{0.3564} against 0.3226 \ci{0.3211}{0.3240} ($n=136{,}674$).
+\item On real slates, a fusion with genre \textbf{does beat random}: 0.3548 \ci{0.3533}{0.3564} against 0.3226 \ci{0.3211}{0.3240} ($n=136{,}674$).
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Conclusions against what we proposed (1)}\spk{3}
 \small
 \begin{itemize}
-\item<1-> \textbf{RQ1, how fast: supported, on two time scales.} Click-based signals fall in hours; text signals fall gradually (about a tenth of word matching in a week), with no cliff.
+\item \textbf{RQ1, how fast: supported, on two time scales.} Click-based signals fall in hours; text signals fall gradually (about a tenth of word matching in a week), with no cliff.
 \medskip
-\item<2-> \textbf{RQ2, which first: as we expected.} Co-click history first, meaning matching last, word matching between them.
+\item \textbf{RQ2, which first: as we expected.} Co-click history first, meaning matching last, word matching between them.
 \medskip
-\item<3-> \textbf{RQ2, why: partly tested.} Cold start was measured directly. For text we measured the reader's profile ageing, in place of the planned vocabulary and embedding-drift checks, which were not run. A volume check of 12 days found no detectable correlation.
+\item \textbf{RQ2, why: partly tested.} Cold start was measured directly. For text we measured the reader's profile ageing, in place of the planned vocabulary and embedding-drift checks, which were not run. A volume check of 12 days found no detectable correlation.
 \medskip
-\item<4-> \textbf{A flat curve was a valid answer:} it is the result for text with a live profile.
+\item \textbf{A flat curve was a valid answer:} it is the result for text with a live profile.
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Conclusions against what we proposed (2)}\spk{3}
 \small
 \begin{itemize}
-\item<1-> \textbf{RQ3, how often: it depends on the signal and the site.} Text with a live profile: never needed within 14 days. Old profile: weekly is enough. Click-based: hourly on a fast site, every few days on a slow one.
+\item \textbf{RQ3, how often: it depends on the signal and the site.} Text with a live profile: never needed within 14 days. Old profile: weekly is enough. Click-based: hourly on a fast site, every few days on a slow one.
 \medskip
-\item<2-> \textbf{Newest first:} the strongest simple reference on the pool, but no better than random on real slates.
+\item \textbf{Newest first:} the strongest simple reference on the pool, but no better than random on real slates.
 \medskip
-\item<3-> \textbf{Live trending} beats it by 0.149 \ci{0.147}{0.151}, and ages in minutes.
+\item \textbf{Live trending} beats it by 0.149 \ci{0.147}{0.151}, and ages in minutes.
 \medskip
-\item<4-> \textbf{Genre and meaning} are modestly better than random on real slates.
+\item \textbf{Genre and meaning} are modestly better than random on real slates.
 \end{itemize}
 \end{frame}
 
 \begin{frame}{What to keep in mind}\spk{3}
 \begin{itemize}
-\item<1-> One main site and one month. Real slates exist only for EB-NeRD, and live trending was not tested on them.
-\item<2-> On slates, decay is measured against a fit made a week earlier, because no day-before model exists there.
-\item<3-> On Adressa the old-profile score at lag 1 is above the live-profile score (0.0505 against 0.0364), which we cannot explain. Treat its decay size as indicative.
-\item<4-> Our intervals resample clicks; across days they are wider.
+\item One main site and one month. Real slates exist only for EB-NeRD, and live trending was not tested on them.
+\item On slates, decay is measured against a fit made a week earlier, because no day-before model exists there.
+\item On Adressa the old-profile score at lag 1 is above the live-profile score (0.0505 against 0.0364), which we cannot explain. Treat its decay size as indicative.
+\item Our intervals resample clicks; across days they are wider.
 \end{itemize}
 \bigskip
 
-\uncover<5->{\Large Thank you. Questions?}
+{\Large Thank you. Questions?}
 \end{frame}
 \end{document}
