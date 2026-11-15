@@ -29,7 +29,8 @@
 {\Large\textbf{How Fast Does a News Recommender Go Stale?}}\\[3pt]
 {\small CS4.406 (IRE) term project, IIIT Hyderabad, Monsoon 2026\\
 Noel Alex Jacob (2025201085), Emil Joji (2025201040), Kspsvln Siddardha Kumar Kavuri (2025201061)\\
-Code: \url{https://github.com/N03L-22/IRE_Proj_Draft}}\par}
+Code: \url{https://github.com/N03L-22/IRE_Proj_Draft} \quad
+Video: \href{https://iiithydstudents-my.sharepoint.com/:f:/g/personal/kspsvlnsiddardha_k_students_iiit_ac_in/IgAkzfh2iVh8Q7G_a_I2dOG-Abb17vASNM5Lf02P7EXHisI?e=9iryaa}{video walkthrough}}\par}
 
 \section{What we proposed, and the short answer}
 News goes out of date within hours. A recommender that is trained once and then left alone (a \term{frozen} model) acts as if nothing has changed. Our proposal asked three questions. \textbf{RQ1:} how fast does its quality fall, and in what shape (straight line, sudden drop or levelling off)? \textbf{RQ2:} which of three signals falls first, and why? The signals are \term{word matching} (words shared with what the reader read before), \term{meaning matching} (similar topics, even in different words) and \term{co-click history} (articles that the same readers clicked together). \textbf{RQ3:} how often must the model be rebuilt? We expected co-click history to fall first, because a new article has no clicks yet, and meaning matching to fall last. We also accepted a flat curve as a valid answer. \textbf{In short:} signals based on clicks go stale within hours; signals based on text go stale over days, only because the reader's saved history gets old. So how often to rebuild depends on the signal and the site. A ``newest first'' rule beats all three signals when ranking the last 48 hours of articles, but it is no better than random on the lists the site really showed. A live count of recent clicks beats it in both. Every number has a 95\% bootstrap interval (its uncertainty range) in brackets, and its $n$ (clicks).
